@@ -266,8 +266,10 @@ var data = {
 var spriteSheet = new createjs.SpriteSheet(data);
 var animation = new createjs.Sprite(spriteSheet, "run");
 animation.setTransform(2*gridScale,2*gridScale,1.4,1.4);
+animation.setBounds(animation.x, animation.y, animation.x-gridScale, animation.y-gridScale);
 //HALP PLZ
 //HOW2CENTURTRACKCHARACTUR
+
 animation.setTransform(((scrW/2)-((animation.getBounds().width)/2)),((scrH/2)-((animation.getBounds().height)/2)),1.4,1.4);
 
 
@@ -393,7 +395,7 @@ function checkMove(){
     
     for(var i=0;i<cityArr.length;i++){
         
-        if(xPosPlayer=== cityArr[i][0] && xPosPlayer=== cityArr[i][1])
+        if(xPosPlayer=== cityArr[i][0] && yPosPlayer=== cityArr[i][1])
         {
             writeBattleStatus("In city");
             inCity = true;
