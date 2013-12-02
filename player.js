@@ -12,14 +12,21 @@ function Player(){
     var health = 50;
     //console.log(health);
     
-    function start(){
+    Player.prototype.start = function(){
         
     };
     
-    function playerMethod(){
-        
-    };
+    Player.prototype.setHealth = function(inHealth){
+        health = inHealth;
+    }
     
+    Player.prototype.getHealth = function(){
+        return health;
+    }
+    
+    Player.prototype.decrementHealth = function(){
+        health--;
+    }
 };
     //money = 1;
     //HP = 1;

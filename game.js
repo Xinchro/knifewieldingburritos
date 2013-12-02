@@ -75,6 +75,8 @@ document.onkeyup = keyUp;
 var applesGoByeBye = false;
 var debugTime = false;
 
+var player = new Player();
+
 function keyDown(e){
     document.getElementById('gameCanvas').focus();
     mouseDown = true;
@@ -97,10 +99,17 @@ function keyDown(e){
             break;
         case 69:
             //E
-            var player;
-            player = new Player();
             //player.start(this);
-            writeText("Player health: " + player.health);
+            var playerHealth = player.getHealth();
+            writeText(playerHealth);
+            //writeText(player.health);
+            break;
+        case 82:
+            //R
+            player.decrementHealth();
+            //player.start(this);
+            var playerHealth = player.getHealth();
+            writeText(playerHealth);
             //writeText(player.health);
             break;
         case 90:
@@ -158,7 +167,7 @@ function keyUp(e){
             downEntered = false;
             break;
         case 39:
-            writeText("Right arrow pressed");
+            writeText("Right arrow unpressed");
             rightEntered = false;
             break;
     }
@@ -397,15 +406,21 @@ function checkMove(){
         
         if(xPosPlayer=== cityArr[i][0] && yPosPlayer=== cityArr[i][1])
         {
-            writeBattleStatus("In city");
             inCity = true;
+            //writeBattleStatus("In city");
             break;
         }else{
             inCity = false;
-            if(!inCity){
-                writeBattleStatus("Not in city");
-            }
+            //writeBattleStatus("Not in city");
+            //break;
         }   
+    }
+    if(inCity){
+        writeBattleStatus("In city");
+        stage.removeAllChildren();
+    }else{
+        writeBattleStatus("Not in city");
+        displayOverworld();
     }
     
     if(canWalkTick >= walkSpeed){
