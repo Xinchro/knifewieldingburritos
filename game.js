@@ -37,35 +37,7 @@ var boxStrokeTh = 1;
 var boxFillCol = "rgba(255,0,0,1)";
 var boxW = boxH = gridScale = 50;
 
-upBox = new createjs.Shape();
-upBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-upBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-upBox.setTransform(boxW, scrH-boxH-boxH);
-//stage.addChild(upBox);
-leftBox = new createjs.Shape();
-leftBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-leftBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-leftBox.setTransform(0, scrH-boxH);
-//stage.addChild(leftBox);
-downBox = new createjs.Shape();
-downBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-downBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-downBox.setTransform(boxW, scrH-boxH);
-//stage.addChild(downBox);
-rightBox = new createjs.Shape();
-rightBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-rightBox.setTransform(boxW+boxW, scrH-boxH);
-rightBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-//stage.addChild(rightBox);
-
-upBox.addEventListener("mouseover", function(){upEntered = true;});
-upBox.addEventListener("mouseout", function(){upEntered = false;});
-leftBox.addEventListener("mouseover", function(){leftEntered = true;});
-leftBox.addEventListener("mouseout", function(){leftEntered = false;});
-downBox.addEventListener("mouseover", function(){downEntered = true;});
-downBox.addEventListener("mouseout", function(){downEntered = false;});
-rightBox.addEventListener("mouseover", function(){rightEntered = true;});
-rightBox.addEventListener("mouseout", function(){rightEntered = false;});
+var gui = new GUI();
 
 var input = new Input();
 
@@ -76,47 +48,15 @@ var player = new Player();
 
 var world = new World();
 
-var debugText = new createjs.Text("newText", "20px Arial", "#000");
+var debugText;
 
-var playerLocText = new createjs.Text("newText", "20px Arial", "#000");
-playerLocText.x = 225;
+var playerLocText;
 
-var playerPosText = new createjs.Text("newText", "20px Arial", "#000");
-playerPosText.x = 225;
-playerPosText.y = 20;
+var playerPosText;
 
-var walkTickText = new createjs.Text("newText", "20px Arial", "#000");
-walkTickText.y = 20;
+var walkTickText;
 
-var battleStatusText = new createjs.Text("newText", "20px Arial", "#000");
-battleStatusText.y = 40;
-
-
-function writeText(text){
-    
-    debugText.text= text;
-    
-}
-
-function writeWalkTick(text){
-    
-    walkTickText.text= text;
-    
-}
-
-function writePlayerLoc(text){
-    playerLocText.text = text;
-}
-
-function writePlayerPos(text){
-    playerPosText.text = text;
-}
-
-function writeBattleStatus(text){
-    
-    battleStatusText.text= text;
-    
-}
+var battleStatusText;
 
 var colorArr = [];
 colorArr[0] = "purple";
@@ -154,9 +94,6 @@ var spriteSheet = new createjs.SpriteSheet(data);
 var animation = new createjs.Sprite(spriteSheet, "run");
 animation.setTransform(2*gridScale,2*gridScale,1.4,1.4);
 animation.setBounds(animation.x, animation.y, animation.x-gridScale, animation.y-gridScale);
-//HALP PLZ
-//HOW2CENTURTRACKCHARACTUR
-
 animation.setTransform(((scrW/2)-((animation.getBounds().width)/2)),((scrH/2)-((animation.getBounds().height)/2)),1.4,1.4);
 
 var gridSize = 20;
@@ -211,26 +148,26 @@ var inCity = false;
 function checkMove(){
     var tempPoint = [];
     tempPoint = [animation.x/gridScale, animation.y/gridScale];
-    writePlayerLoc("Player loc: " + tempPoint);
-    writePlayerPos("Player pos: " + xPosPlayer + "," + yPosPlayer);
+    gui.writePlayerLoc("Player loc: " + tempPoint);
+    gui.writePlayerPos("Player pos: " + xPosPlayer + "," + yPosPlayer);
     
     for(var i=0;i<cityArr.length;i++){
         if(xPosPlayer=== cityArr[i][0] && yPosPlayer=== cityArr[i][1])
         {
             inCity = true;
-            //writeBattleStatus("In city");
+            //gui.writeBattleStatus("In city");
             break;
         }else{
             inCity = false;
-            //writeBattleStatus("Not in city");
+            //gui.writeBattleStatus("Not in city");
             //break;
         }   
     }
     if(inCity){
-        writeBattleStatus("In city");
+        gui.writeBattleStatus("In city");
         //stage.removeAllChildren();
     }else{
-        writeBattleStatus("Not in city");
+        gui.writeBattleStatus("Not in city");
         //world.displayOverworld();
     }
     
@@ -240,9 +177,9 @@ function checkMove(){
         walk = false;
         canWalkTick++;
     }
-    writeWalkTick("Walk tick: " + canWalkTick);
+    gui.writeWalkTick("Walk tick: " + canWalkTick);
 
-   if(mouseDown){
+    if(mouseDown){
         if(upEntered){
             if(walk){
                 yPosPlayer--;
@@ -259,7 +196,7 @@ function checkMove(){
                 canWalkTick = 0;
                 upBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
             }
-            writeText("Move up");
+            gui.writeText("Move up");
         }else{
             //animation.stop();
         }
@@ -279,7 +216,7 @@ function checkMove(){
                 canWalkTick = 0;
                 leftBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
             }
-            writeText("Move left");
+            gui.writeText("Move left");
         }else{
             //animation.stop();
         }
@@ -299,7 +236,7 @@ function checkMove(){
                 canWalkTick = 0;
                 downBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
             }
-            writeText("Move down");
+            gui.writeText("Move down");
         }else{
             //animation.stop();
         }
@@ -322,7 +259,7 @@ function checkMove(){
                 canWalkTick = 0;
                 rightBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
             }
-            writeText("Move right");
+            gui.writeText("Move right");
         }else{
             //animation.stop();
         }

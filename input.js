@@ -7,34 +7,34 @@ function Input(){
         mouseDown = true;
         switch(e.keyCode){
             case 38:
-                writeText("Up arrow pressed");
+                gui.writeText("Up arrow pressed");
                 upEntered = true;
                 break;
             case 37:
-                writeText("Left arrow pressed");
+                gui.writeText("Left arrow pressed");
                 leftEntered = true;
                 break;
             case 40:
-                writeText("Down arrow pressed");
+                gui.writeText("Down arrow pressed");
                 downEntered = true;
                 break;
             case 39:
-                writeText("Right arrow pressed");
+                gui.writeText("Right arrow pressed");
                 rightEntered = true;
                 break;
             case 69:
                 //E
                 var playerHealth = player.getHealth();
-                writeText(playerHealth);
+                gui.writeText(playerHealth);
                 break;
             case 82:
                 //R
                 player.decrementHealth();
                 var playerHealth = player.getHealth();
-                writeText(playerHealth);
+                gui.writeText(playerHealth);
                 break;
             case 90:
-                writeText("Z pressed");
+                gui.writeText("Z pressed");
                 if(!applesGoByeBye){
                     stage.removeAllChildren();
                     applesGoByeBye = true;
@@ -44,7 +44,7 @@ function Input(){
                 }
                 break;
             case 72:
-                writeText("H pressed");
+                gui.writeText("H pressed");
                 if(!debugTime){
                     debugText.visible = false;
                     playerLocText.visible = false;
@@ -76,19 +76,19 @@ function Input(){
         mouseDown = false;
         switch(e.keyCode){
             case 38:
-                writeText("Up arrow unpressed");
+                gui.writeText("Up arrow unpressed");
                 upEntered = false;
                 break;
             case 37:
-                writeText("Left arrow unpressed");
+                gui.writeText("Left arrow unpressed");
                 leftEntered = false;
                 break;
             case 40:
-                writeText("Down arrow unpressed");
+                gui.writeText("Down arrow unpressed");
                 downEntered = false;
                 break;
             case 39:
-                writeText("Right arrow unpressed");
+                gui.writeText("Right arrow unpressed");
                 rightEntered = false;
                 break;
         }

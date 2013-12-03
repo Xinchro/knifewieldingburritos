@@ -48,8 +48,8 @@ function World(){
             }
         }
 
-        writeText("Grid added");
-        //writeText(parseInt(tempCol, 16));
+        gui.writeText("Grid added");
+        //gui.writeText(parseInt(tempCol, 16));
     }
     
     World.prototype.genCities = function(){
@@ -87,6 +87,6 @@ function World(){
             }
         }   
 
-        writeText("Cities added");
+        gui.writeText("Cities added");
     }
 }
