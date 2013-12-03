@@ -37,7 +37,6 @@ var boxStrokeTh = 1;
 var boxFillCol = "rgba(255,0,0,1)";
 var boxW = boxH = gridScale = 50;
 
-
 upBox = new createjs.Shape();
 upBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
 upBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
@@ -59,7 +58,6 @@ rightBox.setTransform(boxW+boxW, scrH-boxH);
 rightBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
 //stage.addChild(rightBox);
 
-
 upBox.addEventListener("mouseover", function(){upEntered = true;});
 upBox.addEventListener("mouseout", function(){upEntered = false;});
 leftBox.addEventListener("mouseover", function(){leftEntered = true;});
@@ -69,133 +67,14 @@ downBox.addEventListener("mouseout", function(){downEntered = false;});
 rightBox.addEventListener("mouseover", function(){rightEntered = true;});
 rightBox.addEventListener("mouseout", function(){rightEntered = false;});
 
-document.onkeydown = keyDown;
-document.onkeyup = keyUp;
+var input = new Input();
 
 var applesGoByeBye = false;
 var debugTime = false;
 
 var player = new Player();
 
-function keyDown(e){
-    document.getElementById('gameCanvas').focus();
-    mouseDown = true;
-    switch(e.keyCode){
-        case 38:
-            writeText("Up arrow pressed");
-            upEntered = true;
-            break;
-        case 37:
-            writeText("Left arrow pressed");
-            leftEntered = true;
-            break;
-        case 40:
-            writeText("Down arrow pressed");
-            downEntered = true;
-            break;
-        case 39:
-            writeText("Right arrow pressed");
-            rightEntered = true;
-            break;
-        case 69:
-            //E
-            //player.start(this);
-            var playerHealth = player.getHealth();
-            writeText(playerHealth);
-            //writeText(player.health);
-            break;
-        case 82:
-            //R
-            player.decrementHealth();
-            //player.start(this);
-            var playerHealth = player.getHealth();
-            writeText(playerHealth);
-            //writeText(player.health);
-            break;
-        case 90:
-            writeText("Z pressed");
-            if(!applesGoByeBye){
-                stage.removeAllChildren();
-                applesGoByeBye = true;
-            }else{
-                displayOverworld();
-                applesGoByeBye = false;
-            }
-            break;
-        case 72:
-            writeText("H pressed");
-            if(!debugTime){
-                debugText.visible = false;
-                playerLocText.visible = false;
-                walkTickText.visible = false;
-                battleStatusText.visible = false;
-                for(var i=0;i<posGridText.length;i++)
-                {
-                    posGridText[i].visible = false;
-                }
-                
-                debugTime = true;
-            }else{
-                debugText.visible = true;
-                playerLocText.visible = true;
-                walkTickText.visible = true;
-                battleStatusText.visible = true;
-                for(var i=0;i<posGridText.length;i++)
-                {
-                    posGridText[i].visible = true;
-                }
-                
-                debugTime = false;
-            }
-            break;    
-    }
-}
-
-function keyUp(e){
-    mouseDown = false;
-    switch(e.keyCode){
-        case 38:
-            writeText("Up arrow unpressed");
-            upEntered = false;
-            break;
-        case 37:
-            writeText("Left arrow unpressed");
-            leftEntered = false;
-            break;
-        case 40:
-            writeText("Down arrow unpressed");
-            downEntered = false;
-            break;
-        case 39:
-            writeText("Right arrow unpressed");
-            rightEntered = false;
-            break;
-    }
-}
-
-function displayOverworld(){
-            for(var i=0; i<grid.length;i++){
-                for(var j=0; j<grid.length;j++){
-                    stage.addChild(grid[i][j]);
-                }
-            }
-            for(var i=0;i<posGridText.length;i++)
-            {
-                stage.addChild(posGridText[i]);
-            }
-            stage.addChild(animation);
-            stage.addChild(charizard);
-            stage.addChild(debugText);
-            stage.addChild(playerLocText);
-            stage.addChild(playerPosText);
-            stage.addChild(walkTickText);
-            stage.addChild(battleStatusText);
-            stage.addChild(upBox);
-            stage.addChild(leftBox);
-            stage.addChild(downBox);
-            stage.addChild(rightBox);
-            stage.addChild();
-}
+var world = new World();
 
 var debugText = new createjs.Text("newText", "20px Arial", "#000");
 
@@ -265,7 +144,6 @@ function decToHex(num){
     return finalNum;
 }
 
-
 var data = { 
         images: ["Sprites/poketrainerspin.png"],
         frames: {width:428/12, height:36},
@@ -281,7 +159,6 @@ animation.setBounds(animation.x, animation.y, animation.x-gridScale, animation.y
 
 animation.setTransform(((scrW/2)-((animation.getBounds().width)/2)),((scrH/2)-((animation.getBounds().height)/2)),1.4,1.4);
 
-
 var gridSize = 20;
 grid = create2DArr(gridSize);
 var posGridText = [];
@@ -292,76 +169,11 @@ var yOff = yPosPlayer = 6*gridScale;
 xPosPlayer = xPosPlayer/20;
 yPosPlayer = yPosPlayer/30;
 
-function genGrid(){
-    var tempRect;
-    for(var x=0;x<gridSize;x++){
-        for(var y=-1;y<gridSize;y++){
-            tempRect = new createjs.Shape();
-            //var tempCol = decToHex(Math.floor((Math.random()*255)));
-            var tempCol = Math.floor((Math.random()*255)+150);
-            var xPos, yPos;
-            xPos = x*gridScale+((animation.x)%gridScale)-xOff;
-            yPos = y*gridScale+((animation.y)%gridScale)-yOff;
-            battleStatusText.text = xPos/50 + " " + yPos/50;
-            //tempRect.graphics.beginFill(colorArr[tempCol]).drawRoundRect(x*50,y*50,50,50,0);
-            tempRect.graphics.beginFill("rgba(0," + tempCol + ",0" + ",1)").drawRoundRect(xPos,yPos,gridScale,gridScale,5);
-            grid[x][y] = tempRect;
-            stage.addChild(grid[x][y]);
-            
-            var posText = new createjs.Text(x + "," + y, "20px Arial", "#FFF");
-            posText.x = xPos;
-            posText.y = yPos;
-            posGridText.push(posText);
-            stage.addChild(posGridText[posGridText.length-1]);
-        }
-    }
-    
-    writeText("Grid added");
-    //writeText(parseInt(tempCol, 16));
-}
-genGrid();
+world.genGrid();
 
 var cityArr = [];
 
-
-function genCities(){
-    var tempRect;
-    //var randLocX, randLocY;
-    var checkCity;
-    //higher values make cities rarer
-    var cityRarity = 5;
-    
-    for(var x=0;x<gridSize;x++){
-        for(var y=0;y<gridSize;y++){
-            checkCity = Math.floor((Math.random()*cityRarity)+1);
-            if(checkCity == 1){    
-                tempRect = new createjs.Shape();
-                //var tempCol = decToHex(Math.floor((Math.random()*255)+250));
-                var tempCol = Math.floor((Math.random()*255)+150);
-                var xPos, yPos;
-                xPos = x*gridScale+((animation.x)%gridScale)-xOff;
-                yPos = y*gridScale+((animation.y)%gridScale)-yOff;
-                //tempRect.graphics.beginFill(colorArr[tempCol]).drawRoundRect(x*50,y*50,50,50,0);
-                tempRect.graphics.beginFill("rgba(0," + "0," + tempCol + ",1)").drawRoundRect(xPos,yPos,gridScale,gridScale,5);
-                stage.removeChild(grid[x][y]);
-                grid[x][y] = tempRect;
-                cityArr.push([x,y]);
-                
-                stage.addChild(grid[x][y]);
-                //stage.update();
-                
-                var posText = new createjs.Text(x + "," + y, "20px Arial", "#FFF");
-                posText.x = xPos;
-                posText.y = yPos;
-                posGridText.push(posText);
-                stage.addChild(posGridText[posGridText.length-1]);
-            }
-        }
-    }   
-    
-    writeText("Cities added");
-}
-genCities();
+world.genCities();
 
 //heart-beat ticker
 createjs.Ticker.addEventListener("tick", ticker);
@@ -403,7 +215,6 @@ function checkMove(){
     writePlayerPos("Player pos: " + xPosPlayer + "," + yPosPlayer);
     
     for(var i=0;i<cityArr.length;i++){
-        
         if(xPosPlayer=== cityArr[i][0] && yPosPlayer=== cityArr[i][1])
         {
             inCity = true;
@@ -417,10 +228,10 @@ function checkMove(){
     }
     if(inCity){
         writeBattleStatus("In city");
-        stage.removeAllChildren();
+        //stage.removeAllChildren();
     }else{
         writeBattleStatus("Not in city");
-        displayOverworld();
+        //world.displayOverworld();
     }
     
     if(canWalkTick >= walkSpeed){
@@ -434,8 +245,6 @@ function checkMove(){
    if(mouseDown){
         if(upEntered){
             if(walk){
-                //animation.y -= gridScale;
-                
                 yPosPlayer--;
                 for(var i=0; i<grid.length;i++){
                     for(var j=0; j<grid.length;j++){
@@ -446,8 +255,6 @@ function checkMove(){
                 {
                     posGridText[i].y += gridScale;;
                 }
-                
-                
                 animation.play();
                 canWalkTick = 0;
                 upBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
@@ -458,8 +265,6 @@ function checkMove(){
         }
         if(leftEntered){
             if(walk){
-                //animation.x -= gridScale;
-                
                 xPosPlayer--;
                 for(var i=0; i<grid.length;i++){
                     for(var j=0; j<grid.length;j++){
@@ -470,8 +275,6 @@ function checkMove(){
                 {
                     posGridText[i].x += gridScale;;
                 }
-                
-                
                 animation.play();
                 canWalkTick = 0;
                 leftBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
@@ -482,8 +285,6 @@ function checkMove(){
         }
         if(downEntered){
             if(walk){
-                //animation.y += gridScale;
-                
                 yPosPlayer++;
                 for(var i=0; i<grid.length;i++){
                     for(var j=0; j<grid.length;j++){
@@ -494,8 +295,6 @@ function checkMove(){
                 {
                     posGridText[i].y -= gridScale;;
                 }
-                
-                
                 animation.play();
                 canWalkTick = 0;
                 downBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
@@ -507,8 +306,6 @@ function checkMove(){
         if(rightEntered){
             if(walk)
             {
-                //animation.x += gridScale;
-                
                 xPosPlayer++;
                 for(var i=0; i<grid.length;i++){
                     for(var j=0; j<grid.length;j++){
@@ -539,20 +336,14 @@ function checkMove(){
    }
 }
 
-
-
 //add charizard as a child to the stage
 stage.addChild(charizard);
 stage.addChild(animation);
-
 
 stage.addChild(upBox);
 stage.addChild(leftBox);
 stage.addChild(downBox);
 stage.addChild(rightBox);
-
-
-//charizard.gotoAndPlay(animation);
 
 //text last thing on display list
 stage.addChild(debugText);
