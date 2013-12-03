@@ -24,8 +24,20 @@ function Player(){
         return health;
     }
     
-    Player.prototype.decrementHealth = function(){
-        health--;
+    Player.prototype.decrementHealth = function(decrement){
+        if(typeof decrement != 'number'){
+            health--;
+        }else{
+            health = health - decrement;
+        }
+    }
+    
+    Player.prototype.incrementHealth = function(increment){
+        if(typeof increment != 'number'){
+            health++;
+        }else{
+            health = health + increment;
+        }
     }
 };
     //money = 1;
