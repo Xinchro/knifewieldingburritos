@@ -7,18 +7,26 @@ function Input(){
         mouseDown = true;
         switch(e.keyCode){
             case 38:
+                //Up
+                e.preventDefault();
                 gui.writeText("Up arrow pressed");
                 upEntered = true;
                 break;
             case 37:
+                //Left
+                e.preventDefault();
                 gui.writeText("Left arrow pressed");
                 leftEntered = true;
                 break;
             case 40:
+                //Down
+                e.preventDefault();
                 gui.writeText("Down arrow pressed");
                 downEntered = true;
                 break;
             case 39:
+                //Right
+                e.preventDefault();
                 gui.writeText("Right arrow pressed");
                 rightEntered = true;
                 break;
@@ -34,6 +42,7 @@ function Input(){
                 gui.writeText(playerHealth);
                 break;
             case 90:
+                //Z
                 gui.writeText("Z pressed");
                 if(!applesGoByeBye){
                     stage.removeAllChildren();
@@ -44,6 +53,7 @@ function Input(){
                 }
                 break;
             case 72:
+                //H
                 gui.writeText("H pressed");
                 if(!debugTime){
                     debugText.visible = false;

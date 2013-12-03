@@ -252,8 +252,7 @@ function checkMove(){
                 for(var i=0;i<posGridText.length;i++)
                 {
                     posGridText[i].x -= gridScale;;
-                }
-                
+                }                
                 
                 animation.play();
                 canWalkTick = 0;
