@@ -20,6 +20,8 @@ function Input(){
                 e.preventDefault();
                 gui.writeText("Up arrow pressed");
                 if(inBattle){
+                    battle.prevActiveBtn();
+                    battle.writeAttackText("Up pressed");
                 }else{
                     if(battle){
                         battle.setEnded();
@@ -46,6 +48,8 @@ function Input(){
                 e.preventDefault();
                 gui.writeText("Down arrow pressed");
                 if(inBattle){
+                    battle.nextActiveBtn();
+                    battle.writeAttackText("Down pressed");
                 }else{
                     if(battle){
                         battle.setEnded();
@@ -86,6 +90,7 @@ function Input(){
                     applesGoByeBye = true;
                 }else{
                     world.displayOverworld();
+                    gui.displayDebug();
                     applesGoByeBye = false;
                 }
                 break;
@@ -94,7 +99,7 @@ function Input(){
                 gui.writeText("F pressed");
                 if(battle){
                     if(battle.hasStarted()){
-                        enemy.decrementHealth(1);
+                        enemy.decrementHealth();
                         battle.writeItemText(enemy.getHealth());
                         battle.refreshHealthBars();
                     }
@@ -104,26 +109,29 @@ function Input(){
                 //H
                 gui.writeText("H pressed");
                 if(!debugTime){
-                    debugText.visible = false;
-                    playerLocText.visible = false;
-                    walkTickText.visible = false;
-                    battleStatusText.visible = false;
                     for(var i=0;i<posGridText.length;i++)
                     {
                         posGridText[i].visible = false;
                     }
+                    debugText.visible = false;
+                    playerLocText.visible = false;
+                    walkTickText.visible = false;
+                    battleStatusText.visible = false;
+                    playerPosText.visible = false;
 
                     debugTime = true;
                 }else{
-                    debugText.visible = true;
-                    playerLocText.visible = true;
-                    walkTickText.visible = true;
-                    battleStatusText.visible = true;
                     for(var i=0;i<posGridText.length;i++)
                     {
                         posGridText[i].visible = true;
                     }
 
+                    debugText.visible = true;
+                    playerLocText.visible = true;
+                    walkTickText.visible = true;
+                    battleStatusText.visible = true;
+                    playerPosText.visible = true;
+                    
                     debugTime = false;
                 }
                 break;    

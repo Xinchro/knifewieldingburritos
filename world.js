@@ -1,4 +1,4 @@
-var cityRarity = 10;
+var cityRarity = 1;
 var worldSize = 20;
 
 function World(){
@@ -15,16 +15,30 @@ function World(){
         }
         stage.addChild(animation);
         stage.addChild(charizard);
-        stage.addChild(debugText);
-        stage.addChild(playerLocText);
-        stage.addChild(playerPosText);
-        stage.addChild(walkTickText);
-        stage.addChild(battleStatusText);
         stage.addChild(upBox);
         stage.addChild(leftBox);
         stage.addChild(downBox);
         stage.addChild(rightBox);
         stage.addChild();
+    };
+    
+    World.prototype.hideOverworld = function(){
+        for(var i=0; i<grid.length;i++){
+            for(var j=0; j<grid.length;j++){
+                stage.removeChild(grid[i][j]);
+            }
+        }
+        for(var i=0;i<posGridText.length;i++)
+        {
+            stage.removeChild(posGridText[i]);
+        }
+        stage.removeChild(animation);
+        stage.removeChild(charizard);
+        stage.removeChild(upBox);
+        stage.removeChild(leftBox);
+        stage.removeChild(downBox);
+        stage.removeChild(rightBox);
+        //stage.removeChild();
     };
     
     World.prototype.genGrid = function(){

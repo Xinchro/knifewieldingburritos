@@ -14,6 +14,15 @@ function Battle(){
     var activeBtnCol = "rgba(255,0,0,255)";
     var canStart;
     var started;
+    var activeBtn;
+    
+    var btnStrokeCol = "rgba(0,0,0,255)";
+    var btnStrokeTh = 2;
+    var btnW = 200;
+    var btnH = 20;
+    var btnRound = 2;
+    var btnSep = btnStrokeTh + 2;
+    
     
     Battle.prototype.start = function(){
         attack = "attack";
@@ -21,15 +30,17 @@ function Battle(){
         item = "item";
         runAway = "run away";
         
+        activeBtn = attack;
+        
         actionTime = 0;
         maxActionTime = 20;
         
-        var btnStrokeCol = "rgba(0,0,0,255)";
-        var btnStrokeTh = 2;
-        var btnW = 200;
-        var btnH = 20;
-        var btnRound = 2;
-        var btnSep = btnStrokeTh + 2;
+//        var btnStrokeCol = "rgba(0,0,0,255)";
+//        var btnStrokeTh = 2;
+//        var btnW = 200;
+//        var btnH = 20;
+//        var btnRound = 2;
+//        var btnSep = btnStrokeTh + 2;
         
         attackBG = new createjs.Shape();
         attackBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
@@ -175,11 +186,86 @@ function Battle(){
         
         var eHPWidth = (enemy.getHealth()/enemy.getMaxHealth());
         enemyHealthBar.setTransform(enemyHealthBar.x,enemyHealthBar.y,eHPWidth,1);
-        
-        //alert('hi');
     };
     
-    Battle.prototype.end = function(){
+    Battle.prototype.nextActiveBtn = function(){
+        switch(activeBtn){
+            case attack:
+                activeBtn = special;
+                break;
+            case special:
+                activeBtn = item;
+                break;
+            case item:
+                activeBtn = runAway;
+                break;
+            case runAway:
+                activeBtn = attack;
+                break;
+        }
+    };
+    
+    Battle.prototype.prevActiveBtn = function(){
+        switch(activeBtn){
+            case attack:
+                activeBtn = runAway;
+                break;
+            case special:
+                activeBtn = attack;
+                break;
+            case item:
+                activeBtn = special;
+                break;
+            case runAway:
+                activeBtn = item;
+                break;
+        }
+    };
+    
+    resetButtons = function(){
+        attackBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+        attackBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+        attackBG.setTransform(50, scrH-btnH-(btnH+btnSep)*6);
+        specialBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+        specialBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+        specialBG.setTransform(50, scrH-btnH-(btnH+btnSep)*5);
+        itemBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+        itemBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+        itemBG.setTransform(50, scrH-btnH-(btnH+btnSep)*4);
+        runAwayBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+        runAwayBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+        runAwayBG.setTransform(50, scrH-btnH-(btnH+btnSep)*3);
+    };
+    
+    Battle.prototype.refreshActiveBtn = function(){
+        var activeIncr = 10;
+        switch(activeBtn){
+            case attack:
+                resetButtons();
+                attackBG.graphics.beginFill(activeBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+                attackBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+                attackBG.setTransform(50+activeIncr, scrH-btnH-(btnH+btnSep)*6);
+                break;
+            case special:
+                resetButtons();
+                specialBG.graphics.beginFill(activeBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+                specialBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+                specialBG.setTransform(50+activeIncr, scrH-btnH-(btnH+btnSep)*5);
+                break;
+            case item:
+                resetButtons();
+                itemBG.graphics.beginFill(activeBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+                itemBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+                itemBG.setTransform(50+activeIncr, scrH-btnH-(btnH+btnSep)*4);
+                break;
+            case runAway:
+                resetButtons();
+                runAwayBG.graphics.beginFill(activeBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+                runAwayBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
+                runAwayBG.setTransform(50+activeIncr, scrH-btnH-(btnH+btnSep)*3);
+                break;
+        }
+        
         
     };
     

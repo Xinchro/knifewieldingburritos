@@ -167,7 +167,9 @@ function checkMove(){
     }
     if(inCity){
         gui.writeBattleStatus("In city");
-        stage.removeAllChildren();
+        //stage.removeAllChildren();
+        world.hideOverworld();
+        gui.hideDebug();
         input.intoBattle();
         if(battle){
             if(!battle.hasStarted()){
@@ -188,14 +190,13 @@ function checkMove(){
                 input.outOfBattle();
             }
         }
+        battle.refreshActiveBtn();
         battle.showGUI();
         if(battle.getActionTime() < battle.getMaxActionTime()){
             battle.refreshTimer(battle.incrActionTime(), battle.getMaxActionTime());
         }else{
             battle.setActionTime(0);
         }
-        battle.writeAttackText(battle.getActionTime());
-        battle.writeSpecialText(battle.getMaxActionTime());
     }else{
         if(battle){
             //if(battle.hasStarted()){
@@ -203,9 +204,10 @@ function checkMove(){
             //}
         }
         input.outOfBattle();
-        stage.removeAllChildren();
+        //stage.removeAllChildren();
         gui.writeBattleStatus("Not in city");
         world.displayOverworld();
+        gui.displayDebug();
     }
     
     if(canWalkTick >= walkSpeed){

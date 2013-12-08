@@ -64,4 +64,20 @@ function GUI(){
 
     };
     
+    GUI.prototype.displayDebug = function(){
+        stage.addChild(debugText);
+        stage.addChild(playerLocText);
+        stage.addChild(playerPosText);
+        stage.addChild(walkTickText);
+        stage.addChild(battleStatusText);
+    };
+    
+    GUI.prototype.hideDebug = function(){
+        stage.removeChild(debugText);
+        stage.removeChild(playerLocText);
+        stage.removeChild(playerPosText);
+        stage.removeChild(walkTickText);
+        stage.removeChild(battleStatusText);
+    };
+    
 }
