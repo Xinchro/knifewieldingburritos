@@ -10,10 +10,11 @@
 function Player(){
     
     var health = 50;
+    var name = "Not Burrito";
     //console.log(health);
     
-    Player.prototype.start = function(){
-        
+    Player.prototype.start = function(playerName){
+        name = playerName;
     };
     
     Player.prototype.setHealth = function(inHealth){
@@ -22,6 +23,14 @@ function Player(){
     
     Player.prototype.getHealth = function(){
         return health;
+    };
+    
+    Player.prototype.setName = function(playerName){
+        name = playerName;
+    };
+    
+    Player.prototype.getName = function(){
+        return name;
     };
     
     Player.prototype.decrementHealth = function(decrement){

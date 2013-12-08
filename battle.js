@@ -4,18 +4,23 @@ function Battle(){
     var attackBG, specialBG, itemBG, runAwayBG;
     var attackText, specialText, itemText, runAwayText;
     var playerName, enemyName;
+    var playerNameText, enemyNameText;
     var playerHealth, enemyHealth;
     var playerHealthBar, enemyHealthBar;
-    var actionTimer;
+    var actionTimer, actionTimerBG, actionTime, maxActionTime;
     
     var inactiveBtnCol = "rgba(255,255,255,255)";
     var activeBtnCol = "rgba(255,0,0,255)";
+    var started;
     
     Battle.prototype.start = function(){
         attack = "attack";
         special = "special";
         item = "item";
         runAway = "run away";
+        
+        actionTime = 5;
+        maxActionTime = 10;
         
         var btnStrokeCol = "rgba(0,0,0,255)";
         var btnStrokeTh = 2;
@@ -58,7 +63,7 @@ function Battle(){
         enemyHealth = 100;
         
         var boxStrokeTh = 2;
-        var boxW = 100;
+        var boxW = 200;
         var boxH = 10;
         var boxRound = 1;
         
@@ -67,15 +72,57 @@ function Battle(){
         playerHealthBar = new createjs.Shape();
         playerHealthBar.graphics.beginFill(playerHealthCol).drawRoundRect(0,0,boxW,boxH,boxRound);
         playerHealthBar.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(playerHealthStrCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-        playerHealthBar.setTransform(boxW, scrH-boxH-boxH);
+        playerHealthBar.setTransform(scrW - boxW - 50, scrH - boxH*3);
         var enemyHealthCol = "rgba(0,0,255,255)";
         var enemyHealthStrCol = "rgba(0,0,0,255)";
         enemyHealthBar = new createjs.Shape();
         enemyHealthBar.graphics.beginFill(enemyHealthCol).drawRoundRect(0,0,boxW,boxH,boxRound);
         enemyHealthBar.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(enemyHealthStrCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-        enemyHealthBar.setTransform(boxW, scrH-boxH-boxH-boxH);
+        enemyHealthBar.setTransform(50, boxH*3);
         
-        actionTimer = 100;
+        playerName = player.getName();
+        playerNameText = new createjs.Text(playerName, "20px Arial", "#000");
+        playerNameText.x = playerHealthBar.x ;//- Math.floor(attackText.getMeasuredWidth()) + btnW/2 + btnStrokeTh/2;
+        playerNameText.y = playerHealthBar.y - Math.floor(attackText.getMeasuredHeight());// + btnH/2 + btnStrokeTh/2;
+        
+        var actionTmrCol = "rgba(255,255,255,255)";
+        var actionTmrBGCol = "rgba(255,0,0,255)";
+        var actionTmrStrCol = "rgba(0,0,0,255)";
+        var actionTmrStrTh = 2;
+        var actionTmrRound = 1;
+        var actionTmrW = 150;
+        var actionTmrH = 10;
+        
+        actionTimer = new createjs.Shape();
+        actionTimer.graphics.beginFill(actionTmrCol);//.drawRoundRect(0,0,actionTmrW,actionTmrH,0);
+        //actionTimer.graphics.setStrokeStyle(0, "round").beginStroke(actionTmrStrCol).drawRoundRect(0,0,btnW,btnH,0);
+        actionTimer.graphics.setStrokeStyle(0, "round").beginStroke(actionTmrStrCol).drawRoundRect(0,0,actionTmrW,actionTmrH,0);
+        //actionTimer.setTransform(50, 50);
+        actionTimerBG = new createjs.Shape();
+        actionTimerBG.graphics.beginFill(actionTmrBGCol).drawRoundRect(0,0,actionTmrW,actionTmrH,actionTmrRound);
+        actionTimerBG.graphics.setStrokeStyle(actionTmrStrTh, "round").beginStroke(actionTmrStrCol).drawRoundRect(0,0,actionTmrW,actionTmrH,0);
+        //actionTimerBG.setTransform(50, 50);
+        actionTimer.setTransform(runAwayBG.x+btnW+btnW/8, runAwayBG.y+btnH*1.5);
+        actionTimerBG.setTransform(runAwayBG.x+btnW+btnW/8, runAwayBG.y+btnH*1.5);
+        
+        var actWidth = (actionTime/maxActionTime);
+        
+        //actionTimer.graphics.setStrokeStyle(0, "round").beginStroke(actionTmrStrCol).drawRoundRect(0,0,actWidth,actionTmrH,0);
+        actionTimer.setTransform(actionTimer.x,actionTimer.y,actWidth,1);
+        //attackText.text = actionTmrW;
+        //specialText.text = actWidth;
+        started = true;
+    };
+    
+    Battle.prototype.hasStarted = function(){
+        return started;
+    };
+    
+    Battle.prototype.refreshTimer = function(currentTime, maxTime){
+        var actWidth = (currentTime/maxTime);
+        //attackText.text = actWidth;
+        //var actWidth = (actionTime/maxActionTime);
+        actionTimer.setTransform(actionTimer.x,actionTimer.y,actWidth,1);
     };
     
     Battle.prototype.options = function(){
@@ -90,6 +137,12 @@ function Battle(){
         stage.addChild(specialBG);
         stage.addChild(itemBG);
         stage.addChild(runAwayBG);
+        
+        stage.addChild(actionTimerBG);
+        stage.addChild(actionTimer);
+        
+        stage.addChild(playerNameText);
+        stage.addChild(enemyNameText);
         
         stage.addChild(attackText);
         stage.addChild(specialText);

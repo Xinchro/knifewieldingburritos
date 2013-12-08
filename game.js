@@ -144,6 +144,9 @@ var walkSpeed = 5/slowDownWalk;
 var canWalkTick = 0;
 
 var inCity = false;
+var battle;
+var battleMaxTime = 200;
+var battleTime = 0;
 
 function checkMove(){
     var tempPoint = [];
@@ -166,9 +169,20 @@ function checkMove(){
     if(inCity){
         gui.writeBattleStatus("In city");
         stage.removeAllChildren();
-        var battle = new Battle();
+        if(battle){
+            if(!battle.hasStarted()){
+                battle = new Battle();
+            }
+        }else{
+            battle = new Battle();
+        }
         battle.start();
         battle.showGUI();
+        if(battleTime < battleMaxTime){
+            battle.refreshTimer(battleTime++, battleMaxTime);
+        }else{
+            battleTime = 0;
+        }
     }else{
         stage.removeAllChildren();
         gui.writeBattleStatus("Not in city");
