@@ -96,7 +96,7 @@ animation.setTransform(2*gridScale,2*gridScale,1.4,1.4);
 animation.setBounds(animation.x, animation.y, animation.x-gridScale, animation.y-gridScale);
 animation.setTransform(((scrW/2)-((animation.getBounds().width)/2)),((scrH/2)-((animation.getBounds().height)/2)),1.4,1.4);
 
-var gridSize = 20;
+var gridSize = worldSize;
 grid = create2DArr(gridSize);
 var posGridText = [];
 
@@ -165,10 +165,14 @@ function checkMove(){
     }
     if(inCity){
         gui.writeBattleStatus("In city");
-        //stage.removeAllChildren();
+        stage.removeAllChildren();
+        var battle = new Battle();
+        battle.start();
+        battle.showGUI();
     }else{
+        stage.removeAllChildren();
         gui.writeBattleStatus("Not in city");
-        //world.displayOverworld();
+        world.displayOverworld();
     }
     
     if(canWalkTick >= walkSpeed){

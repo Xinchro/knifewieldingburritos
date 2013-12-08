@@ -1,3 +1,6 @@
+var cityRarity = 1;
+var worldSize = 11;
+
 function World(){
     
      World.prototype.displayOverworld = function(){
@@ -22,7 +25,7 @@ function World(){
         stage.addChild(downBox);
         stage.addChild(rightBox);
         stage.addChild();
-    }
+    };
     
     World.prototype.genGrid = function(){
         var tempRect;
@@ -50,14 +53,13 @@ function World(){
 
         gui.writeText("Grid added");
         //gui.writeText(parseInt(tempCol, 16));
-    }
+    };
     
     World.prototype.genCities = function(){
         var tempRect;
         //var randLocX, randLocY;
         var checkCity;
         //higher values make cities rarer
-        var cityRarity = 5;
 
         for(var x=0;x<gridSize;x++){
             for(var y=0;y<gridSize;y++){
@@ -88,5 +90,5 @@ function World(){
         }   
 
         gui.writeText("Cities added");
-    }
+    };
 }

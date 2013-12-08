@@ -33,7 +33,7 @@ function GUI(){
     debugText = new createjs.Text("newText", "20px Arial", "#000");
     GUI.prototype.writeText = function(text){
         debugText.text= text;
-    }
+    };
 
     walkTickText = new createjs.Text("newText", "20px Arial", "#000");
     walkTickText.y = 20;
@@ -41,20 +41,20 @@ function GUI(){
 
         walkTickText.text= text;
 
-    }
+    };
 
     playerLocText = new createjs.Text("newText", "20px Arial", "#000");
     playerLocText.x = 225;
     GUI.prototype.writePlayerLoc = function(text){
         playerLocText.text = text;
-    }
+    };
 
     playerPosText = new createjs.Text("newText", "20px Arial", "#000");
     playerPosText.x = 225;
     playerPosText.y = 20;
     GUI.prototype.writePlayerPos = function(text){
         playerPosText.text = text;
-    }
+    };
 
     battleStatusText = new createjs.Text("newText", "20px Arial", "#000");
     battleStatusText.y = 40;
@@ -62,6 +62,6 @@ function GUI(){
 
         battleStatusText.text= text;
 
-    }
+    };
     
 }

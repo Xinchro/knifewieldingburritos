@@ -18,11 +18,11 @@ function Player(){
     
     Player.prototype.setHealth = function(inHealth){
         health = inHealth;
-    }
+    };
     
     Player.prototype.getHealth = function(){
         return health;
-    }
+    };
     
     Player.prototype.decrementHealth = function(decrement){
         if(typeof decrement != 'number'){
@@ -30,7 +30,7 @@ function Player(){
         }else{
             health = health - decrement;
         }
-    }
+    };
     
     Player.prototype.incrementHealth = function(increment){
         if(typeof increment != 'number'){
@@ -38,7 +38,7 @@ function Player(){
         }else{
             health = health + increment;
         }
-    }
+    };
 };
     //money = 1;
     //HP = 1;
