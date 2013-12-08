@@ -12,6 +12,7 @@ function Battle(){
     
     var inactiveBtnCol = "rgba(255,255,255,255)";
     var activeBtnCol = "rgba(255,0,0,255)";
+    var canStart;
     var started;
     
     Battle.prototype.start = function(){
@@ -139,6 +140,18 @@ function Battle(){
         started = false;
     };
     
+    Battle.prototype.canStart = function(can){
+        if(typeof can === 'boolean'){
+            canStart = can;
+        }else{
+            return canStart;
+        }
+    };
+    
+    Battle.prototype.setCanStart = function(can){
+        canStart = can;
+    };
+    
     Battle.prototype.setActionTime = function(time){
         actionTime = time;  
         return actionTime;
@@ -164,6 +177,10 @@ function Battle(){
         enemyHealthBar.setTransform(enemyHealthBar.x,enemyHealthBar.y,eHPWidth,1);
         
         //alert('hi');
+    };
+    
+    Battle.prototype.end = function(){
+        
     };
     
     Battle.prototype.refreshTimer = function(currentTime, maxTime){

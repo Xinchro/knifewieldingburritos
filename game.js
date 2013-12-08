@@ -168,16 +168,25 @@ function checkMove(){
     if(inCity){
         gui.writeBattleStatus("In city");
         stage.removeAllChildren();
+        input.intoBattle();
         if(battle){
             if(!battle.hasStarted()){
-                enemy = new Enemy();
-                battle = new Battle();
-                battle.start();
+                if(battle.canStart()){
+                    enemy = new Enemy();
+                    battle = new Battle();
+                    battle.start();
+                }
             }
         }else{
             enemy = new Enemy();
             battle = new Battle();
             battle.start();
+        }
+        if(battle){
+            if(enemy.isDead()){
+                battle.setEnded();
+                input.outOfBattle();
+            }
         }
         battle.showGUI();
         if(battle.getActionTime() < battle.getMaxActionTime()){
@@ -193,6 +202,7 @@ function checkMove(){
                 battle.setEnded();
             //}
         }
+        input.outOfBattle();
         stage.removeAllChildren();
         gui.writeBattleStatus("Not in city");
         world.displayOverworld();

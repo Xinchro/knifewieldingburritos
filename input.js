@@ -2,6 +2,15 @@ function Input(){
     document.onkeydown = keyDown;
     document.onkeyup = keyUp;
     
+    var inBattle;
+    
+    Input.prototype.intoBattle = function(){
+        inBattle = true;
+    };
+    Input.prototype.outOfBattle = function(){
+        inBattle = false;
+    };
+    
      function keyDown(e){
         document.getElementById('gameCanvas').focus();
         mouseDown = true;
@@ -10,25 +19,53 @@ function Input(){
                 //Up
                 e.preventDefault();
                 gui.writeText("Up arrow pressed");
-                upEntered = true;
+                if(inBattle){
+                }else{
+                    if(battle){
+                        battle.setEnded();
+                        battle.canStart(true);
+                    }
+                    upEntered = true;
+                }
                 break;
             case 37:
                 //Left
                 e.preventDefault();
                 gui.writeText("Left arrow pressed");
-                leftEntered = true;
+                if(inBattle){
+                }else{
+                    if(battle){
+                        battle.setEnded();
+                        battle.canStart(true);
+                    }
+                    leftEntered = true;
+                }
                 break;
             case 40:
                 //Down
                 e.preventDefault();
                 gui.writeText("Down arrow pressed");
-                downEntered = true;
+                if(inBattle){
+                }else{
+                    if(battle){
+                        battle.setEnded();
+                        battle.canStart(true);
+                    }
+                    downEntered = true;
+                }
                 break;
             case 39:
                 //Right
                 e.preventDefault();
                 gui.writeText("Right arrow pressed");
-                rightEntered = true;
+                if(inBattle){
+                }else{
+                    if(battle){
+                        battle.setEnded();
+                        battle.canStart(true);
+                    }
+                    rightEntered = true;
+                }
                 break;
             case 69:
                 //E

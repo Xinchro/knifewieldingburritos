@@ -7,6 +7,7 @@ function Enemy(){
     var health = 50;
     var maxHealth = 50;
     var name = "Not Taco";
+    var dead;
     //console.log(health);
     
     Enemy.prototype.start = function(playerName){
@@ -37,11 +38,25 @@ function Enemy(){
         return name;
     };
     
+    Enemy.prototype.isDead = function(){
+        return dead;
+    }
+    
     Enemy.prototype.decrementHealth = function(decrement){
         if(typeof decrement != 'number'){
-            health--;
+            if(health-1<=0){
+                health = 0;
+                dead = true;
+            }else{
+                health--;
+            }
         }else{
-            health = health - decrement;
+            if(health-decrement<=0){
+                health = 0;
+                dead = true;
+            }else{
+                health = health - decrement;
+            }
         }
     };
     
