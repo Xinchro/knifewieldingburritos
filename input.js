@@ -52,6 +52,17 @@ function Input(){
                     applesGoByeBye = false;
                 }
                 break;
+            case 70:
+                //F
+                gui.writeText("F pressed");
+                if(battle){
+                    if(battle.hasStarted()){
+                        enemy.decrementHealth(1);
+                        battle.writeItemText(enemy.getHealth());
+                        battle.refreshHealthBars();
+                    }
+                }
+                break;
             case 72:
                 //H
                 gui.writeText("H pressed");

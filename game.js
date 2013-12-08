@@ -13,7 +13,6 @@ var grid;
 stage = new createjs.Stage('gameCanvas');
 //get canvas
 canvas = document.getElementById('gameCanvas');
-
 //get screen width/height
 scrW = canvas.width;
 scrH = canvas.height;
@@ -45,6 +44,8 @@ var applesGoByeBye = false;
 var debugTime = false;
 
 var player = new Player();
+
+var enemy;
 
 var world = new World();
 
@@ -145,8 +146,6 @@ var canWalkTick = 0;
 
 var inCity = false;
 var battle;
-var battleMaxTime = 200;
-var battleTime = 0;
 
 function checkMove(){
     var tempPoint = [];
@@ -155,7 +154,7 @@ function checkMove(){
     gui.writePlayerPos("Player pos: " + xPosPlayer + "," + yPosPlayer);
     
     for(var i=0;i<cityArr.length;i++){
-        if(xPosPlayer=== cityArr[i][0] && yPosPlayer=== cityArr[i][1])
+        if(xPosPlayer=== cityArr[i][0] && yPosPlayer === cityArr[i][1])
         {
             inCity = true;
             //gui.writeBattleStatus("In city");
@@ -171,19 +170,29 @@ function checkMove(){
         stage.removeAllChildren();
         if(battle){
             if(!battle.hasStarted()){
+                enemy = new Enemy();
                 battle = new Battle();
+                battle.start();
             }
         }else{
+            enemy = new Enemy();
             battle = new Battle();
+            battle.start();
         }
-        battle.start();
         battle.showGUI();
-        if(battleTime < battleMaxTime){
-            battle.refreshTimer(battleTime++, battleMaxTime);
+        if(battle.getActionTime() < battle.getMaxActionTime()){
+            battle.refreshTimer(battle.incrActionTime(), battle.getMaxActionTime());
         }else{
-            battleTime = 0;
+            battle.setActionTime(0);
         }
+        battle.writeAttackText(battle.getActionTime());
+        battle.writeSpecialText(battle.getMaxActionTime());
     }else{
+        if(battle){
+            //if(battle.hasStarted()){
+                battle.setEnded();
+            //}
+        }
         stage.removeAllChildren();
         gui.writeBattleStatus("Not in city");
         world.displayOverworld();

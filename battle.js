@@ -7,6 +7,7 @@ function Battle(){
     var playerNameText, enemyNameText;
     var playerHealth, enemyHealth;
     var playerHealthBar, enemyHealthBar;
+    var playerHealthBarBG, enemyHealthBarBG;
     var actionTimer, actionTimerBG, actionTime, maxActionTime;
     
     var inactiveBtnCol = "rgba(255,255,255,255)";
@@ -19,8 +20,8 @@ function Battle(){
         item = "item";
         runAway = "run away";
         
-        actionTime = 5;
-        maxActionTime = 10;
+        actionTime = 0;
+        maxActionTime = 20;
         
         var btnStrokeCol = "rgba(0,0,0,255)";
         var btnStrokeTh = 2;
@@ -79,11 +80,27 @@ function Battle(){
         enemyHealthBar.graphics.beginFill(enemyHealthCol).drawRoundRect(0,0,boxW,boxH,boxRound);
         enemyHealthBar.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(enemyHealthStrCol).drawRoundRect(0,0,boxW,boxH,boxRound);
         enemyHealthBar.setTransform(50, boxH*3);
+        var playerHealthBGCol = "rgba(0,0,0,255)";
+        var playerHealthBGStrCol = "rgba(0,0,0,255)";
+        playerHealthBarBG = new createjs.Shape();
+        playerHealthBarBG.graphics.beginFill(playerHealthBGCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+        playerHealthBarBG.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(playerHealthBGStrCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+        playerHealthBarBG.setTransform(scrW - boxW - 50, scrH - boxH*3);
+        var enemyHealthBGCol = "rgba(0,0,0,255)";
+        var enemyHealthBGStrCol = "rgba(0,0,0,255)";
+        enemyHealthBarBG = new createjs.Shape();
+        enemyHealthBarBG.graphics.beginFill(enemyHealthBGCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+        enemyHealthBarBG.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(enemyHealthBGStrCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+        enemyHealthBarBG.setTransform(50, boxH*3);
         
         playerName = player.getName();
         playerNameText = new createjs.Text(playerName, "20px Arial", "#000");
         playerNameText.x = playerHealthBar.x ;//- Math.floor(attackText.getMeasuredWidth()) + btnW/2 + btnStrokeTh/2;
         playerNameText.y = playerHealthBar.y - Math.floor(attackText.getMeasuredHeight());// + btnH/2 + btnStrokeTh/2;
+        enemyName = enemy.getName();
+        enemyNameText = new createjs.Text(enemyName, "20px Arial", "#000");
+        enemyNameText.x = enemyHealthBar.x ;//- Math.floor(attackText.getMeasuredWidth()) + btnW/2 + btnStrokeTh/2;
+        enemyNameText.y = enemyHealthBar.y - Math.floor(attackText.getMeasuredHeight());// + btnH/2 + btnStrokeTh/2;
         
         var actionTmrCol = "rgba(255,255,255,255)";
         var actionTmrBGCol = "rgba(255,0,0,255)";
@@ -118,9 +135,42 @@ function Battle(){
         return started;
     };
     
+    Battle.prototype.setEnded = function(){
+        started = false;
+    };
+    
+    Battle.prototype.setActionTime = function(time){
+        actionTime = time;  
+        return actionTime;
+    };
+    
+    Battle.prototype.incrActionTime = function(){
+        return actionTime++;  
+    };
+    
+    Battle.prototype.getActionTime = function(){
+        return actionTime;
+    };
+    
+    Battle.prototype.getMaxActionTime = function(){
+        return maxActionTime;
+    };
+    
+    Battle.prototype.refreshHealthBars = function(){
+        var pHPWidth = (player.getHealth()/player.getMaxHealth());
+        playerHealthBar.setTransform(playerHealthBar.x,playerHealthBar.y,pHPWidth,1);
+        
+        var eHPWidth = (enemy.getHealth()/enemy.getMaxHealth());
+        enemyHealthBar.setTransform(enemyHealthBar.x,enemyHealthBar.y,eHPWidth,1);
+        
+        //alert('hi');
+    };
+    
     Battle.prototype.refreshTimer = function(currentTime, maxTime){
         var actWidth = (currentTime/maxTime);
         //attackText.text = actWidth;
+        //specialText.text = actionTime;
+        //itemText.text = maxActionTime;
         //var actWidth = (actionTime/maxActionTime);
         actionTimer.setTransform(actionTimer.x,actionTimer.y,actWidth,1);
     };
@@ -130,6 +180,8 @@ function Battle(){
     };
     
     Battle.prototype.showGUI = function(){
+        stage.addChild(playerHealthBarBG);        
+        stage.addChild(enemyHealthBarBG);        
         stage.addChild(playerHealthBar);        
         stage.addChild(enemyHealthBar);        
         

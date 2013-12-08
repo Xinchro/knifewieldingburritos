@@ -2,42 +2,42 @@
 //var HP;
 //var color;
 
-function Player(){
+function Enemy(){
     
     var health = 50;
     var maxHealth = 50;
-    var name = "Not Burrito";
+    var name = "Not Taco";
     //console.log(health);
     
-    Player.prototype.start = function(playerName){
+    Enemy.prototype.start = function(playerName){
         name = playerName;
     };
     
-    Player.prototype.setHealth = function(inHealth){
+    Enemy.prototype.setHealth = function(inHealth){
         health = inHealth;
     };
     
-    Player.prototype.getHealth = function(){
+    Enemy.prototype.getHealth = function(){
         return health;
     };
     
-    Player.prototype.setMaxHealth = function(inHealth){
+    Enemy.prototype.setMaxHealth = function(inHealth){
         maxHealth = inHealth;
     };
     
-    Player.prototype.getMaxHealth = function(){
+    Enemy.prototype.getMaxHealth = function(){
         return maxHealth;
     };
     
-    Player.prototype.setName = function(playerName){
+    Enemy.prototype.setName = function(playerName){
         name = playerName;
     };
     
-    Player.prototype.getName = function(){
+    Enemy.prototype.getName = function(){
         return name;
     };
     
-    Player.prototype.decrementHealth = function(decrement){
+    Enemy.prototype.decrementHealth = function(decrement){
         if(typeof decrement != 'number'){
             health--;
         }else{
@@ -45,7 +45,7 @@ function Player(){
         }
     };
     
-    Player.prototype.incrementHealth = function(increment){
+    Enemy.prototype.incrementHealth = function(increment){
         if(typeof increment != 'number'){
             health++;
         }else{
