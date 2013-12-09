@@ -208,6 +208,7 @@ function checkMove(){
             if(enemy.isDead()){
                 fought[xPosPlayer][yPosPlayer] = true;
                 battle.setEnded();
+                gui.displayDebug();
                 //input.outOfBattle();
             }else{
                 battle.showGUI();
@@ -237,6 +238,15 @@ function checkMove(){
     gui.writeWalkTick("Walk tick: " + canWalkTick);
 
     if(mouseDown){
+        if(battle){
+            if(!battle.hasStarted()){
+                walk = true;
+            }else{
+                walk = false;
+            }
+        }else{
+            walk = true;
+        }
         if(upEntered){
             if(walk){
                 yPosPlayer--;

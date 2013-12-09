@@ -7,7 +7,7 @@ function Player(){
     var health = 50;
     var maxHealth = 50;
     var name = "Not Burrito";
-    var pwr = 2;
+    var pwr = 49;
     var dex = 3;
     var will = 4;
     //console.log(health);
