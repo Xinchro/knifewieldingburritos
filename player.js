@@ -10,10 +10,49 @@ function Player(){
     var pwr = 49;
     var dex = 3;
     var will = 4;
+    var items = [];
+    var specials = [];
+    var activeItem;
     //console.log(health);
     
     Player.prototype.start = function(playerName){
-        name = playerName;
+        name = playerName;        
+        potion = new Item();
+        potion.setName("potion");
+        this.addItem(potion);
+        this.activeItem = potion;
+    };
+    
+    Player.prototype.addItem = function(item){
+        items.push(item);
+    };
+    
+    Player.prototype.removeItem = function(item){
+        var tempNo;
+        for(var i=0;i<items.length;i++){
+            if(item.getName() === items[i].getName()){
+                tempNo = i;
+            }
+        }
+        items.splice(tempNo, 1);
+    };
+    
+    Player.prototype.getItems = function(){
+        return items;
+    };
+    
+    Player.prototype.addSpecial = function(special){
+        specials.push(item);
+    };
+    
+    Player.prototype.removeSpecial = function(special){
+        var tempNo;
+        for(var i=0;i<items.length;i++){
+            if(item.getName() === items[i].getName()){
+                tempNo = i;
+            }
+        }
+        specials.splice(tempNo, 1);
     };
     
     Player.prototype.setHealth = function(inHealth){
@@ -56,11 +95,23 @@ function Player(){
         //}
     };
     
+    Player.prototype.useActiveItem = function(){
+        this.activeItem.effect(enemy);
+    };
+    
     Player.prototype.incrementHealth = function(increment){
         if(typeof increment != 'number'){
-            health++;
+            if(health+1>=maxHealth){
+                health = maxHealh;
+            }else{
+                health++;
+            }
         }else{
-            health = health + increment;
+            if(health +increment >= maxHealth){
+                health = maxHealth;
+            }else{
+                health = health + increment;
+            }
         }
     };
 };

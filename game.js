@@ -44,7 +44,7 @@ var applesGoByeBye = false;
 var debugTime = false;
 
 var player = new Player();
-
+player.start("hullo");
 var enemy;
 
 var world = new World();
@@ -176,6 +176,12 @@ function checkMove(){
             //gui.writeBattleStatus("Not in city");
             //break;
         }   
+    }
+    if(player){
+        for(var i=0;i<player.getItems().length;i++){
+            var tempItem = player.getItems()[i];
+            //console.log(tempItem.name);
+        }
     }
     if(inCity){
         gui.writeBattleStatus("In city");

@@ -21,7 +21,7 @@ function Input(){
                 gui.writeText("Up arrow pressed");
                 if(inBattle){
                     battle.prevActiveBtn();
-                    battle.writeAttackText("Up pressed");
+                    //battle.writeAttackText("Up pressed");
                 }else{
                     if(battle){
                         battle.setEnded();
@@ -49,7 +49,7 @@ function Input(){
                 gui.writeText("Down arrow pressed");
                 if(inBattle){
                     battle.nextActiveBtn();
-                    battle.writeAttackText("Down pressed");
+                    //battle.writeAttackText("Down pressed");
                 }else{
                     if(battle){
                         battle.setEnded();
@@ -108,7 +108,6 @@ function Input(){
                             battle.useActiveAction();
                             battle.setActionTime(0);
                         }
-                        battle.writeItemText(enemy.getHealth());
                         battle.refreshHealthBars();
                     }
                 }

@@ -168,6 +168,7 @@ function Battle(){
                 break;
             case item:
                 //use active item
+                player.useActiveItem();
                 break;
             case runAway:
                 this.setEnded();
@@ -366,28 +367,28 @@ function Battle(){
         stage.addChild(runAwayText);
     };
     
-    attackText = new createjs.Text("defaultAttack", "20px Arial", "#000");
+    attackText = new createjs.Text("Attack", "20px Arial", "#000");
     attackText.x = 20;
     attackText.y = 20;
     Battle.prototype.writeAttackText = function(text){
         attackText.text= text;
     };
     
-    specialText = new createjs.Text("defaultSpecial", "20px Arial", "#000");
+    specialText = new createjs.Text("Specials", "20px Arial", "#000");
     specialText.x = 20;
     specialText.y = 40;
     Battle.prototype.writeSpecialText = function(text){
         specialText.text= text;
     };
     
-    itemText = new createjs.Text("defaultItem", "20px Arial", "#000");
+    itemText = new createjs.Text("Items", "20px Arial", "#000");
     itemText.x = 20;
     itemText.y = 60;
     Battle.prototype.writeItemText = function(text){
         itemText.text= text;
     };
     
-    runAwayText = new createjs.Text("defaultRunAway", "20px Arial", "#000");
+    runAwayText = new createjs.Text("Run!", "20px Arial", "#000");
     runAwayText.x = 20;
     runAwayText.y = 80;
     Battle.prototype.writeRunAwayText = function(text){

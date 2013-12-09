@@ -66,9 +66,17 @@ function Enemy(){
     
     Enemy.prototype.incrementHealth = function(increment){
         if(typeof increment != 'number'){
-            health++;
+            if(health+1>=maxHealth){
+                health = maxHealh;
+            }else{
+                health++;
+            }
         }else{
-            health = health + increment;
+            if(health +increment >= maxHealth){
+                health = maxHealth;
+            }else{
+                health = health + increment;
+            }
         }
     };
 };
