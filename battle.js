@@ -171,6 +171,7 @@ function Battle(){
                 break;
             case runAway:
                 this.setEnded();
+                fought[xPosPlayer][yPosPlayer] = true;
                 break;
         }
     };

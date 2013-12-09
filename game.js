@@ -99,7 +99,18 @@ animation.setTransform(((scrW/2)-((animation.getBounds().width)/2)),((scrH/2)-((
 
 var gridSize = worldSize;
 grid = create2DArr(gridSize);
+var fought = create2DArr(gridSize);
 var posGridText = [];
+
+function genFoughtGrid(){
+    for(var i=0;i<fought.length;i++){
+        for(var j=0;j<fought.length;j++){
+            fought[i][j] = false;
+        }
+    }
+}
+
+genFoughtGrid();
 
 var xOff = xPosPlayer = 4*gridScale;
 var yOff = yPosPlayer = 6*gridScale;
@@ -150,7 +161,8 @@ var battle;
 function checkMove(){
     var tempPoint = [];
     tempPoint = [animation.x/gridScale, animation.y/gridScale];
-    gui.writePlayerLoc("Player loc: " + tempPoint);
+    //gui.writePlayerLoc("Player loc: " + tempPoint);
+    gui.writePlayerLoc("Fought: " + fought[xPosPlayer][yPosPlayer]);
     gui.writePlayerPos("Player pos: " + xPosPlayer + "," + yPosPlayer);
     
     for(var i=0;i<cityArr.length;i++){
@@ -174,18 +186,27 @@ function checkMove(){
         if(battle){
             if(!battle.hasStarted()){
                 if(battle.canStart()){
-                    enemy = new Enemy();
-                    battle = new Battle();
-                    battle.start();
+                    if(fought[xPosPlayer][yPosPlayer]){
+                
+                    }else{
+                        enemy = new Enemy();
+                        battle = new Battle();
+                        battle.start();
+                    }
                 }
             }
         }else{
-            enemy = new Enemy();
-            battle = new Battle();
-            battle.start();
+            if(fought[xPosPlayer][yPosPlayer]){
+                
+            }else{
+                enemy = new Enemy();
+                battle = new Battle();
+                battle.start();
+            }
         }
         if(battle){
             if(enemy.isDead()){
+                fought[xPosPlayer][yPosPlayer] = true;
                 battle.setEnded();
                 //input.outOfBattle();
             }else{

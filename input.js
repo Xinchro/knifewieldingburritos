@@ -66,7 +66,11 @@ function Input(){
                 }else{
                     if(battle){
                         battle.setEnded();
-                        battle.canStart(true);
+                        if(!inCity){
+                            battle.canStart(true);
+                        }else{
+                            battle.canStart(false);
+                        }
                     }
                     rightEntered = true;
                 }
