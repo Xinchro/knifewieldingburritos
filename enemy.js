@@ -40,7 +40,11 @@ function Enemy(){
     
     Enemy.prototype.isDead = function(){
         return dead;
-    }
+    };
+    
+    Enemy.prototype.attack = function(target){
+            target.decrementHealth(pwr);
+    };
     
     Enemy.prototype.decrementHealth = function(decrement){
         if(typeof decrement != 'number'){

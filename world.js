@@ -1,4 +1,4 @@
-var cityRarity = 1;
+var cityRarity = 10;
 var worldSize = 20;
 
 function World(){

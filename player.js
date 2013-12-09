@@ -7,6 +7,9 @@ function Player(){
     var health = 50;
     var maxHealth = 50;
     var name = "Not Burrito";
+    var pwr = 2;
+    var dex = 3;
+    var will = 4;
     //console.log(health);
     
     Player.prototype.start = function(playerName){
@@ -43,6 +46,14 @@ function Player(){
         }else{
             health = health - decrement;
         }
+    };
+    
+    Player.prototype.attack = function(target){
+        //if(typeof target === Enemy){
+            target.decrementHealth(pwr);
+        //}else{
+          //  alert(typeof target);
+        //}
     };
     
     Player.prototype.incrementHealth = function(increment){

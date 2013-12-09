@@ -99,7 +99,11 @@ function Input(){
                 gui.writeText("F pressed");
                 if(battle){
                     if(battle.hasStarted()){
-                        enemy.decrementHealth();
+                        //enemy.decrementHealth();
+                        if(battle.canAct()){
+                            battle.useActiveAction();
+                            battle.setActionTime(0);
+                        }
                         battle.writeItemText(enemy.getHealth());
                         battle.refreshHealthBars();
                     }

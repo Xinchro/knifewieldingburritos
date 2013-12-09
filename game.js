@@ -187,15 +187,12 @@ function checkMove(){
         if(battle){
             if(enemy.isDead()){
                 battle.setEnded();
-                input.outOfBattle();
+                //input.outOfBattle();
+            }else{
+                battle.showGUI();
+                battle.refreshActiveBtn();
+                battle.tickTimer();
             }
-        }
-        battle.refreshActiveBtn();
-        battle.showGUI();
-        if(battle.getActionTime() < battle.getMaxActionTime()){
-            battle.refreshTimer(battle.incrActionTime(), battle.getMaxActionTime());
-        }else{
-            battle.setActionTime(0);
         }
     }else{
         if(battle){
@@ -203,7 +200,7 @@ function checkMove(){
                 battle.setEnded();
             //}
         }
-        input.outOfBattle();
+        //input.outOfBattle();
         //stage.removeAllChildren();
         gui.writeBattleStatus("Not in city");
         world.displayOverworld();

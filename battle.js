@@ -148,7 +148,51 @@ function Battle(){
     };
     
     Battle.prototype.setEnded = function(){
+        //activeBtn = attack;
+        this.refreshActiveBtn();
+        removePreviousBattle();
+        input.outOfBattle();
+        enemy.decrementHealth(10000);
         started = false;
+        inCity = false;
+        world.displayOverworld();
+    };
+    
+    Battle.prototype.useActiveAction = function(){
+        switch(activeBtn){
+            case attack:
+                player.attack(enemy);
+                break;
+            case special:
+                //player.useSpecial(enemy);
+                break;
+            case item:
+                //use active item
+                break;
+            case runAway:
+                this.setEnded();
+                break;
+        }
+    };
+    
+    removePreviousBattle = function(){
+        stage.removeChild(attackBG);
+        stage.removeChild(specialBG);
+        stage.removeChild(itemBG);
+        stage.removeChild(runAwayBG);
+        stage.removeChild(attackText);
+        stage.removeChild(specialText);
+        stage.removeChild(itemText);
+        stage.removeChild(runAwayText);
+        stage.removeChild(playerNameText);
+        stage.removeChild(enemyNameText);
+        stage.removeChild(playerHealthBar);
+        stage.removeChild(enemyHealthBar);
+        stage.removeChild(playerHealthBarBG);
+        stage.removeChild(enemyHealthBarBG);
+        stage.removeChild(actionTimer);
+        stage.removeChild(actionTimerBG);
+        stage.removeChild(activeBtn);
     };
     
     Battle.prototype.canStart = function(can){
@@ -267,6 +311,22 @@ function Battle(){
         }
         
         
+    };
+    
+    var allowAction = false;
+    
+    Battle.prototype.canAct = function(){
+        return allowAction;
+    };
+    
+    Battle.prototype.tickTimer = function(){
+        if(actionTime < maxActionTime){
+            allowAction = false;
+        }else{
+            allowAction = true;
+            this.setActionTime(maxActionTime);
+        }
+        this.refreshTimer(this.incrActionTime(), maxActionTime);
     };
     
     Battle.prototype.refreshTimer = function(currentTime, maxTime){
