@@ -8,6 +8,8 @@ function Enemy(){
     var maxHealth = 50;
     var name = "Not Taco";
     var dead;
+    var noOfPotions = 3;
+    var pwr = 1;
     //console.log(health);
     
     Enemy.prototype.start = function(playerName){
@@ -30,8 +32,8 @@ function Enemy(){
         return maxHealth;
     };
     
-    Enemy.prototype.setName = function(playerName){
-        name = playerName;
+    Enemy.prototype.setName = function(enemyName){
+        name = enemyName;
     };
     
     Enemy.prototype.getName = function(){
@@ -44,6 +46,10 @@ function Enemy(){
     
     Enemy.prototype.attack = function(target){
             target.decrementHealth(pwr);
+    };
+    
+    Enemy.prototype.specialAttack = function(target){
+            target.decrementHealth(pwr*2);
     };
     
     Enemy.prototype.decrementHealth = function(decrement){
@@ -77,6 +83,56 @@ function Enemy(){
             }else{
                 health = health + increment;
             }
+        }
+    };
+    
+    Enemy.prototype.hasPotion = function(){
+        if(noOfPotions > 0){
+            noOfPotions--;
+            return true;
+        }else{
+            return false;
+        }
+    };
+    
+    var chanceModifier=5;
+    
+    Enemy.prototype.doAttack = function(){
+        var randChance = Math.floor((Math.random()*chanceModifier)+1);
+        if(randChance === 1){
+            this.specialAttack(player);
+            console.log("enemy uses special attack " + randChance + " " + chanceModifier);
+        }else{
+            this.attack(player);
+            console.log("enemy uses normal attack " + randChance + " " + chanceModifier);
+        }
+    };
+    
+    var chanceIncreased = false;
+    
+    Enemy.prototype.enemyLoop = function(){
+        //console.log("enemy looping");
+        if(battle.canEnemyAct()){
+            if(health < Math.floor(maxHealth/100*25))
+            {
+                if(this.hasPotion()){
+                    health += maxHealth/100*5;
+                    //console.log("healing");
+                }else{
+                    if(!chanceIncreased){
+                        chanceModifier = Math.floor(chanceModifier/2);
+                        chanceIncreased = true;
+                    }
+                    this.doAttack();
+                    //console.log("not healing");
+                }
+            }else{
+                //console.log("enemy attacking");
+                this.doAttack();
+            }
+            battle.refreshHealthBars();
+        }else{
+            //console.log("enemy cannot act");
         }
     };
 };

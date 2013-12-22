@@ -8,7 +8,7 @@ function Battle(){
     var playerHealth, enemyHealth;
     var playerHealthBar, enemyHealthBar;
     var playerHealthBarBG, enemyHealthBarBG;
-    var actionTimer, actionTimerBG, actionTime, maxActionTime;
+    var actionTimer, actionTimerBG, actionTime, maxActionTime, enemyActionTime, maxEnemyActionTime;
     
     var inactiveBtnCol = "rgba(255,255,255,255)";
     var activeBtnCol = "rgba(255,0,0,255)";
@@ -34,6 +34,8 @@ function Battle(){
         
         actionTime = 0;
         maxActionTime = 20;
+        enemyActionTime = 0;
+        maxEnemyActionTime = 20;
         
 //        var btnStrokeCol = "rgba(0,0,0,255)";
 //        var btnStrokeTh = 2;
@@ -226,6 +228,23 @@ function Battle(){
         return maxActionTime;
     };
     
+    Battle.prototype.setEnemyActionTime = function(time){
+        actionTime = time;  
+        return actionTime;
+    };
+    
+    Battle.prototype.incrEnemyActionTime = function(){
+        return enemyActionTime++;  
+    };
+    
+    Battle.prototype.getEnemyActionTime = function(){
+        return enemyActionTime;
+    };
+    
+    Battle.prototype.getEnemyMaxActionTime = function(){
+        return maxEnemyActionTime;
+    };
+    
     Battle.prototype.refreshHealthBars = function(){
         var pHPWidth = (player.getHealth()/player.getMaxHealth());
         playerHealthBar.setTransform(playerHealthBar.x,playerHealthBar.y,pHPWidth,1);
@@ -269,15 +288,19 @@ function Battle(){
     };
     
     resetButtons = function(){
+        attackBG.graphics.clear();
         attackBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         attackBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         attackBG.setTransform(50, scrH-btnH-(btnH+btnSep)*6);
+        specialBG.graphics.clear();
         specialBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         specialBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         specialBG.setTransform(50, scrH-btnH-(btnH+btnSep)*5);
+        itemBG.graphics.clear();
         itemBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         itemBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         itemBG.setTransform(50, scrH-btnH-(btnH+btnSep)*4);
+        runAwayBG.graphics.clear();
         runAwayBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         runAwayBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         runAwayBG.setTransform(50, scrH-btnH-(btnH+btnSep)*3);
@@ -288,24 +311,28 @@ function Battle(){
         switch(activeBtn){
             case attack:
                 resetButtons();
+                attackBG.graphics.clear();
                 attackBG.graphics.beginFill(activeBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
                 attackBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
                 attackBG.setTransform(50+activeIncr, scrH-btnH-(btnH+btnSep)*6);
                 break;
             case special:
                 resetButtons();
+                specialBG.graphics.clear();
                 specialBG.graphics.beginFill(activeBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
                 specialBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
                 specialBG.setTransform(50+activeIncr, scrH-btnH-(btnH+btnSep)*5);
                 break;
             case item:
                 resetButtons();
+                itemBG.graphics.clear();
                 itemBG.graphics.beginFill(activeBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
                 itemBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
                 itemBG.setTransform(50+activeIncr, scrH-btnH-(btnH+btnSep)*4);
                 break;
             case runAway:
                 resetButtons();
+                runAwayBG.graphics.clear();
                 runAwayBG.graphics.beginFill(activeBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
                 runAwayBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
                 runAwayBG.setTransform(50+activeIncr, scrH-btnH-(btnH+btnSep)*3);
@@ -331,6 +358,25 @@ function Battle(){
         this.refreshTimer(this.incrActionTime(), maxActionTime);
     };
     
+    var allowEnemyAction = false;
+    
+    Battle.prototype.canEnemyAct = function(){
+        return allowEnemyAction;
+    };
+    
+    Battle.prototype.tickEnemyTimer = function(){
+        if(enemyActionTime < maxEnemyActionTime){
+            allowEnemyAction = false;
+            //console.log(enemyActionTime + " " + maxEnemyActionTime);
+        }else{
+            allowEnemyAction = true;
+            //this.setEnemyActionTime(maxEnemyActionTime);
+            //console.log("enemy ticked");
+            enemyActionTime = 0;
+        }
+        this.incrEnemyActionTime();
+    };
+    
     Battle.prototype.refreshTimer = function(currentTime, maxTime){
         var actWidth = (currentTime/maxTime);
         //attackText.text = actWidth;
@@ -344,27 +390,34 @@ function Battle(){
         
     };
     
+    var guiAdded = false;
     Battle.prototype.showGUI = function(){
-        stage.addChild(playerHealthBarBG);        
-        stage.addChild(enemyHealthBarBG);        
-        stage.addChild(playerHealthBar);        
-        stage.addChild(enemyHealthBar);        
-        
-        stage.addChild(attackBG);
-        stage.addChild(specialBG);
-        stage.addChild(itemBG);
-        stage.addChild(runAwayBG);
-        
-        stage.addChild(actionTimerBG);
-        stage.addChild(actionTimer);
-        
-        stage.addChild(playerNameText);
-        stage.addChild(enemyNameText);
-        
-        stage.addChild(attackText);
-        stage.addChild(specialText);
-        stage.addChild(itemText);
-        stage.addChild(runAwayText);
+        if(!guiAdded){
+            stage.addChild(playerHealthBarBG);        
+            stage.addChild(enemyHealthBarBG);        
+            stage.addChild(playerHealthBar);        
+            stage.addChild(enemyHealthBar);        
+
+            stage.addChild(attackBG);
+            stage.addChild(specialBG);
+            stage.addChild(itemBG);
+            stage.addChild(runAwayBG);
+
+            stage.addChild(actionTimerBG);
+            stage.addChild(actionTimer);
+
+            stage.addChild(playerNameText);
+            stage.addChild(enemyNameText);
+
+            stage.addChild(attackText);
+            stage.addChild(specialText);
+            stage.addChild(itemText);
+            stage.addChild(runAwayText);
+            guiAdded = true;
+            console.log("battle gui added");
+        }else{
+            
+        }
     };
     
     attackText = new createjs.Text("Attack", "20px Arial", "#000");

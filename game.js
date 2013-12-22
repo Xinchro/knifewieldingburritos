@@ -86,7 +86,7 @@ function decToHex(num){
 }
 
 var data = { 
-        images: ["Sprites/poketrainerspin.png"],
+        images: ["Assets/poketrainerspin.png"],
         frames: {width:428/12, height:36},
         animations: {run:[0,2], jump:[5,20,"run"]}
 };
@@ -158,8 +158,12 @@ var canWalkTick = 0;
 var inCity = false;
 var battle;
 
+var music = document.getElementById('music');
+
+var tempPoint = [];
+
 function checkMove(){
-    var tempPoint = [];
+    
     tempPoint = [animation.x/gridScale, animation.y/gridScale];
     //gui.writePlayerLoc("Player loc: " + tempPoint);
     gui.writePlayerLoc("Fought: " + fought[xPosPlayer][yPosPlayer]);
@@ -177,12 +181,12 @@ function checkMove(){
             //break;
         }   
     }
-    if(player){
-        for(var i=0;i<player.getItems().length;i++){
-            var tempItem = player.getItems()[i];
-            //console.log(tempItem.name);
-        }
-    }
+//    if(player){
+//        for(var i=0;i<player.getItems().length;i++){
+//            var tempItem = player.getItems()[i];
+//            //console.log(tempItem.name);
+//        }
+//    }
     if(inCity){
         gui.writeBattleStatus("In city");
         //stage.removeAllChildren();
@@ -198,6 +202,8 @@ function checkMove(){
                         enemy = new Enemy();
                         battle = new Battle();
                         battle.start();
+                        music.pause();
+                        music.currentTime = 0;
                     }
                 }
             }
@@ -208,6 +214,8 @@ function checkMove(){
                 enemy = new Enemy();
                 battle = new Battle();
                 battle.start();
+                music.pause();
+                music.currentTime = 0;
             }
         }
         if(battle){
@@ -215,11 +223,16 @@ function checkMove(){
                 fought[xPosPlayer][yPosPlayer] = true;
                 battle.setEnded();
                 gui.displayDebug();
+                music.play();
+                //var end = new EndScreen();
+                //end.showEndScreen();
                 //input.outOfBattle();
             }else{
                 battle.showGUI();
                 battle.refreshActiveBtn();
                 battle.tickTimer();
+                battle.tickEnemyTimer();
+                enemy.enemyLoop();
             }
         }
     }else{
@@ -336,10 +349,18 @@ function checkMove(){
             //animation.stop();
         }
    }else{
+       upBox.graphics.clear();
+       leftBox.graphics.clear();
+       downBox.graphics.clear();
+       rightBox.graphics.clear();
        upBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+       upBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
        leftBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+       leftBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
        downBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+       downBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
        rightBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+       rightBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
        animation.stop();
        return;
    }

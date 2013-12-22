@@ -13,6 +13,7 @@ function Player(){
     var items = [];
     var specials = [];
     var activeItem;
+    var dead;
     //console.log(health);
     
     Player.prototype.start = function(playerName){
@@ -81,9 +82,19 @@ function Player(){
     
     Player.prototype.decrementHealth = function(decrement){
         if(typeof decrement != 'number'){
-            health--;
+            if(health-1<=0){
+                health = 0;
+                dead = true;
+            }else{
+                health--;
+            }
         }else{
-            health = health - decrement;
+            if(health-decrement<=0){
+                health = 0;
+                dead = true;
+            }else{
+                health = health - decrement;
+            }
         }
     };
     
