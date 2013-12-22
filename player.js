@@ -107,7 +107,7 @@ function Player(){
     };
     
     Player.prototype.useActiveItem = function(){
-        this.activeItem.effect(enemy);
+        this.activeItem.effect(player);
     };
     
     Player.prototype.incrementHealth = function(increment){

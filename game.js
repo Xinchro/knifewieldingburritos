@@ -159,6 +159,7 @@ var inCity = false;
 var battle;
 
 var music = document.getElementById('music');
+music.volume=0;
 
 var tempPoint = [];
 
@@ -268,15 +269,28 @@ function checkMove(){
         }
         if(upEntered){
             if(walk){
-                yPosPlayer--;
-                for(var i=0; i<grid.length;i++){
-                    for(var j=0; j<grid.length;j++){
-                        grid[i][j].y += gridScale;
+                if(yPosPlayer < 1){
+                    yPosPlayer = grid.length - 1;
+                    for(var i=0; i<grid.length;i++){
+                        for(var j=0; j<grid.length;j++){
+                            grid[i][j].y -= gridScale*(grid.length-1);
+                        }
                     }
-                }
-                for(var i=0;i<posGridText.length;i++)
-                {
-                    posGridText[i].y += gridScale;;
+                    for(var i=0;i<posGridText.length;i++)
+                    {
+                        posGridText[i].y -= gridScale*(grid.length-1);
+                    }
+                }else{
+                    yPosPlayer--;
+                    for(var i=0; i<grid.length;i++){
+                        for(var j=0; j<grid.length;j++){
+                            grid[i][j].y += gridScale;
+                        }
+                    }
+                    for(var i=0;i<posGridText.length;i++)
+                    {
+                        posGridText[i].y += gridScale;;
+                    }
                 }
                 animation.play();
                 canWalkTick = 0;
@@ -288,15 +302,28 @@ function checkMove(){
         }
         if(leftEntered){
             if(walk){
-                xPosPlayer--;
-                for(var i=0; i<grid.length;i++){
-                    for(var j=0; j<grid.length;j++){
-                        grid[i][j].x += gridScale;
+                if(xPosPlayer < 1){
+                    xPosPlayer = grid.length - 1;
+                    for(var i=0; i<grid.length;i++){
+                        for(var j=0; j<grid.length;j++){
+                            grid[i][j].x -= gridScale*(grid.length-1);
+                        }
                     }
-                }
-                for(var i=0;i<posGridText.length;i++)
-                {
-                    posGridText[i].x += gridScale;;
+                    for(var i=0;i<posGridText.length;i++)
+                    {
+                        posGridText[i].x -= gridScale*(grid.length-1);
+                    }
+                }else{
+                    xPosPlayer--;
+                    for(var i=0; i<grid.length;i++){
+                        for(var j=0; j<grid.length;j++){
+                            grid[i][j].x += gridScale;
+                        }
+                    }
+                    for(var i=0;i<posGridText.length;i++)
+                    {
+                        posGridText[i].x += gridScale;;
+                    }
                 }
                 animation.play();
                 canWalkTick = 0;
@@ -308,15 +335,28 @@ function checkMove(){
         }
         if(downEntered){
             if(walk){
-                yPosPlayer++;
-                for(var i=0; i<grid.length;i++){
-                    for(var j=0; j<grid.length;j++){
-                        grid[i][j].y -= gridScale;
+                if(yPosPlayer > grid.length-2){
+                    yPosPlayer = 0;
+                    for(var i=0; i<grid.length;i++){
+                        for(var j=0; j<grid.length;j++){
+                            grid[i][j].y += gridScale*(grid.length-1);
+                        }
                     }
-                }
-                for(var i=0;i<posGridText.length;i++)
-                {
-                    posGridText[i].y -= gridScale;;
+                    for(var i=0;i<posGridText.length;i++)
+                    {
+                        posGridText[i].y += gridScale*(grid.length-1);
+                    }
+                }else{
+                    yPosPlayer++;
+                    for(var i=0; i<grid.length;i++){
+                        for(var j=0; j<grid.length;j++){
+                            grid[i][j].y -= gridScale;
+                        }
+                    }
+                    for(var i=0;i<posGridText.length;i++)
+                    {
+                        posGridText[i].y -= gridScale;;
+                    }
                 }
                 animation.play();
                 canWalkTick = 0;
@@ -329,16 +369,29 @@ function checkMove(){
         if(rightEntered){
             if(walk)
             {
-                xPosPlayer++;
-                for(var i=0; i<grid.length;i++){
-                    for(var j=0; j<grid.length;j++){
-                        grid[i][j].x -= gridScale;
+                if(xPosPlayer > grid.length-2){
+                    xPosPlayer = 0;
+                    for(var i=0; i<grid.length;i++){
+                        for(var j=0; j<grid.length;j++){
+                            grid[i][j].x += gridScale*(grid.length-1);
+                        }
+                    }
+                    for(var i=0;i<posGridText.length;i++)
+                    {
+                        posGridText[i].x += gridScale*(grid.length-1);
+                    }
+                }else{
+                    xPosPlayer++;
+                    for(var i=0; i<grid.length;i++){
+                        for(var j=0; j<grid.length;j++){
+                            grid[i][j].x -= gridScale;
+                        }
+                    }
+                    for(var i=0;i<posGridText.length;i++)
+                    {
+                        posGridText[i].x -= gridScale;;
                     }
                 }
-                for(var i=0;i<posGridText.length;i++)
-                {
-                    posGridText[i].x -= gridScale;;
-                }                
                 
                 animation.play();
                 canWalkTick = 0;
