@@ -23,6 +23,9 @@ function Battle(){
     var btnRound = 2;
     var btnSep = btnStrokeTh + 2;
     
+    var playerModel;
+    var enemyModel;
+    
     
     Battle.prototype.start = function(){
         attack = "attack";
@@ -144,12 +147,12 @@ function Battle(){
         //specialText.text = actWidth;
         
         //var playerModel = new createjs.Shape();
-        var playerModel = player.getModel();
+        playerModel = player.getModel();
         //playerModel.graphics.beginBitmapFill(player.getModel());
         playerModel.setTransform(playerNameText.x, playerNameText.y-225, 1.5, 1.5);
         stage.addChild(playerModel);
         
-        var enemyModel = enemy.getModel();
+        enemyModel = enemy.getModel();
         
         enemyModel.setTransform(enemyNameText.x, enemyNameText.y + enemyNameText.getMeasuredHeight() + boxH, 1.5, 1.5);
         stage.addChild(enemyModel);
@@ -212,6 +215,8 @@ function Battle(){
         stage.removeChild(actionTimer);
         stage.removeChild(actionTimerBG);
         stage.removeChild(activeBtn);
+        stage.removeChild(playerModel);
+        stage.removeChild(enemyModel);
     };
     
     Battle.prototype.canStart = function(can){

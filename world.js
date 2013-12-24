@@ -120,7 +120,7 @@ function World(){
         yPosPlayer;
         var sideNum = -8;
         for(var a=0;a<16;a++){
-            if(yPosPlayer+6 < grid.length){
+            if(yPosPlayer+5 < grid.length){
                 sideNum++;
                 if(xPosPlayer+sideNum>-1 && xPosPlayer+sideNum<grid.length){
                     stage.removeChild(grid[xPosPlayer+sideNum][yPosPlayer+6]);
@@ -134,7 +134,7 @@ function World(){
         yPosPlayer;
         var sideNum = -8;
         for(var a=0;a<16;a++){
-            if(yPosPlayer+6 < grid.length){
+            if(yPosPlayer+5 < grid.length){
                 sideNum++;
                 if(xPosPlayer+sideNum>-1 && xPosPlayer+sideNum<grid.length){
                     stage.addChildAt(grid[xPosPlayer+sideNum][yPosPlayer+5], 0);
@@ -148,7 +148,7 @@ function World(){
         yPosPlayer;
         var sideNum = -8;
         for(var a=0;a<16;a++){
-            if(yPosPlayer-6 > -1){
+            if(yPosPlayer-5 > -1){
                 sideNum++;
                 if(xPosPlayer+sideNum>-1 && xPosPlayer+sideNum<grid.length){
                     stage.removeChild(grid[xPosPlayer+sideNum][yPosPlayer-6], 0);
@@ -162,7 +162,7 @@ function World(){
         yPosPlayer;
         var sideNum = -8;
         for(var a=0;a<16;a++){
-            if(yPosPlayer-6 > -1){
+            if(yPosPlayer-5 > -1){
                 sideNum++;
                 if(xPosPlayer+sideNum>-1 && xPosPlayer+sideNum<grid.length){
                     stage.addChildAt(grid[xPosPlayer+sideNum][yPosPlayer-5], 0);
@@ -172,11 +172,11 @@ function World(){
         }
     };
     //5//remove right layer of world 
-    World.prototype.removeLayerFromRight = function(){
+    World.prototype.removeLayerFromRight = function(){        
         xPosPlayer;
         var sideNum = -6;
         for(var a=0;a<12;a++){
-            if(xPosPlayer+8 > -1){
+            if(xPosPlayer+8 < grid.length){
                 sideNum++;
                 if(yPosPlayer+sideNum>-1 && yPosPlayer+sideNum<grid.length){
                     stage.removeChild(grid[xPosPlayer+8][yPosPlayer+sideNum]);
@@ -190,7 +190,7 @@ function World(){
         xPosPlayer;
         var sideNum = -6;
         for(var a=0;a<12;a++){
-            if(xPosPlayer+8 < grid.length){
+            if(xPosPlayer+7 < grid.length){
                 sideNum++;
                 if(yPosPlayer+sideNum>-1 && yPosPlayer+sideNum<grid.length){
                     stage.addChildAt(grid[xPosPlayer+7][yPosPlayer+sideNum], 0);
@@ -204,7 +204,7 @@ function World(){
         xPosPlayer;
         var sideNum = -6;
         for(var a=0;a<12;a++){
-            if(xPosPlayer-8 < grid.length){
+            if(xPosPlayer-8 > -1){
                 sideNum++;
                 if(yPosPlayer+sideNum>-1 && yPosPlayer+sideNum<grid.length){
                     stage.removeChild(grid[xPosPlayer-8][yPosPlayer+sideNum]);
@@ -218,7 +218,7 @@ function World(){
         xPosPlayer;
         var sideNum = -6;
         for(var a=0;a<12;a++){
-            if(xPosPlayer-8 > -1){
+            if(xPosPlayer-7 > -1){
                 sideNum++;
                 if(yPosPlayer+sideNum>-1 && yPosPlayer+sideNum<grid.length){
                     stage.addChildAt(grid[xPosPlayer-7][yPosPlayer+sideNum], 0);
