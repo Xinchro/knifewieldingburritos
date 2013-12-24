@@ -23,12 +23,12 @@ stage.addEventListener("pressup", function(){mouseDown = false;});
 //enable mouse controls
 stage.enableMouseOver(20);
 
-//create shape
-charizard = new createjs.Shape();
-//posx, posy, width, height, scale
-charizard.graphics.beginFill("red").drawCircle(0,0,20);
-//position
-charizard.x = charizard.y = 50;
+////create shape
+//charizard = new createjs.Shape();
+////posx, posy, width, height, scale
+//charizard.graphics.beginFill("red").drawCircle(0,0,20);
+////position
+//charizard.x = charizard.y = 50;
 
 var boxRound = 5;
 var boxStrokeCol = "rgba(255,255,255,1)";
@@ -114,7 +114,7 @@ genFoughtGrid();
 
 var xOff = xPosPlayer = 4*gridScale;
 var yOff = yPosPlayer = 6*gridScale;
-// x5 because science
+
 xPosPlayer = xPosPlayer/20;
 yPosPlayer = yPosPlayer/30;
 
@@ -124,26 +124,28 @@ var cityArr = [];
 
 world.genCities();
 
+world.displayOverworld();
+
 //heart-beat ticker
 createjs.Ticker.addEventListener("tick", ticker);
 
 var delay = 10;
 var tick = 0;
 
-//text, moves charizard every second
+//ticks
 function ticker(){
     tick++;
     
     if(tick >= delay){
-        charizard.x += 10;
-        if(charizard.x > stage.canvas.width){
-            charizard.x = 0;
-        }
-
-        charizard.y += 10;
-        if(charizard.y > stage.canvas.height){
-            charizard.y = 0;
-        }
+//        charizard.x += 10;
+//        if(charizard.x > stage.canvas.width){
+//            charizard.x = 0;
+//        }
+//
+//        charizard.y += 10;
+//        if(charizard.y > stage.canvas.height){
+//            charizard.y = 0;
+//        }
         tick = 0;
     }
     checkMove();
@@ -191,9 +193,8 @@ function checkMove(){
     if(inCity){
         gui.writeBattleStatus("In city");
         //stage.removeAllChildren();
-        world.hideOverworld();
+        //world.hideOverworld();
         gui.hideDebug();
-        input.intoBattle();
         if(battle){
             if(!battle.hasStarted()){
                 if(battle.canStart()){
@@ -202,6 +203,8 @@ function checkMove(){
                     }else{
                         enemy = new Enemy();
                         battle = new Battle();
+                        world.hideOverworld();
+                        input.intoBattle();
                         battle.start();
                         music.pause();
                         music.currentTime = 0;
@@ -214,6 +217,8 @@ function checkMove(){
             }else{
                 enemy = new Enemy();
                 battle = new Battle();
+                world.hideOverworld();
+                input.intoBattle();
                 battle.start();
                 music.pause();
                 music.currentTime = 0;
@@ -222,12 +227,14 @@ function checkMove(){
         if(battle){
             if(enemy.isDead()){
                 fought[xPosPlayer][yPosPlayer] = true;
-                battle.setEnded();
+                if(battle.hasStarted()){
+                    battle.setEnded();
+                    input.outOfBattle();
+                }
                 gui.displayDebug();
                 music.play();
                 //var end = new EndScreen();
                 //end.showEndScreen();
-                //input.outOfBattle();
             }else{
                 battle.showGUI();
                 battle.refreshActiveBtn();
@@ -239,13 +246,16 @@ function checkMove(){
     }else{
         if(battle){
             //if(battle.hasStarted()){
-                battle.setEnded();
+                //battle.setEnded();
             //}
+            if(world.isOverworldHidden()){
+                //world.displayOverworld();
+            }
         }
         //input.outOfBattle();
         //stage.removeAllChildren();
         gui.writeBattleStatus("Not in city");
-        world.displayOverworld();
+        //world.displayOverworld();
         gui.displayDebug();
     }
     
@@ -280,6 +290,8 @@ function checkMove(){
                     {
                         posGridText[i].y -= gridScale*(grid.length-1);
                     }
+                    world.hideOverworld();
+                    world.displayOverworld();
                 }else{
                     yPosPlayer--;
                     for(var i=0; i<grid.length;i++){
@@ -294,7 +306,11 @@ function checkMove(){
                 }
                 animation.play();
                 canWalkTick = 0;
+                upBox.graphics.clear();
                 upBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
+                upBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+                world.removeLayerFromBottom();
+                world.addLayerToTop();
             }
             gui.writeText("Move up");
         }else{
@@ -313,6 +329,8 @@ function checkMove(){
                     {
                         posGridText[i].x -= gridScale*(grid.length-1);
                     }
+                    world.hideOverworld();
+                    world.displayOverworld();
                 }else{
                     xPosPlayer--;
                     for(var i=0; i<grid.length;i++){
@@ -327,7 +345,11 @@ function checkMove(){
                 }
                 animation.play();
                 canWalkTick = 0;
+                leftBox.graphics.clear();
                 leftBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
+                leftBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+                world.addLayerToLeft();
+                world.removeLayerFromRight();
             }
             gui.writeText("Move left");
         }else{
@@ -346,6 +368,8 @@ function checkMove(){
                     {
                         posGridText[i].y += gridScale*(grid.length-1);
                     }
+                    world.hideOverworld();
+                    world.displayOverworld();
                 }else{
                     yPosPlayer++;
                     for(var i=0; i<grid.length;i++){
@@ -360,7 +384,11 @@ function checkMove(){
                 }
                 animation.play();
                 canWalkTick = 0;
+                downBox.graphics.clear();
                 downBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
+                downBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+                world.addLayerToBottom();
+                world.removeLayerFromTop();
             }
             gui.writeText("Move down");
         }else{
@@ -380,6 +408,8 @@ function checkMove(){
                     {
                         posGridText[i].x += gridScale*(grid.length-1);
                     }
+                    world.hideOverworld();
+                    world.displayOverworld();
                 }else{
                     xPosPlayer++;
                     for(var i=0; i<grid.length;i++){
@@ -395,7 +425,11 @@ function checkMove(){
                 
                 animation.play();
                 canWalkTick = 0;
+                rightBox.graphics.clear();
                 rightBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
+                rightBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+                world.addLayerToRight();
+                world.removeLayerFromLeft();
             }
             gui.writeText("Move right");
         }else{
@@ -420,7 +454,7 @@ function checkMove(){
 }
 
 //add charizard as a child to the stage
-stage.addChild(charizard);
+//stage.addChild(charizard);
 stage.addChild(animation);
 
 stage.addChild(upBox);

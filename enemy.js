@@ -11,9 +11,16 @@ function Enemy(){
     var noOfPotions = 3;
     var pwr = 1;
     //console.log(health);
+    var model;
     
-    Enemy.prototype.start = function(playerName){
-        name = playerName;
+    Enemy.prototype.start = function(name){
+        this.name = name;
+        //this.model = "Assets/Models/Burrito1.png";
+    };
+    
+    Enemy.prototype.getModel= function(){
+        model = new createjs.Bitmap("Assets/Models/Burrito1.svg");
+        return model;
     };
     
     Enemy.prototype.setHealth = function(inHealth){

@@ -14,6 +14,7 @@ function Player(){
     var specials = [];
     var activeItem;
     var dead;
+    var model;
     //console.log(health);
     
     Player.prototype.start = function(playerName){
@@ -22,6 +23,13 @@ function Player(){
         potion.setName("potion");
         this.addItem(potion);
         this.activeItem = potion;
+//        this.model = new createjs.Bitmap("Assets/Models/Taco1.svg");
+    };
+    
+    Player.prototype.getModel = function(){
+        console.log("getting player model");
+        model = new createjs.Bitmap("Assets/Models/Taco1.svg");
+        return model;
     };
     
     Player.prototype.addItem = function(item){

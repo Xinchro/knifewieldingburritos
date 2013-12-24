@@ -142,6 +142,19 @@ function Battle(){
         actionTimer.setTransform(actionTimer.x,actionTimer.y,actWidth,1);
         //attackText.text = actionTmrW;
         //specialText.text = actWidth;
+        
+        //var playerModel = new createjs.Shape();
+        var playerModel = player.getModel();
+        //playerModel.graphics.beginBitmapFill(player.getModel());
+        playerModel.setTransform(playerNameText.x, playerNameText.y-225, 1.5, 1.5);
+        stage.addChild(playerModel);
+        
+        var enemyModel = enemy.getModel();
+        
+        enemyModel.setTransform(enemyNameText.x, enemyNameText.y + enemyNameText.getMeasuredHeight() + boxH, 1.5, 1.5);
+        stage.addChild(enemyModel);
+        
+        
         started = true;
     };
     
@@ -157,7 +170,9 @@ function Battle(){
         enemy.decrementHealth(10000);
         started = false;
         inCity = false;
+        //world.displayOverworld();
         world.displayOverworld();
+        console.log("battle ended");
     };
     
     Battle.prototype.useActiveAction = function(){
@@ -339,7 +354,7 @@ function Battle(){
                 break;
         }
         
-        
+        //console.log("battle started"); 
     };
     
     var allowAction = false;

@@ -2,13 +2,17 @@ function Input(){
     document.onkeydown = keyDown;
     document.onkeyup = keyUp;
     
+    var mute = true;
+    
     var inBattle;
     
     Input.prototype.intoBattle = function(){
         inBattle = true;
+        //console.log("input.intobattle in battle " + inBattle);
     };
     Input.prototype.outOfBattle = function(){
         inBattle = false;
+        //console.log("input.outofbattle in battle " + inBattle);
     };
     
      function keyDown(e){
@@ -24,7 +28,7 @@ function Input(){
                     //battle.writeAttackText("Up pressed");
                 }else{
                     if(battle){
-                        battle.setEnded();
+                        //battle.setEnded();
                         battle.canStart(true);
                     }
                     upEntered = true;
@@ -37,7 +41,7 @@ function Input(){
                 if(inBattle){
                 }else{
                     if(battle){
-                        battle.setEnded();
+                        //battle.setEnded();
                         battle.canStart(true);
                     }
                     leftEntered = true;
@@ -52,7 +56,7 @@ function Input(){
                     //battle.writeAttackText("Down pressed");
                 }else{
                     if(battle){
-                        battle.setEnded();
+                        //battle.setEnded();
                         battle.canStart(true);
                     }
                     downEntered = true;
@@ -65,7 +69,7 @@ function Input(){
                 if(inBattle){
                 }else{
                     if(battle){
-                        battle.setEnded();
+                        //battle.setEnded();
                         if(!inCity){
                             battle.canStart(true);
                         }else{
@@ -79,6 +83,17 @@ function Input(){
                 //E
                 var playerHealth = player.getHealth();
                 gui.writeText(playerHealth);
+                break;
+            case 77:
+                //M
+                if(mute){
+                    mute = false;
+                    music.volume = 1;
+                }else{
+                    mute = true;
+                    music.volume = 0;
+                }
+                console.log(mute);
                 break;
             case 82:
                 //R
