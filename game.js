@@ -181,8 +181,8 @@ function ticker(){
     stage.update();
 };
 
-var walk;
-var slowDownWalk = 5;
+var walk = false;
+var slowDownWalk = 1;
 var walkSpeed = 5/slowDownWalk;
 var canWalkTick = 0;
 
@@ -297,6 +297,7 @@ function checkMove(){
     
     if(canWalkTick >= walkSpeed){
         walk = true;
+        console.log("can walk now");
     }else{
         walk = false;
         canWalkTick++;
@@ -306,12 +307,12 @@ function checkMove(){
     if(mouseDown){
         if(battle){
             if(!battle.hasStarted()){
-                walk = true;
+                //walk = true;
             }else{
-                walk = false;
+                //walk = false;
             }
         }else{
-            walk = true;
+            //walk = true;
         }
         if(upEntered){
             if(walk){

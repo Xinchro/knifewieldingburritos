@@ -9,7 +9,7 @@ function Enemy(){
     var name = "Not Taco";
     var dead;
     var noOfPotions = 3;
-    var pwr = 20;
+    var pwr = 5;
     //console.log(health);
     var model;
     

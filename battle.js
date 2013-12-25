@@ -77,8 +77,8 @@ function Battle(){
         playerName = "Not Burrito";
         enemyName = "Not Taco";
         
-        playerHealth = 100;
-        enemyHealth = 100;
+        playerHealth = player.getHealth();
+        enemyHealth = enemy.getHealth();
         
         var boxStrokeTh = 2;
         var boxW = 200;
@@ -156,6 +156,7 @@ function Battle(){
         
         enemyModel.setTransform(enemyNameText.x, enemyNameText.y + enemyNameText.getMeasuredHeight() + boxH);
         stage.addChild(enemyModel);
+        this.refreshHealthBars();
         
         
         started = true;
