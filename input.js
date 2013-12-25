@@ -89,9 +89,11 @@ function Input(){
                 if(mute){
                     mute = false;
                     music.volume = 1;
+                    battleMusic.volume = 1;
                 }else{
                     mute = true;
                     music.volume = 0;
+                    battleMusic.volume = 0;
                 }
                 console.log(mute);
                 break;
@@ -130,29 +132,13 @@ function Input(){
             case 72:
                 //H
                 gui.writeText("H pressed");
+                console.log("H pressed");
                 if(!debugTime){
-                    for(var i=0;i<posGridText.length;i++)
-                    {
-                        posGridText[i].visible = false;
-                    }
-                    debugText.visible = false;
-                    playerLocText.visible = false;
-                    walkTickText.visible = false;
-                    battleStatusText.visible = false;
-                    playerPosText.visible = false;
+                    gui.displayDebug();
 
                     debugTime = true;
                 }else{
-                    for(var i=0;i<posGridText.length;i++)
-                    {
-                        posGridText[i].visible = true;
-                    }
-
-                    debugText.visible = true;
-                    playerLocText.visible = true;
-                    walkTickText.visible = true;
-                    battleStatusText.visible = true;
-                    playerPosText.visible = true;
+                    gui.hideDebug();
                     
                     debugTime = false;
                 }

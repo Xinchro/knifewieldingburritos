@@ -100,6 +100,7 @@ function Player(){
             if(health-decrement<=0){
                 health = 0;
                 dead = true;
+                showEndScreen();
             }else{
                 health = health - decrement;
             }

@@ -149,12 +149,12 @@ function Battle(){
         //var playerModel = new createjs.Shape();
         playerModel = player.getModel();
         //playerModel.graphics.beginBitmapFill(player.getModel());
-        playerModel.setTransform(playerNameText.x, playerNameText.y-225, 1.5, 1.5);
+        playerModel.setTransform(playerNameText.x, playerNameText.y-225);
         stage.addChild(playerModel);
         
         enemyModel = enemy.getModel();
         
-        enemyModel.setTransform(enemyNameText.x, enemyNameText.y + enemyNameText.getMeasuredHeight() + boxH, 1.5, 1.5);
+        enemyModel.setTransform(enemyNameText.x, enemyNameText.y + enemyNameText.getMeasuredHeight() + boxH);
         stage.addChild(enemyModel);
         
         
@@ -165,12 +165,21 @@ function Battle(){
         return started;
     };
     
+    Battle.prototype.gameOver = function(){
+        createjs.Ticker.removeAllEventListeners();
+        removePreviousBattle();
+        enemy.setDead();
+        inCity = false;
+        console.log("battle game over");
+    };
+    
     Battle.prototype.setEnded = function(){
         //activeBtn = attack;
         this.refreshActiveBtn();
         removePreviousBattle();
         input.outOfBattle();
-        enemy.decrementHealth(10000);
+        //enemy.decrementHealth(10000);
+        enemy.setDead();
         started = false;
         inCity = false;
         //world.displayOverworld();
@@ -192,6 +201,7 @@ function Battle(){
                 break;
             case runAway:
                 this.setEnded();
+                timesRunAway++;
                 fought[xPosPlayer][yPosPlayer] = true;
                 break;
         }

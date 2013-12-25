@@ -9,7 +9,7 @@ function Enemy(){
     var name = "Not Taco";
     var dead;
     var noOfPotions = 3;
-    var pwr = 1;
+    var pwr = 20;
     //console.log(health);
     var model;
     
@@ -71,6 +71,8 @@ function Enemy(){
             if(health-decrement<=0){
                 health = 0;
                 dead = true;
+                enemiesKilled++;
+                console.log("enemy killed");
             }else{
                 health = health - decrement;
             }
@@ -114,6 +116,10 @@ function Enemy(){
             console.log("enemy uses normal attack " + randChance + " " + chanceModifier);
         }
     };
+    
+    Enemy.prototype.setDead = function(){
+        dead = true;
+    }
     
     var chanceIncreased = false;
     

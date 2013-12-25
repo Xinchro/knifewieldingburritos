@@ -65,19 +65,33 @@ function GUI(){
     };
     
     GUI.prototype.displayDebug = function(){
-        stage.addChild(debugText);
-        stage.addChild(playerLocText);
-        stage.addChild(playerPosText);
-        stage.addChild(walkTickText);
-        stage.addChild(battleStatusText);
+//        stage.addChild(debugText);
+//        stage.addChild(playerLocText);
+//        stage.addChild(playerPosText);
+//        stage.addChild(walkTickText);
+//        stage.addChild(battleStatusText);
+        debugText.visible = true;
+        playerLocText.visible = true;
+        playerPosText.visible = true;
+        walkTickText.visible = true;
+        battleStatusText.visible = true;
+        for(var i=0;i<posGridText.length;i++)
+        {
+            posGridText[i].visible = true;
+        }
     };
     
     GUI.prototype.hideDebug = function(){
-        stage.removeChild(debugText);
-        stage.removeChild(playerLocText);
-        stage.removeChild(playerPosText);
-        stage.removeChild(walkTickText);
-        stage.removeChild(battleStatusText);
+        debugText.visible = false;
+        playerLocText.visible = false;
+        playerPosText.visible = false;
+        walkTickText.visible = false;
+        battleStatusText.visible = false;
+        for(var i=0;i<posGridText.length;i++)
+        {
+            posGridText[i].visible = false;
+        }
+        //console.log("bai debug");
     };
     
 }

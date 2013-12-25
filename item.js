@@ -20,6 +20,7 @@ function Item(){
                 }else{
                     console.log(Object.prototype.toString.call(target));
                 }
+                potionsUsed++;
                 break;
         }
     };

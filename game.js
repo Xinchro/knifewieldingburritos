@@ -44,8 +44,12 @@ var applesGoByeBye = false;
 var debugTime = false;
 
 var player = new Player();
-player.start("hullo");
+player.start("Not Burrito");
 var enemy;
+
+var enemiesKilled = 0;
+var timesRunAway = 0;
+var potionsUsed = 0;
 
 var world = new World();
 
@@ -85,17 +89,42 @@ function decToHex(num){
     return finalNum;
 }
 
-var data = { 
-        images: ["Assets/poketrainerspin.png"],
-        frames: {width:428/12, height:36},
-        animations: {run:[0,2], jump:[5,20,"run"]}
-};
+//var data = { 
+//        images: ["Assets/poketrainerspin.png"],
+//        frames: {width:428/12, height:36},
+//        animations: {run:[0,2], jump:[5,20,"run"]}
+//};
 
-var spriteSheet = new createjs.SpriteSheet(data);
-var animation = new createjs.Sprite(spriteSheet, "run");
+//var spriteSheet = new createjs.SpriteSheet(data);
+//var animation = new createjs.Sprite(spriteSheet, "run");
+var animation = new createjs.Bitmap("Assets/Models/Taco1Overworld.png");
 animation.setTransform(2*gridScale,2*gridScale,1.4,1.4);
 animation.setBounds(animation.x, animation.y, animation.x-gridScale, animation.y-gridScale);
-animation.setTransform(((scrW/2)-((animation.getBounds().width)/2)),((scrH/2)-((animation.getBounds().height)/2)),1.4,1.4);
+animation.setTransform(((scrW/2)-((animation.getBounds().width)/2)),((scrH/2)-((animation.getBounds().height)/2)));
+
+    var bitmap = new createjs.Bitmap("Assets/Models/Taco1Overworld.png");
+    
+    var bmp2 = bitmap.clone();
+    bmp2.regY = 50;
+    bmp2.rotation = 180;
+    bmp2.y = 50 + 2;
+    bmp2.scaleX = -1;
+    
+    var maskShape = new createjs.Shape();
+    var g = maskShape.graphics;
+    g.beginLinearGradientFill(["rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 0)"], [0, 1], 0, 0, 0, 50);
+    g.drawRect(0, 0, 50, 50);
+    g.endFill();
+    
+    maskShape.cache(0, 0, 50, 50);
+    
+    var amf = new createjs.AlphaMaskFilter(maskShape.cacheCanvas);
+    bmp2.filters = [amf];
+    bmp2.cache(0, 0, 50, 50);
+    
+
+    stage.update();
+
 
 var gridSize = worldSize;
 grid = create2DArr(gridSize);
@@ -162,6 +191,9 @@ var battle;
 
 var music = document.getElementById('music');
 music.volume=0;
+var battleMusic = document.getElementById('battleMusic');
+battleMusic.pause();
+battleMusic.volume=0;
 
 var tempPoint = [];
 
@@ -208,6 +240,7 @@ function checkMove(){
                         battle.start();
                         music.pause();
                         music.currentTime = 0;
+                        battleMusic.play();
                     }
                 }
             }
@@ -222,6 +255,7 @@ function checkMove(){
                 battle.start();
                 music.pause();
                 music.currentTime = 0;
+                battleMusic.play();
             }
         }
         if(battle){
@@ -231,8 +265,10 @@ function checkMove(){
                     battle.setEnded();
                     input.outOfBattle();
                 }
-                gui.displayDebug();
+                //gui.displayDebug();
                 music.play();
+                battleMusic.pause();
+                battleMusic.currentTime = 0;
                 //var end = new EndScreen();
                 //end.showEndScreen();
             }else{
@@ -256,7 +292,7 @@ function checkMove(){
         //stage.removeAllChildren();
         gui.writeBattleStatus("Not in city");
         //world.displayOverworld();
-        gui.displayDebug();
+        //gui.displayDebug();
     }
     
     if(canWalkTick >= walkSpeed){
@@ -304,7 +340,7 @@ function checkMove(){
                         posGridText[i].y += gridScale;;
                     }
                 }
-                animation.play();
+                //animation.play();
                 canWalkTick = 0;
                 upBox.graphics.clear();
                 upBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
@@ -343,7 +379,7 @@ function checkMove(){
                         posGridText[i].x += gridScale;;
                     }
                 }
-                animation.play();
+                //animation.play();
                 canWalkTick = 0;
                 leftBox.graphics.clear();
                 leftBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
@@ -382,7 +418,7 @@ function checkMove(){
                         posGridText[i].y -= gridScale;;
                     }
                 }
-                animation.play();
+                //animation.play();
                 canWalkTick = 0;
                 downBox.graphics.clear();
                 downBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
@@ -423,7 +459,7 @@ function checkMove(){
                     }
                 }
                 
-                animation.play();
+                //animation.play();
                 canWalkTick = 0;
                 rightBox.graphics.clear();
                 rightBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
@@ -448,14 +484,23 @@ function checkMove(){
        downBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
        rightBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
        rightBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-       animation.stop();
+       //animation.stop();
        return;
    }
 }
 
+function showEndScreen(){
+    var end = new EndScreen();
+    battle.gameOver();
+    end.showEndScreen();
+};
+
 //add charizard as a child to the stage
 //stage.addChild(charizard);
 stage.addChild(animation);
+
+    stage.addChild(bmp2);
+    stage.addChild(bitmap);
 
 stage.addChild(upBox);
 stage.addChild(leftBox);
@@ -468,5 +513,7 @@ stage.addChild(walkTickText);
 stage.addChild(battleStatusText);
 stage.addChild(playerLocText);
 stage.addChild(playerPosText);
+gui.hideDebug();
+debugTime = false;
 //update the graphics
 stage.update();
