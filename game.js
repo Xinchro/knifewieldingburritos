@@ -97,34 +97,10 @@ function decToHex(num){
 
 //var spriteSheet = new createjs.SpriteSheet(data);
 //var animation = new createjs.Sprite(spriteSheet, "run");
-var animation = new createjs.Bitmap("Assets/Models/Taco1Overworld.png");
+var animation = new createjs.Bitmap("Assets/Models/Taco1Overworld.svg");
 animation.setTransform(2*gridScale,2*gridScale,1.4,1.4);
 animation.setBounds(animation.x, animation.y, animation.x-gridScale, animation.y-gridScale);
 animation.setTransform(((scrW/2)-((animation.getBounds().width)/2)),((scrH/2)-((animation.getBounds().height)/2)));
-
-    var bitmap = new createjs.Bitmap("Assets/Models/Taco1Overworld.png");
-    
-    var bmp2 = bitmap.clone();
-    bmp2.regY = 50;
-    bmp2.rotation = 180;
-    bmp2.y = 50 + 2;
-    bmp2.scaleX = -1;
-    
-    var maskShape = new createjs.Shape();
-    var g = maskShape.graphics;
-    g.beginLinearGradientFill(["rgba(255, 255, 255, 1)", "rgba(255, 255, 255, 0)"], [0, 1], 0, 0, 0, 50);
-    g.drawRect(0, 0, 50, 50);
-    g.endFill();
-    
-    maskShape.cache(0, 0, 50, 50);
-    
-    var amf = new createjs.AlphaMaskFilter(maskShape.cacheCanvas);
-    bmp2.filters = [amf];
-    bmp2.cache(0, 0, 50, 50);
-    
-
-    stage.update();
-
 
 var gridSize = worldSize;
 grid = create2DArr(gridSize);
@@ -343,9 +319,6 @@ function showEndScreen(){
 //add charizard as a child to the stage
 //stage.addChild(charizard);
 stage.addChild(animation);
-
-stage.addChild(bmp2);
-stage.addChild(bitmap);
 
 stage.addChild(upBox);
 stage.addChild(leftBox);
