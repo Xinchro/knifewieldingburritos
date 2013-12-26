@@ -60,6 +60,7 @@ function Enemy(){
     };
     
     Enemy.prototype.decrementHealth = function(decrement){
+        console.log("enemy health going from " + health + " because " + decrement);
         if(typeof decrement != 'number'){
             if(health-1<=0){
                 health = 0;
@@ -77,6 +78,7 @@ function Enemy(){
                 health = health - decrement;
             }
         }
+        console.log("to " + health);
     };
     
     Enemy.prototype.incrementHealth = function(increment){
@@ -110,16 +112,16 @@ function Enemy(){
         var randChance = Math.floor((Math.random()*chanceModifier)+1);
         if(randChance === 1){
             this.specialAttack(player);
-            console.log("enemy uses special attack " + randChance + " " + chanceModifier);
+            //console.log("enemy uses special attack " + randChance + " " + chanceModifier);
         }else{
             this.attack(player);
-            console.log("enemy uses normal attack " + randChance + " " + chanceModifier);
+            //console.log("enemy uses normal attack " + randChance + " " + chanceModifier);
         }
     };
     
     Enemy.prototype.setDead = function(){
         dead = true;
-    }
+    };
     
     var chanceIncreased = false;
     

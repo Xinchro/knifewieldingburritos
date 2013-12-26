@@ -6,9 +6,9 @@ function Item(){
     Item.prototype.effect = function(target){
         target instanceof Player;   
         switch(this.name.toLowerCase()){
-            case "ultraPotion":
+            case "ultra potion":
             potency = 3;
-            case "betterPotion":
+            case "better potion":
             potency = 2;
             case "potion":
                 if(target instanceof Enemy){

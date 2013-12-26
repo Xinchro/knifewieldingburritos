@@ -297,7 +297,7 @@ function checkMove(){
     
     if(canWalkTick >= walkSpeed){
         walk = true;
-        console.log("can walk now");
+        //console.log("can walk now");
     }else{
         walk = false;
         canWalkTick++;
@@ -314,164 +314,8 @@ function checkMove(){
         }else{
             //walk = true;
         }
-        if(upEntered){
-            if(walk){
-                if(yPosPlayer < 1){
-                    yPosPlayer = grid.length - 1;
-                    for(var i=0; i<grid.length;i++){
-                        for(var j=0; j<grid.length;j++){
-                            grid[i][j].y -= gridScale*(grid.length-1);
-                        }
-                    }
-                    for(var i=0;i<posGridText.length;i++)
-                    {
-                        posGridText[i].y -= gridScale*(grid.length-1);
-                    }
-                    world.hideOverworld();
-                    world.displayOverworld();
-                }else{
-                    yPosPlayer--;
-                    for(var i=0; i<grid.length;i++){
-                        for(var j=0; j<grid.length;j++){
-                            grid[i][j].y += gridScale;
-                        }
-                    }
-                    for(var i=0;i<posGridText.length;i++)
-                    {
-                        posGridText[i].y += gridScale;;
-                    }
-                }
-                //animation.play();
-                canWalkTick = 0;
-                upBox.graphics.clear();
-                upBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
-                upBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-                world.removeLayerFromBottom();
-                world.addLayerToTop();
-            }
-            gui.writeText("Move up");
-        }else{
-            //animation.stop();
-        }
-        if(leftEntered){
-            if(walk){
-                if(xPosPlayer < 1){
-                    xPosPlayer = grid.length - 1;
-                    for(var i=0; i<grid.length;i++){
-                        for(var j=0; j<grid.length;j++){
-                            grid[i][j].x -= gridScale*(grid.length-1);
-                        }
-                    }
-                    for(var i=0;i<posGridText.length;i++)
-                    {
-                        posGridText[i].x -= gridScale*(grid.length-1);
-                    }
-                    world.hideOverworld();
-                    world.displayOverworld();
-                }else{
-                    xPosPlayer--;
-                    for(var i=0; i<grid.length;i++){
-                        for(var j=0; j<grid.length;j++){
-                            grid[i][j].x += gridScale;
-                        }
-                    }
-                    for(var i=0;i<posGridText.length;i++)
-                    {
-                        posGridText[i].x += gridScale;;
-                    }
-                }
-                //animation.play();
-                canWalkTick = 0;
-                leftBox.graphics.clear();
-                leftBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
-                leftBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-                world.addLayerToLeft();
-                world.removeLayerFromRight();
-            }
-            gui.writeText("Move left");
-        }else{
-            //animation.stop();
-        }
-        if(downEntered){
-            if(walk){
-                if(yPosPlayer > grid.length-2){
-                    yPosPlayer = 0;
-                    for(var i=0; i<grid.length;i++){
-                        for(var j=0; j<grid.length;j++){
-                            grid[i][j].y += gridScale*(grid.length-1);
-                        }
-                    }
-                    for(var i=0;i<posGridText.length;i++)
-                    {
-                        posGridText[i].y += gridScale*(grid.length-1);
-                    }
-                    world.hideOverworld();
-                    world.displayOverworld();
-                }else{
-                    yPosPlayer++;
-                    for(var i=0; i<grid.length;i++){
-                        for(var j=0; j<grid.length;j++){
-                            grid[i][j].y -= gridScale;
-                        }
-                    }
-                    for(var i=0;i<posGridText.length;i++)
-                    {
-                        posGridText[i].y -= gridScale;;
-                    }
-                }
-                //animation.play();
-                canWalkTick = 0;
-                downBox.graphics.clear();
-                downBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
-                downBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-                world.addLayerToBottom();
-                world.removeLayerFromTop();
-            }
-            gui.writeText("Move down");
-        }else{
-            //animation.stop();
-        }
-        if(rightEntered){
-            if(walk)
-            {
-                if(xPosPlayer > grid.length-2){
-                    xPosPlayer = 0;
-                    for(var i=0; i<grid.length;i++){
-                        for(var j=0; j<grid.length;j++){
-                            grid[i][j].x += gridScale*(grid.length-1);
-                        }
-                    }
-                    for(var i=0;i<posGridText.length;i++)
-                    {
-                        posGridText[i].x += gridScale*(grid.length-1);
-                    }
-                    world.hideOverworld();
-                    world.displayOverworld();
-                }else{
-                    xPosPlayer++;
-                    for(var i=0; i<grid.length;i++){
-                        for(var j=0; j<grid.length;j++){
-                            grid[i][j].x -= gridScale;
-                        }
-                    }
-                    for(var i=0;i<posGridText.length;i++)
-                    {
-                        posGridText[i].x -= gridScale;;
-                    }
-                }
-                
-                //animation.play();
-                canWalkTick = 0;
-                rightBox.graphics.clear();
-                rightBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
-                rightBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-                world.addLayerToRight();
-                world.removeLayerFromLeft();
-            }
-            gui.writeText("Move right");
-        }else{
-            //animation.stop();
-        }
+        input.doKeyActions();
+
    }else{
        upBox.graphics.clear();
        leftBox.graphics.clear();
@@ -500,8 +344,8 @@ function showEndScreen(){
 //stage.addChild(charizard);
 stage.addChild(animation);
 
-    stage.addChild(bmp2);
-    stage.addChild(bitmap);
+stage.addChild(bmp2);
+stage.addChild(bitmap);
 
 stage.addChild(upBox);
 stage.addChild(leftBox);

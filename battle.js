@@ -15,6 +15,7 @@ function Battle(){
     var canStart;
     var started;
     var activeBtn;
+    var activeBtnIndex;
     
     var btnStrokeCol = "rgba(0,0,0,255)";
     var btnStrokeTh = 2;
@@ -32,6 +33,8 @@ function Battle(){
         special = "special";
         item = "item";
         runAway = "run away";
+        
+        activeBtnIndex = 0;
         
         activeBtn = attack;
         
@@ -158,7 +161,6 @@ function Battle(){
         stage.addChild(enemyModel);
         this.refreshHealthBars();
         
-        
         started = true;
     };
     
@@ -194,13 +196,14 @@ function Battle(){
                 player.attack(enemy);
                 break;
             case special:
-                //player.useSpecial(enemy);
+                player.useSpecial(enemy);
                 break;
             case item:
                 //use active item
                 player.useActiveItem();
                 break;
             case runAway:
+                this.setActionTime(0);
                 this.setEnded();
                 timesRunAway++;
                 fought[xPosPlayer][yPosPlayer] = true;
@@ -288,15 +291,19 @@ function Battle(){
         switch(activeBtn){
             case attack:
                 activeBtn = special;
+                activeBtnIndex = 1;
                 break;
             case special:
                 activeBtn = item;
+                activeBtnIndex = 2;
                 break;
             case item:
                 activeBtn = runAway;
+                activeBtnIndex = 3;
                 break;
             case runAway:
                 activeBtn = attack;
+                activeBtnIndex = 0;
                 break;
         }
     };
@@ -305,17 +312,25 @@ function Battle(){
         switch(activeBtn){
             case attack:
                 activeBtn = runAway;
+                activeBtnIndex = 3;
                 break;
             case special:
                 activeBtn = attack;
+                activeBtnIndex = 0;
                 break;
             case item:
                 activeBtn = special;
+                activeBtnIndex = 1;
                 break;
             case runAway:
                 activeBtn = item;
+                activeBtnIndex = 2;
                 break;
         }
+    };
+    
+    Battle.prototype.getActiveBtnIndex = function(){
+        return activeBtnIndex;
     };
     
     resetButtons = function(){
