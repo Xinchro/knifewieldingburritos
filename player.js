@@ -9,6 +9,7 @@ function Player(){
     var items = [];
     var specials = [];
     var activeItem, activeSpecial;
+    var stockSpecials = [];
     var dead;
     var model;
     
@@ -65,8 +66,7 @@ function Player(){
     };
     
     Player.prototype.nextItem = function(){
-        if(this.activeItem === ""){
-        }else if(!this.activeItem){
+        if(!this.activeItem){
             this.activeItem = items[0];
         }else{
             var currentIndex;
@@ -86,8 +86,7 @@ function Player(){
     };
     
     Player.prototype.prevItem = function(){
-        if(this.activeItem === ""){
-        }else if(!this.activeItem){
+        if(!this.activeItem){
             this.activeItem = items[items.length-1];
         }else{
             var currentIndex;
@@ -116,6 +115,7 @@ function Player(){
     
     Player.prototype.addSpecial = function(special){
         specials.push(special);
+        stockSpecials.push(special);
     };
     
     Player.prototype.removeSpecial = function(special){
@@ -125,27 +125,26 @@ function Player(){
                 tempNo = i;
             }
         }
-        console.log("special removed  at " + tempNo + " " + specials[tempNo].getName());
-        console.log(this.activeSpecial.getName());        
+        //console.log("special removed  at " + tempNo + " " + specials[tempNo].getName());
+        //console.log(this.activeSpecial.getName());        
         specials.splice(tempNo, 1);
         if(specials.length === 0){
-            console.log("changing text to specials");
-            this.activeSpecial = "";
+            //console.log("changing text to specials");
+            this.activeSpecial = null;
             battle.writeSpecialText("Specials");
         }else if(tempNo+1 >= specials.length){
             this.activeSpecial = specials[0];
-            console.log("active special forced to items[0]");
+            //console.log("active special forced to items[0]");
             battle.writeSpecialText(this.activeSpecial.getName());
         }else if(tempNo+1 < specials.length){
             this.activeSpecial = specials[tempNo];
-            console.log("active special set to specials["+tempNo+"]");
+            //console.log("active special set to specials["+tempNo+"]");
             battle.writeSpecialText(this.activeSpecial.getName());
         }
     };
     
     Player.prototype.nextSpecial = function(){
-        if(this.activeSpecial === ""){
-        }else if(!this.activeSpecial){
+        if(!this.activeSpecial){
             this.activeSpecial = specials[0];
         }else{
             var currentIndex;
@@ -165,8 +164,7 @@ function Player(){
     };
     
     Player.prototype.prevSpecial = function(){
-        if(this.activeSpecial === ""){
-        }else if(!this.activeSpecial){
+        if(!this.activeSpecial){
             this.activeSpecial = specials[specials.length-1];
         }else{
             var currentIndex;
@@ -187,6 +185,30 @@ function Player(){
     
     Player.prototype.getActiveSpecial = function(){
         return this.activeSpecial;
+    };
+    
+    Player.prototype.resetSpecials = function(){
+        var okayToAdd = false;
+        for(var i=0;i<stockSpecials.length;i++){
+            for(var j=0;j<specials.length;j++){
+                //console.log("Stock specials " + stockSpecials[i].getName() + " Specials " + specials[j].getName());
+                if(stockSpecials[i].getName() === specials[j].getName()){
+                    okayToAdd = false;
+                    //console.log("Specials match, setting false");
+                    break;
+                }else{
+                    okayToAdd = true;
+                    //console.log("Specials do not match, setting true");
+                }
+            }
+            if(okayToAdd || specials.length === 0){
+                specials.push(stockSpecials[i]);
+                console.log("Adding special " + stockSpecials[i].getName());
+            }else{
+                console.log("Special already available " + stockSpecials[i].getName());
+            }
+        }
+        console.log(specials.length);
     };
     
     Player.prototype.setHealth = function(inHealth){

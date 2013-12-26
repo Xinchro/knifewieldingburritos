@@ -183,6 +183,7 @@ function Battle(){
         input.outOfBattle();
         //enemy.decrementHealth(10000);
         enemy.setDead();
+        player.resetSpecials();
         started = false;
         inCity = false;
         //world.displayOverworld();

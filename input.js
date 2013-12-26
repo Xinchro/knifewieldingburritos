@@ -42,13 +42,13 @@ function Input(){
                     if(battle.getActiveBtnIndex() === 1){
                         //specials
                         player.prevSpecial();
-                        if(player.getActiveSpecial() !== ""){
+                        if(player.getActiveSpecial()){
                             battle.writeSpecialText(player.getActiveSpecial().getName());
                         }
                     }else if(battle.getActiveBtnIndex() === 2){
                         //items
                         player.prevItem();
-                        if(player.getActiveItem() !== ""){
+                        if(player.getActiveItem()){
                             battle.writeItemText(player.getActiveItem().getName());
                         }
                     }else{
@@ -85,13 +85,13 @@ function Input(){
                     if(battle.getActiveBtnIndex() === 1){
                         //specials
                         player.nextSpecial();
-                        if(player.getActiveSpecial() !== ""){
+                        if(player.getActiveSpecial()){
                             battle.writeSpecialText(player.getActiveSpecial().getName());
                         }
                     }else if(battle.getActiveBtnIndex() === 2){
                         //items
                         player.nextItem();
-                        if(player.getActiveItem() !== ""){
+                        if(player.getActiveItem()){
                             battle.writeItemText(player.getActiveItem().getName());
                         }
                     }else{
