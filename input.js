@@ -41,10 +41,16 @@ function Input(){
                 if(inBattle){
                     if(battle.getActiveBtnIndex() === 1){
                         //specials
-                        //player.prevSpecial();
+                        player.prevSpecial();
+                        if(player.getActiveSpecial() !== ""){
+                            battle.writeSpecialText(player.getActiveSpecial().getName());
+                        }
                     }else if(battle.getActiveBtnIndex() === 2){
                         //items
-                        //player.prevItem();
+                        player.prevItem();
+                        if(player.getActiveItem() !== ""){
+                            battle.writeItemText(player.getActiveItem().getName());
+                        }
                     }else{
                         console.log("not item or special");
                     }
@@ -78,7 +84,10 @@ function Input(){
                 if(inBattle){
                     if(battle.getActiveBtnIndex() === 1){
                         //specials
-                        //player.nextSpecial();
+                        player.nextSpecial();
+                        if(player.getActiveSpecial() !== ""){
+                            battle.writeSpecialText(player.getActiveSpecial().getName());
+                        }
                     }else if(battle.getActiveBtnIndex() === 2){
                         //items
                         player.nextItem();

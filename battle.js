@@ -334,18 +334,26 @@ function Battle(){
     };
     
     resetButtons = function(){
+        attackText.x = attackBG.x - Math.floor(attackText.getMeasuredWidth()/2) + btnW/2 + btnStrokeTh/2;
+        attackText.y = attackBG.y - Math.floor(attackText.getMeasuredHeight()/2) + btnH/2 + btnStrokeTh/2;
         attackBG.graphics.clear();
         attackBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         attackBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         attackBG.setTransform(50, scrH-btnH-(btnH+btnSep)*6);
+        specialText.x = specialBG.x - Math.floor(specialText.getMeasuredWidth()/2) + btnW/2 + btnStrokeTh/2;
+        specialText.y = specialBG.y - Math.floor(specialText.getMeasuredHeight()/2) + btnH/2 + btnStrokeTh/2;
         specialBG.graphics.clear();
         specialBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         specialBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         specialBG.setTransform(50, scrH-btnH-(btnH+btnSep)*5);
+        itemText.x = itemBG.x - Math.floor(itemText.getMeasuredWidth()/2) + btnW/2 + btnStrokeTh/2;
+        itemText.y = itemBG.y - Math.floor(itemText.getMeasuredHeight()/2) + btnH/2 + btnStrokeTh/2;
         itemBG.graphics.clear();
         itemBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         itemBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         itemBG.setTransform(50, scrH-btnH-(btnH+btnSep)*4);
+        runAwayText.x = runAwayBG.x - Math.floor(runAwayText.getMeasuredWidth()/2) + btnW/2 + btnStrokeTh/2;
+        runAwayText.y = runAwayBG.y - Math.floor(runAwayText.getMeasuredHeight()/2) + btnH/2 + btnStrokeTh/2;
         runAwayBG.graphics.clear();
         runAwayBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         runAwayBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
@@ -471,6 +479,8 @@ function Battle(){
     attackText.y = 20;
     Battle.prototype.writeAttackText = function(text){
         attackText.text= text;
+        attackText.x = attackBG.x - Math.floor(attackText.getMeasuredWidth()/2) + btnW/2 + btnStrokeTh/2;
+        attackText.y = attackBG.y - Math.floor(attackText.getMeasuredHeight()/2) + btnH/2 + btnStrokeTh/2;
     };
     
     specialText = new createjs.Text("Specials", "20px Arial", "#000");
@@ -478,6 +488,8 @@ function Battle(){
     specialText.y = 40;
     Battle.prototype.writeSpecialText = function(text){
         specialText.text= text;
+        specialText.x = specialBG.x - Math.floor(specialText.getMeasuredWidth()/2) + btnW/2 + btnStrokeTh/2;
+        specialText.y = specialBG.y - Math.floor(specialText.getMeasuredHeight()/2) + btnH/2 + btnStrokeTh/2;
     };
     
     itemText = new createjs.Text("Items", "20px Arial", "#000");
@@ -485,6 +497,8 @@ function Battle(){
     itemText.y = 60;
     Battle.prototype.writeItemText = function(text){
         itemText.text= text;
+        itemText.x = itemBG.x - Math.floor(itemText.getMeasuredWidth()/2) + btnW/2 + btnStrokeTh/2;
+        itemText.y = itemBG.y - Math.floor(itemText.getMeasuredHeight()/2) + btnH/2 + btnStrokeTh/2;
     };
     
     runAwayText = new createjs.Text("Run!", "20px Arial", "#000");
@@ -492,6 +506,8 @@ function Battle(){
     runAwayText.y = 80;
     Battle.prototype.writeRunAwayText = function(text){
         runAwayText.text= text;
+        runAwayText.x = runAwayBG.x - Math.floor(runAwayText.getMeasuredWidth()/2) + btnW/2 + btnStrokeTh/2;
+        runAwayText.y = runAwayBG.y - Math.floor(runAwayText.getMeasuredHeight()/2) + btnH/2 + btnStrokeTh/2;
     };
     
 }

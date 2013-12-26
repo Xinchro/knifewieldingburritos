@@ -21,11 +21,17 @@ function Player(){
         var betPotion = new Item();
         betPotion.setName("Better Potion");
         this.addItem(betPotion);
+        var ulPotion = new Item();
+        ulPotion.setName("Ultra Potion");
+        this.addItem(ulPotion);
         
         var dAtk = new Special();
         dAtk.setName("Double Attack");
         this.addSpecial(dAtk);
-        this.activeSpecial = dAtk;
+        var tAtk = new Special();
+        tAtk.setName("Triple Attack");
+        this.addSpecial(tAtk);
+        //this.activeSpecial = dAtk;
     };
     
     Player.prototype.getModel = function(){
@@ -40,60 +46,63 @@ function Player(){
     
     Player.prototype.removeItem = function(item){
         var tempNo;
-        //console.log(item);
         for(var i=0;i<items.length;i++){
             if(item.getName() === items[i].getName()){
                 tempNo = i;
             }
         }
-        console.log("item removed  at " + tempNo + " " + items[tempNo].getName());
-        console.log(this.activeItem.getName());        
         items.splice(tempNo, 1);
         if(items.length === 0){
-            console.log("changing text to items");
             this.activeItem = "";
             battle.writeItemText("Items");
         }else if(tempNo+1 >= items.length){
             this.activeItem = items[0];
-            console.log("active item forced to items[0]");
             battle.writeItemText(this.activeItem.getName());
         }else if(tempNo+1 < items.length){
             this.activeItem = items[tempNo];
-            console.log("active item set to items["+tempNo+"]");
             battle.writeItemText(this.activeItem.getName());
         }
     };
     
     Player.prototype.nextItem = function(){
         if(this.activeItem === ""){
-            
         }else if(!this.activeItem){
             this.activeItem = items[0];
         }else{
             var currentIndex;
-            console.log("next item");
-            console.log(this.activeItem);
             for(var i=0;i<items.length;i++){
-                console.log("active " + this.activeItem.getName() + " array " + items[i].getName());
                 if(this.activeItem.getName() === items[i].getName()){
-                    console.log("setting current index to  " + i);
                     currentIndex = i;
                 }
             }
             currentIndex++;
-            console.log("current index = " + currentIndex);
-            console.log("items length = " + items.length);
             if(currentIndex >= items.length){
                 currentIndex = 0;
-                console.log("cycling next item to 0 " + currentIndex);
             }else{
                 currentIndex;
-                console.log("cycling next item to +1 " + currentIndex);
             }
-            console.log("item to be " + items[currentIndex].getName());
             this.activeItem = items[currentIndex];
-            console.log(this.activeItem);
-            console.log("current index = " + currentIndex);
+        }
+    };
+    
+    Player.prototype.prevItem = function(){
+        if(this.activeItem === ""){
+        }else if(!this.activeItem){
+            this.activeItem = items[items.length-1];
+        }else{
+            var currentIndex;
+            for(var i=0;i<items.length;i++){
+                if(this.activeItem.getName() === items[i].getName()){
+                    currentIndex = i;
+                }
+            }
+            currentIndex--;
+            if(currentIndex < 0){
+                currentIndex = items.length-1;
+            }else{
+                currentIndex;
+            }
+            this.activeItem = items[currentIndex];
         }
     };
     
@@ -116,7 +125,68 @@ function Player(){
                 tempNo = i;
             }
         }
+        console.log("special removed  at " + tempNo + " " + specials[tempNo].getName());
+        console.log(this.activeSpecial.getName());        
         specials.splice(tempNo, 1);
+        if(specials.length === 0){
+            console.log("changing text to specials");
+            this.activeSpecial = "";
+            battle.writeSpecialText("Specials");
+        }else if(tempNo+1 >= specials.length){
+            this.activeSpecial = specials[0];
+            console.log("active special forced to items[0]");
+            battle.writeSpecialText(this.activeSpecial.getName());
+        }else if(tempNo+1 < specials.length){
+            this.activeSpecial = specials[tempNo];
+            console.log("active special set to specials["+tempNo+"]");
+            battle.writeSpecialText(this.activeSpecial.getName());
+        }
+    };
+    
+    Player.prototype.nextSpecial = function(){
+        if(this.activeSpecial === ""){
+        }else if(!this.activeSpecial){
+            this.activeSpecial = specials[0];
+        }else{
+            var currentIndex;
+            for(var i=0;i<specials.length;i++){
+                if(this.activeSpecial.getName() === specials[i].getName()){
+                    currentIndex = i;
+                }
+            }
+            currentIndex++;
+            if(currentIndex >= specials.length){
+                currentIndex = 0;
+            }else{
+                currentIndex;
+            }
+            this.activeSpecial = specials[currentIndex];
+        }
+    };
+    
+    Player.prototype.prevSpecial = function(){
+        if(this.activeSpecial === ""){
+        }else if(!this.activeSpecial){
+            this.activeSpecial = specials[specials.length-1];
+        }else{
+            var currentIndex;
+            for(var i=0;i<specials.length;i++){
+                if(this.activeSpecial.getName() === specials[i].getName()){
+                    currentIndex = i;
+                }
+            }
+            currentIndex--;
+            if(currentIndex < 0){
+                currentIndex = specials.length-1;
+            }else{
+                currentIndex;
+            }
+            this.activeSpecial = specials[currentIndex];
+        }
+    };
+    
+    Player.prototype.getActiveSpecial = function(){
+        return this.activeSpecial;
     };
     
     Player.prototype.setHealth = function(inHealth){

@@ -1,13 +1,18 @@
 function Special(){
     var name;
     var dmg = 5;
+    var potency = 1;
     
     Special.prototype.effect = function(target){
         if(target instanceof Enemy){
             switch(this.name.toLowerCase()){
+                case "triple attack":
+                    potency = 3;
+                    console.log("TRIPLE ATTACK!");
                 case "double attack":
-                    console.log("DOUBLE ATTACK! " + player.getPwr());
-                    target.decrementHealth(player.getPwr()*2);
+                    potency = 2;
+                    console.log("DOUBLE ATTACK!");
+                    target.decrementHealth(player.getPwr()*potency);
                     break;
             }
         }
