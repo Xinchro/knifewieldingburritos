@@ -3,7 +3,7 @@ function Player(){
     var health = 500;
     var maxHealth = health;
     var name = "Not Burrito";
-    var pwr = 5;
+    var pwr = 500;
     var dex = 3;
     var will = 4;
     var items = [];
@@ -12,6 +12,9 @@ function Player(){
     var stockSpecials = [];
     var dead;
     var model;
+    var level = 1;
+    var experience = 0;
+    var levelCap = 2;
     
     Player.prototype.start = function(playerName){
         name = playerName;        
@@ -36,9 +39,44 @@ function Player(){
     };
     
     Player.prototype.getModel = function(){
-        console.log("getting player model");
+        //console.log("getting player model");
         model = new createjs.Bitmap("Assets/Models/Taco1.svg");
         return model;
+    };
+    
+    Player.prototype.setExp = function(newExp){
+        experience = newExp;
+        checkLevelUp();
+    };
+        
+    Player.prototype.getExp = function(){
+        return experience;
+    };
+    
+    Player.prototype.giveExp = function(addExp){
+        experience += addExp;
+        checkLevelUp();
+    };
+    
+    function checkLevelUp(){
+        //console.log("Checking levelCap/exp: " + levelCap + " " + experience);
+        while(experience >= levelCap){
+            console.log("----LEVEL UP----");
+            level += 1;
+            levelUpStats();
+            //this.unlockNextSkill();
+            experience -= levelCap;
+            levelCap += Math.ceil(levelCap*0.5);
+            enemyLevel += 1;
+        }
+    };
+    
+    function levelUpStats(){
+        maxHealth += level*50;
+        health = maxHealth;
+        pwr += level*2;
+        dex += level*2;
+        will += level*2;
     };
     
     Player.prototype.addItem = function(item){
@@ -203,12 +241,12 @@ function Player(){
             }
             if(okayToAdd || specials.length === 0){
                 specials.push(stockSpecials[i]);
-                console.log("Adding special " + stockSpecials[i].getName());
+                //console.log("Adding special " + stockSpecials[i].getName());
             }else{
-                console.log("Special already available " + stockSpecials[i].getName());
+                //console.log("Special already available " + stockSpecials[i].getName());
             }
         }
-        console.log(specials.length);
+        //console.log(specials.length);
     };
     
     Player.prototype.setHealth = function(inHealth){
@@ -266,7 +304,7 @@ function Player(){
     Player.prototype.useSpecial = function(target){
         if(specials.length > 0){
             //target.decrementHealth(pwr*2);
-            console.log("using " + this.activeSpecial.getName());
+            //console.log("using " + this.activeSpecial.getName());
             this.activeSpecial.effect(target);
             this.removeSpecial(this.activeSpecial);
             battle.setActionTime(0);
@@ -289,7 +327,7 @@ function Player(){
     
     Player.prototype.useActiveItem = function(){
         if(items.length > 0){
-            console.log("using " + this.activeItem.getName());
+            //console.log("using " + this.activeItem.getName());
             this.activeItem.effect(player);
             this.removeItem(this.activeItem);
             battle.setActionTime(0);
@@ -312,5 +350,21 @@ function Player(){
                 health = health + increment;
             }
         }
+    };
+    
+    Player.prototype.printStats = function(){
+        console.log("------Player Stats------");
+        console.log("Level: " + level);
+        console.log("Exp: " + experience);
+        console.log("Level Cap: " + levelCap);
+        console.log("Max Health: " + maxHealth);
+        console.log("Health: " + health);
+        console.log("Power: " + pwr);
+        console.log("Dex: " + dex);
+        console.log("Will: " + will);
+        console.log("# Specials: " + specials.length);
+        console.log("# Stock Specials: " + stockSpecials.length);
+        console.log("# Items: " + items.length);
+        console.log("------End Player Stats------");
     };
 };

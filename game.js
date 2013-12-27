@@ -46,6 +46,7 @@ var debugTime = false;
 var player = new Player();
 player.start("Not Burrito");
 var enemy;
+var enemyLevel = 1;
 
 var enemiesKilled = 0;
 var timesRunAway = 0;
@@ -210,6 +211,7 @@ function checkMove(){
                 
                     }else{
                         enemy = new Enemy();
+                        enemy.ranStats();
                         battle = new Battle();
                         world.hideOverworld();
                         input.intoBattle();
@@ -225,6 +227,7 @@ function checkMove(){
                 
             }else{
                 enemy = new Enemy();
+                enemy.ranStats();
                 battle = new Battle();
                 world.hideOverworld();
                 input.intoBattle();

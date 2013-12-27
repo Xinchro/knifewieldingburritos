@@ -1,4 +1,4 @@
-var cityRarity = 10;
+var cityRarity = 1;
 var worldSize = 20;
 var overWorldHidden;
 
@@ -9,7 +9,7 @@ function World(){
     };
     
      World.prototype.displayOverworld = function(){
-         console.log("displaying overworld");
+        //console.log("displaying overworld");
         for(var i=0; i<grid.length;i++){
             for(var j=0; j<grid.length;j++){
                 if(i<xPosPlayer+8 && i>xPosPlayer-8 && j<yPosPlayer+6 && j>yPosPlayer-6){
@@ -124,7 +124,7 @@ function World(){
                 sideNum++;
                 if(xPosPlayer+sideNum>-1 && xPosPlayer+sideNum<grid.length){
                     stage.removeChild(grid[xPosPlayer+sideNum][yPosPlayer+6]);
-                    console.log("removing bottom layer");
+                    //console.log("removing bottom layer");
                 }
             }
         }
@@ -138,7 +138,7 @@ function World(){
                 sideNum++;
                 if(xPosPlayer+sideNum>-1 && xPosPlayer+sideNum<grid.length){
                     stage.addChildAt(grid[xPosPlayer+sideNum][yPosPlayer+5], 0);
-                    console.log("adding bottom layer");
+                    //console.log("adding bottom layer");
                 }
             }
         }
@@ -152,7 +152,7 @@ function World(){
                 sideNum++;
                 if(xPosPlayer+sideNum>-1 && xPosPlayer+sideNum<grid.length){
                     stage.removeChild(grid[xPosPlayer+sideNum][yPosPlayer-6], 0);
-                    console.log("removing top layer");
+                    //console.log("removing top layer");
                 }
             }
         }
@@ -166,7 +166,7 @@ function World(){
                 sideNum++;
                 if(xPosPlayer+sideNum>-1 && xPosPlayer+sideNum<grid.length){
                     stage.addChildAt(grid[xPosPlayer+sideNum][yPosPlayer-5], 0);
-                    console.log("adding top layer");
+                    //console.log("adding top layer");
                 }
             }
         }
@@ -180,7 +180,7 @@ function World(){
                 sideNum++;
                 if(yPosPlayer+sideNum>-1 && yPosPlayer+sideNum<grid.length){
                     stage.removeChild(grid[xPosPlayer+8][yPosPlayer+sideNum]);
-                    console.log("removing right layer");
+                    //console.log("removing right layer");
                 }
             }
         }
@@ -194,7 +194,7 @@ function World(){
                 sideNum++;
                 if(yPosPlayer+sideNum>-1 && yPosPlayer+sideNum<grid.length){
                     stage.addChildAt(grid[xPosPlayer+7][yPosPlayer+sideNum], 0);
-                    console.log("adding right layer");
+                    //console.log("adding right layer");
                 }
             }
         }
@@ -208,7 +208,7 @@ function World(){
                 sideNum++;
                 if(yPosPlayer+sideNum>-1 && yPosPlayer+sideNum<grid.length){
                     stage.removeChild(grid[xPosPlayer-8][yPosPlayer+sideNum]);
-                    console.log("removing left layer");
+                    //console.log("removing left layer");
                 }
             }
         }
@@ -222,7 +222,7 @@ function World(){
                 sideNum++;
                 if(yPosPlayer+sideNum>-1 && yPosPlayer+sideNum<grid.length){
                     stage.addChildAt(grid[xPosPlayer-7][yPosPlayer+sideNum], 0);
-                    console.log("adding left layer");
+                    //console.log("adding left layer");
                 }
             }
         }

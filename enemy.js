@@ -1,21 +1,57 @@
-//var money;
-//var HP;
-//var color;
-
 function Enemy(){
     
     var health = 50;
-    var maxHealth = 50;
+    var maxHealth = health;
     var name = "Not Taco";
     var dead;
     var noOfPotions = 3;
     var pwr = 5;
+    var statPoints = enemyLevel*10;
     //console.log(health);
     var model;
     
     Enemy.prototype.start = function(name){
         this.name = name;
         //this.model = "Assets/Models/Burrito1.png";
+    };
+    
+    ticker = 5;
+    Enemy.prototype.ranStats = function(){
+        if(ticker === 0){
+            maxHealth += statPoints * 10;
+            statPoints = 0;
+            console.log("Ticker at 0");
+        }
+        var tempNo;
+        tempNo = Math.floor(Math.random()*statPoints);
+        maxHealth += Math.floor(tempNo*10);
+        health = maxHealth;
+        statPoints = statPoints - tempNo;
+        
+        tempNo = Math.floor(Math.random()*statPoints);
+        pwr += Math.floor(tempNo);
+        statPoints = statPoints - tempNo;
+//        maxHealth = Math.floor(Math.random()*75+1);
+//        health = maxHealth;
+//        pwr = Math.floor(Math.random()*10+1);
+//        console.log("------Enemy stats------");
+//        console.log("Level: " + enemyLevel);
+//        console.log("Max Health: " + maxHealth);
+//        console.log("Power: " + pwr);
+//        console.log("Remaining points: " + statPoints);
+//        console.log("------End enemy stats------");
+        if(statPoints > 0 && ticker>0){
+            ticker--;
+            this.ranStats();
+        }else{
+            console.log("------Enemy Final Stats------");
+            console.log("Level: " + enemyLevel);
+            console.log("Max Health: " + maxHealth);
+            console.log("Power: " + pwr);
+            console.log("Max points: " + enemyLevel*10);
+            console.log("Remaining points: " + statPoints);
+            console.log("------End Enemy Stats------");
+        }
     };
     
     Enemy.prototype.getModel= function(){
@@ -60,7 +96,7 @@ function Enemy(){
     };
     
     Enemy.prototype.decrementHealth = function(decrement){
-        console.log("enemy health going from " + health + " because " + decrement);
+        //console.log("enemy health going from " + health + " because " + decrement);
         if(typeof decrement != 'number'){
             if(health-1<=0){
                 health = 0;
@@ -73,12 +109,14 @@ function Enemy(){
                 health = 0;
                 dead = true;
                 enemiesKilled++;
-                console.log("enemy killed");
+                player.giveExp(1);
+                //console.log("enemy killed");
+                player.printStats();
             }else{
                 health = health - decrement;
             }
         }
-        console.log("to " + health);
+        //console.log("to " + health);
     };
     
     Enemy.prototype.incrementHealth = function(increment){
@@ -151,11 +189,3 @@ function Enemy(){
         }
     };
 };
-    //money = 1;
-    //HP = 1;
-    //color = "red";
-//}
-
-//function setMoney(i){
-    //money = i;    
-//}

@@ -188,7 +188,7 @@ function Battle(){
         inCity = false;
         //world.displayOverworld();
         world.displayOverworld();
-        console.log("battle ended");
+        //console.log("battle ended");
     };
     
     Battle.prototype.useActiveAction = function(){
@@ -469,7 +469,7 @@ function Battle(){
             stage.addChild(itemText);
             stage.addChild(runAwayText);
             guiAdded = true;
-            console.log("battle gui added");
+            //console.log("battle gui added");
         }else{
             
         }
