@@ -233,7 +233,7 @@ function checkMove(){
                 input.intoBattle();
                 battle.start();
                 music.pause();
-                music.currentTime = 0;
+//                music.currentTime = 0;
                 battleMusic.play();
             }
         }
@@ -243,6 +243,7 @@ function checkMove(){
                 if(battle.hasStarted()){
                     battle.setEnded();
                     input.outOfBattle();
+                    music.currentTime = 0;
                 }
                 //gui.displayDebug();
                 music.play();
