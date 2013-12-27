@@ -5,7 +5,7 @@ function Enemy(){
     var name = "Not Taco";
     var dead;
     var noOfPotions = 3;
-    var pwr = 5;
+    var pwr = 500;
     var statPoints = enemyLevel*10;
     //console.log(health);
     var model;

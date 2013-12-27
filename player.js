@@ -99,6 +99,10 @@ function Player(){
         will += level*2;
     };
     
+    Player.prototype.getLevel = function(){
+        return level;
+    };
+    
     Player.prototype.addItem = function(item){
         items.push(item);
     };
