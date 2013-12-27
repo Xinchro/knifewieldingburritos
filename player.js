@@ -28,13 +28,6 @@ function Player(){
         var ulPotion = new Item();
         ulPotion.setName("Ultra Potion");
         this.addItem(ulPotion);
-        
-        var dAtk = new Special();
-        dAtk.setName("Double Attack");
-        this.addSpecial(dAtk);
-        var tAtk = new Special();
-        tAtk.setName("Triple Attack");
-        this.addSpecial(tAtk);
         //this.activeSpecial = dAtk;
     };
     
@@ -64,10 +57,37 @@ function Player(){
             console.log("----LEVEL UP----");
             level += 1;
             levelUpStats();
-            //this.unlockNextSkill();
+            unlockNextSkill();
             experience -= levelCap;
             levelCap += Math.ceil(levelCap*0.5);
             enemyLevel += 1;
+            player.printStats();
+        }
+    };
+    
+    function unlockNextSkill(){
+//        console.log("Unlocking special");
+        switch(level){
+            case 2:
+                var spec = new Special();
+                spec.setName("Double Attack");
+                player.addSpecial(spec);
+                break;
+            case 3:
+                var spec = new Special();
+                spec.setName("Triple Attack");
+                player.addSpecial(spec);
+                break;
+            case 5:
+                var spec = new Special();
+                spec.setName("Lettuce Slap");
+                player.addSpecial(spec);
+                break;
+            case 10:
+                var spec = new Special();
+                spec.setName("Mince Meat Special");
+                player.addSpecial(spec);
+                break;
         }
     };
     

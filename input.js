@@ -132,14 +132,15 @@ function Input(){
             case 90:
                 //Z
                 gui.writeText("Z pressed");
-                if(!applesGoByeBye){
-                    stage.removeAllChildren();
-                    applesGoByeBye = true;
-                }else{
-                    world.displayOverworld();
-                    gui.displayDebug();
-                    applesGoByeBye = false;
-                }
+                player.giveExp(10);
+//                if(!applesGoByeBye){
+//                    stage.removeAllChildren();
+//                    applesGoByeBye = true;
+//                }else{
+//                    world.displayOverworld();
+//                    gui.displayDebug();
+//                    applesGoByeBye = false;
+//                }
                 break;
             case 70:
                 //F

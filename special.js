@@ -14,6 +14,16 @@ function Special(){
                     console.log("DOUBLE ATTACK!");
                     target.decrementHealth(player.getPwr()*potency);
                     break;
+                case "lettuce slap":
+                    potency = 3;
+                    console.log("LETTUCE SLAP!");
+                    target.decrementHealth(player.getPwr()*potency);
+                    break;
+                case "mince meat special":
+                    potency = 5;
+                    console.log("MINCE MEAT SPECIAL!");
+                    target.decrementHealth(player.getPwr()*potency);
+                    break;
             }
         }
     };
