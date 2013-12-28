@@ -99,8 +99,8 @@ function decToHex(num){
 //var spriteSheet = new createjs.SpriteSheet(data);
 //var animation = new createjs.Sprite(spriteSheet, "run");
 var animation = new createjs.Bitmap("Assets/Models/Taco1Overworld.svg");
-animation.setTransform(2*gridScale,2*gridScale,1.4,1.4);
-animation.setBounds(animation.x, animation.y, animation.x-gridScale, animation.y-gridScale);
+//animation.setTransform(2*gridScale,2*gridScale,1.4,1.4);
+animation.setBounds(animation.x, animation.y, animation.x+gridScale, animation.y+gridScale);
 animation.setTransform(((scrW/2)-((animation.getBounds().width)/2)),((scrH/2)-((animation.getBounds().height)/2)));
 
 var gridSize = worldSize;

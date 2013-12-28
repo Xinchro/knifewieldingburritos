@@ -3,13 +3,14 @@ function Player(){
     var health = 500;
     var maxHealth = health;
     var name = "Not Burrito";
-    var pwr = 500;
+    var pow = 500;
     var dex = 3;
-    var will = 4;
+    var wis = 4;
     var items = [];
     var specials = [];
     var activeItem, activeSpecial;
     var stockSpecials = [];
+    var availableSpecials = [];
     var dead;
     var model;
     var level = 1;
@@ -28,6 +29,7 @@ function Player(){
         var ulPotion = new Item();
         ulPotion.setName("Ultra Potion");
         this.addItem(ulPotion);
+        fillAvailSpec();
         //this.activeSpecial = dAtk;
     };
     
@@ -44,6 +46,11 @@ function Player(){
         
     Player.prototype.getExp = function(){
         return experience;
+    };
+    
+    Player.prototype.getExpToNextLevel = function(){
+        var gap = levelCap - experience;
+        return gap;
     };
     
     Player.prototype.giveExp = function(addExp){
@@ -94,9 +101,9 @@ function Player(){
     function levelUpStats(){
         maxHealth += level*50;
         health = maxHealth;
-        pwr += level*2;
+        pow += level*2;
         dex += level*2;
-        will += level*2;
+        wis += level*2;
     };
     
     Player.prototype.getLevel = function(){
@@ -245,8 +252,44 @@ function Player(){
         }
     };
     
+    function fillAvailSpec(){
+        var spec = new Special();
+        spec.setName("Double Attack");
+        availableSpecials.push(spec);
+        
+        spec = new Special();
+        spec.setName("Triple Attack");
+        availableSpecials.push(spec);
+        
+        spec = new Special();
+        spec.setName("Lettuce Slap");
+        availableSpecials.push(spec);
+        
+        spec = new Special();
+        spec.setName("Mince Meat Special");
+        availableSpecials.push(spec);
+        
+        console.log("Available skills: " + availableSpecials.length);
+    };
+    
     Player.prototype.getActiveSpecial = function(){
         return this.activeSpecial;
+    };
+    
+    Player.prototype.getSpecials = function(){
+        return stockSpecials;
+    };
+    
+    Player.prototype.getNextSpecialName = function(){
+        var nextSpecial = "";
+        
+        if(stockSpecials.length < availableSpecials.length){
+            nextSpecial = availableSpecials[stockSpecials.length].getName();
+        }else{
+            nextSpecial = "Nothing to unlock";
+        }
+        
+        return nextSpecial;
     };
     
     Player.prototype.resetSpecials = function(){
@@ -318,7 +361,7 @@ function Player(){
     
     Player.prototype.attack = function(target){
         //if(typeof target === Enemy){
-            target.decrementHealth(pwr);
+            target.decrementHealth(pow);
             battle.setActionTime(0);
         //}else{
           //  alert(typeof target);
@@ -337,16 +380,16 @@ function Player(){
         }
     };
     
-    Player.prototype.getPwr = function(){
-        return pwr;
+    Player.prototype.getPow = function(){
+        return pow;
     };
     
     Player.prototype.getDex = function(){
         return dex;
     };
     
-    Player.prototype.getWill = function(){
-        return will;
+    Player.prototype.getWis = function(){
+        return wis;
     };
     
     Player.prototype.useActiveItem = function(){
@@ -383,9 +426,9 @@ function Player(){
         console.log("Level Cap: " + levelCap);
         console.log("Max Health: " + maxHealth);
         console.log("Health: " + health);
-        console.log("Power: " + pwr);
+        console.log("Power: " + pow);
         console.log("Dex: " + dex);
-        console.log("Will: " + will);
+        console.log("Will: " + wis);
         console.log("# Specials: " + specials.length);
         console.log("# Stock Specials: " + stockSpecials.length);
         console.log("# Items: " + items.length);

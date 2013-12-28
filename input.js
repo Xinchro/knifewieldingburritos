@@ -4,6 +4,9 @@ function Input(){
     
     var mute = true;
     
+    var charSheet;
+    var charSheetVis = false;
+    
     var inBattle;
     
     Input.prototype.intoBattle = function(){
@@ -109,6 +112,22 @@ function Input(){
                 //E
                 var playerHealth = player.getHealth();
                 gui.writeText(playerHealth);
+                break;
+            case 67:
+                //C
+                if(!charSheet){
+                    charSheet = new CharacterSheet();
+                }else{
+                    if(charSheetVis){
+                        charSheet.hide();
+                        charSheetVis = false;
+                        console.log("character sheet not visible");
+                    }else{
+                        charSheet.display();
+                        charSheetVis = true;
+                        console.log("character sheet visible");
+                    }
+                }
                 break;
             case 77:
                 //M

@@ -1,4 +1,4 @@
-var cityRarity = 1;
+var cityRarity = 200;
 var worldSize = 20;
 var overWorldHidden;
 
