@@ -5,7 +5,6 @@ function Input(){
     var mute = true;
     
     var charSheet;
-    var charSheetVis = false;
     
     var inBattle;
     
@@ -26,87 +25,21 @@ function Input(){
                 //Up
                 e.preventDefault();
                 gui.writeText("Up arrow pressed");
-                if(inBattle){
-                    battle.prevActiveBtn();
-                    //battle.writeAttackText("Up pressed");
-                }else{
-                    if(battle){
-                        //battle.setEnded();
-                        battle.canStart(true);
-                    }
-                    upEntered = true;
-                }
                 break;
             case 37:
                 //Left
                 e.preventDefault();
                 gui.writeText("Left arrow pressed");
-                if(inBattle){
-                    if(battle.getActiveBtnIndex() === 1){
-                        //specials
-                        player.prevSpecial();
-                        if(player.getActiveSpecial()){
-                            battle.writeSpecialText(player.getActiveSpecial().getName());
-                        }
-                    }else if(battle.getActiveBtnIndex() === 2){
-                        //items
-                        player.prevItem();
-                        if(player.getActiveItem()){
-                            battle.writeItemText(player.getActiveItem().getName());
-                        }
-                    }else{
-                        console.log("not item or special");
-                    }
-                }else{
-                    if(battle){
-                        //battle.setEnded();
-                        battle.canStart(true);
-                    }
-                    leftEntered = true;
-                }
                 break;
             case 40:
                 //Down
                 e.preventDefault();
                 gui.writeText("Down arrow pressed");
-                if(inBattle){
-                    battle.nextActiveBtn();
-                    //battle.writeAttackText("Down pressed");
-                }else{
-                    if(battle){
-                        //battle.setEnded();
-                        battle.canStart(true);
-                    }
-                    downEntered = true;
-                }
                 break;
             case 39:
                 //Right
                 e.preventDefault();
                 gui.writeText("Right arrow pressed");
-                if(inBattle){
-                    if(battle.getActiveBtnIndex() === 1){
-                        //specials
-                        player.nextSpecial();
-                        if(player.getActiveSpecial()){
-                            battle.writeSpecialText(player.getActiveSpecial().getName());
-                        }
-                    }else if(battle.getActiveBtnIndex() === 2){
-                        //items
-                        player.nextItem();
-                        if(player.getActiveItem()){
-                            battle.writeItemText(player.getActiveItem().getName());
-                        }
-                    }else{
-                        console.log("not item or special");
-                    }
-                }else{
-                    if(battle){
-                        //battle.setEnded();
-                        battle.canStart(true);
-                    }
-                    rightEntered = true;
-                }
                 break;
             case 69:
                 //E
@@ -164,15 +97,6 @@ function Input(){
             case 70:
                 //F
                 gui.writeText("F pressed");
-                if(battle){
-                    if(battle.hasStarted()){
-                        //enemy.decrementHealth();
-                        if(battle.canAct()){
-                            battle.useActiveAction();
-                        }
-                        battle.refreshHealthBars();
-                    }
-                }
                 break;
             case 72:
                 //H
@@ -216,7 +140,7 @@ function Input(){
     Input.prototype.doKeyActions = function(){
         
         if(upEntered){
-            if(walk){
+            if(walk && !inBattle){
                 if(yPosPlayer < 1){
                     yPosPlayer = grid.length - 1;
                     for(var i=0; i<grid.length;i++){
@@ -245,17 +169,29 @@ function Input(){
                 //animation.play();
                 canWalkTick = 0;
                 upBox.graphics.clear();
-                upBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
+                upBox.graphics.beginFill("rgba(255,255,255,0.5)").drawRoundRect(0,0,boxW,boxH,boxRound);
                 upBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
                 world.removeLayerFromBottom();
                 world.addLayerToTop();
+            }else{
+                if(inBattle && touchTicker > 5){
+                    touchTicker = 0;
+                    battle.prevActiveBtn();
+                    //battle.writeAttackText("Up pressed");
+                }else{
+                    if(battle){
+                        //battle.setEnded();
+                        battle.canStart(true);
+                    }
+                    upEntered = true;
+                }
             }
             gui.writeText("Move up");
         }else{
             //animation.stop();
         }
         if(leftEntered){
-            if(walk){
+            if(walk && !inBattle){
                 if(xPosPlayer < 1){
                     xPosPlayer = grid.length - 1;
                     for(var i=0; i<grid.length;i++){
@@ -284,17 +220,42 @@ function Input(){
                 //animation.play();
                 canWalkTick = 0;
                 leftBox.graphics.clear();
-                leftBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
+                leftBox.graphics.beginFill("rgba(255,255,255,0.5)").drawRoundRect(0,0,boxW,boxH,boxRound);
                 leftBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
                 world.addLayerToLeft();
                 world.removeLayerFromRight();
+            }else{
+                if(inBattle && touchTicker > 5){
+                    touchTicker = 0;
+                    if(battle.getActiveBtnIndex() === 1){
+                        //specials
+                        player.prevSpecial();
+                        if(player.getActiveSpecial()){
+                            battle.writeSpecialText(player.getActiveSpecial().getName());
+                        }
+                    }else if(battle.getActiveBtnIndex() === 2){
+                        //items
+                        player.prevItem();
+                        if(player.getActiveItem()){
+                            battle.writeItemText(player.getActiveItem().getName());
+                        }
+                    }else{
+                        console.log("not item or special");
+                    }
+                }else{
+                    if(battle){
+                        //battle.setEnded();
+                        battle.canStart(true);
+                    }
+                    leftEntered = true;
+                }
             }
             gui.writeText("Move left");
         }else{
             //animation.stop();
         }
         if(downEntered){
-            if(walk){
+            if(walk && !inBattle){
                 if(yPosPlayer > grid.length-2){
                     yPosPlayer = 0;
                     for(var i=0; i<grid.length;i++){
@@ -323,17 +284,29 @@ function Input(){
                 //animation.play();
                 canWalkTick = 0;
                 downBox.graphics.clear();
-                downBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
+                downBox.graphics.beginFill("rgba(255,255,255,0.5)").drawRoundRect(0,0,boxW,boxH,boxRound);
                 downBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
                 world.addLayerToBottom();
                 world.removeLayerFromTop();
+            }else{
+                if(inBattle && touchTicker > 5){
+                    touchTicker = 0;
+                    battle.nextActiveBtn();
+                    //battle.writeAttackText("Down pressed");
+                }else{
+                    if(battle){
+                        //battle.setEnded();
+                        battle.canStart(true);
+                    }
+                    downEntered = true;
+                }
             }
             gui.writeText("Move down");
         }else{
             //animation.stop();
         }
         if(rightEntered){
-            if(walk)
+            if(walk && !inBattle)
             {
                 if(xPosPlayer > grid.length-2){
                     xPosPlayer = 0;
@@ -364,12 +337,75 @@ function Input(){
                 //animation.play();
                 canWalkTick = 0;
                 rightBox.graphics.clear();
-                rightBox.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(0,0,boxW,boxH,boxRound);
+                rightBox.graphics.beginFill("rgba(255,255,255,0.5)").drawRoundRect(0,0,boxW,boxH,boxRound);
                 rightBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
                 world.addLayerToRight();
                 world.removeLayerFromLeft();
+            }else{
+                if(inBattle && touchTicker > 5){
+                    touchTicker = 0;
+                    if(battle.getActiveBtnIndex() === 1){
+                        //specials
+                        player.nextSpecial();
+                        if(player.getActiveSpecial()){
+                            battle.writeSpecialText(player.getActiveSpecial().getName());
+                        }
+                    }else if(battle.getActiveBtnIndex() === 2){
+                        //items
+                        player.nextItem();
+                        if(player.getActiveItem()){
+                            battle.writeItemText(player.getActiveItem().getName());
+                        }
+                    }else{
+                        console.log("not item or special");
+                    }
+                }else{
+                    if(battle){
+                        //battle.setEnded();
+                        battle.canStart(true);
+                    }
+                    rightEntered = true;
+                }
             }
             gui.writeText("Move right");
+        
+        }else{
+            //animation.stop();
+        }
+        if(actionEntered){
+            if(walk && !inBattle)
+            {
+                if(!charSheet){
+                    charSheet = new CharacterSheet();
+                    charSheet.display();
+                    console.log("character sheet visible");
+                }else{
+                    if(charSheet.isVisible()){
+                        charSheet.hide();
+                        console.log("character sheet not visible");
+                    }else{
+                        charSheet.display();
+                        console.log("character sheet visible");
+                    }
+                }
+                //animation.play();
+                canWalkTick = 0;
+                actionBox.graphics.clear();
+                actionBox.graphics.beginFill("rgba(255,255,255,0.5)").drawRoundRect(0,0,boxW,boxH,boxRound);
+                actionBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+            }else{
+                if(inBattle && touchTicker > 5){
+                    touchTicker = 0;
+                    if(battle.hasStarted()){
+                        //enemy.decrementHealth();
+                        if(battle.canAct()){
+                            battle.useActiveAction();
+                        }
+                        battle.refreshHealthBars();
+                    }
+                }
+            }
+            gui.writeText("Do Action");
         
         }else{
             //animation.stop();

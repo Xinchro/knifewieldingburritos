@@ -4,6 +4,7 @@ function CharacterSheet(){
     var borderTh = 2;
     var vertSep = 5;
     var horiSep = 5;
+    var visible = false;
     
     var sheetCanvas = new createjs.Shape();
     sheetCanvas.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
@@ -331,6 +332,8 @@ function CharacterSheet(){
         stage.addChild(skill2Text);
         stage.addChild(skill3Text);
         stage.addChild(skill4Text);
+        
+        visible = true;
     };
     
     CharacterSheet.prototype.hide = function(){
@@ -362,6 +365,12 @@ function CharacterSheet(){
         stage.removeChild(skill2Text);
         stage.removeChild(skill3Text);
         stage.removeChild(skill4Text);
+        
+        visible = false;
+    };
+    
+    CharacterSheet.prototype.isVisible = function(){
+        return visible;
     };
     
     endTextTop = new createjs.Text("Game over.", "20px Arial", "#000");

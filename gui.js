@@ -20,6 +20,11 @@ function GUI(){
     rightBox.setTransform(boxW+boxW, scrH-boxH);
     rightBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
     //stage.addChild(rightBox);
+    actionBox = new createjs.Shape();
+    actionBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+    actionBox.setTransform(scrW-boxW, scrH-boxH);
+    actionBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+    //stage.addChild(rightBox);
 
     upBox.addEventListener("mouseover", function(){upEntered = true;});
     upBox.addEventListener("mouseout", function(){upEntered = false;});
@@ -29,6 +34,8 @@ function GUI(){
     downBox.addEventListener("mouseout", function(){downEntered = false;});
     rightBox.addEventListener("mouseover", function(){rightEntered = true;});
     rightBox.addEventListener("mouseout", function(){rightEntered = false;});
+    actionBox.addEventListener("mouseover", function(){actionEntered = true;});
+    actionBox.addEventListener("mouseout", function(){actionEntered = false;});
     
     debugText = new createjs.Text("newText", "20px Arial", "#000");
     GUI.prototype.writeText = function(text){

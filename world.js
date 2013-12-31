@@ -1,4 +1,4 @@
-var cityRarity = 200;
+var cityRarity = 10;
 var worldSize = 20;
 var overWorldHidden;
 
@@ -27,7 +27,7 @@ function World(){
         stage.addChild(leftBox);
         stage.addChild(downBox);
         stage.addChild(rightBox);
-        stage.addChild();
+        stage.addChild(actionBox);
         overWorldHidden = false;
     };
     
@@ -47,7 +47,7 @@ function World(){
         stage.removeChild(leftBox);
         stage.removeChild(downBox);
         stage.removeChild(rightBox);
-        //stage.removeChild();
+        stage.removeChild(actionBox);
         overWorldHidden = true;
     };
     

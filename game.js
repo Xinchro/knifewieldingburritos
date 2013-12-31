@@ -4,9 +4,9 @@ var image = new Image();
 var scrW, scrH;
 var bmpAnim;
 var mouseDown;
-var upEntered, leftEntered, downEntered, rightEntered;
+var upEntered, leftEntered, downEntered, rightEntered, actionEntered;
 var charizard;
-var upBox, leftBox, downBox, rightBox;
+var upBox, leftBox, downBox, rightBox, actionBox;
 var grid;
 
 //new stage        
@@ -31,9 +31,9 @@ stage.enableMouseOver(20);
 //charizard.x = charizard.y = 50;
 
 var boxRound = 5;
-var boxStrokeCol = "rgba(255,255,255,1)";
+var boxStrokeCol = "rgba(255,255,255,0.5)";
 var boxStrokeTh = 1;
-var boxFillCol = "rgba(255,0,0,1)";
+var boxFillCol = "rgba(255,0,0,0.5)";
 var boxW = boxH = gridScale = 50;
 
 var gui = new GUI();
@@ -45,7 +45,9 @@ var debugTime = false;
 
 var player = new Player();
 player.start("Not Burrito");
-var enemy;
+
+var enemy;// = new Enemy();
+//enemy.setDead();
 var enemyLevel = 1;
 
 var enemiesKilled = 0;
@@ -164,7 +166,7 @@ var walkSpeed = 5/slowDownWalk;
 var canWalkTick = 0;
 
 var inCity = false;
-var battle;
+var battle = new Battle();
 
 var music = document.getElementById('music');
 music.volume=0;
@@ -174,12 +176,16 @@ battleMusic.volume=0;
 
 var tempPoint = [];
 
+var touchTicker = 0;
+
 function checkMove(){
     
     tempPoint = [animation.x/gridScale, animation.y/gridScale];
     //gui.writePlayerLoc("Player loc: " + tempPoint);
     gui.writePlayerLoc("Fought: " + fought[xPosPlayer][yPosPlayer]);
     gui.writePlayerPos("Player pos: " + xPosPlayer + "," + yPosPlayer);
+    
+    touchTicker++;
     
     for(var i=0;i<cityArr.length;i++){
         if(xPosPlayer=== cityArr[i][0] && yPosPlayer === cityArr[i][1])
@@ -238,25 +244,27 @@ function checkMove(){
             }
         }
         if(battle){
-            if(enemy.isDead()){
-                fought[xPosPlayer][yPosPlayer] = true;
-                if(battle.hasStarted()){
-                    battle.setEnded();
-                    input.outOfBattle();
-                    music.currentTime = 0;
+            if(typeof enemy !== 'undefined'){
+                if(enemy.isDead()){
+                    fought[xPosPlayer][yPosPlayer] = true;
+                    if(battle.hasStarted()){
+                        battle.setEnded();
+                        input.outOfBattle();
+                        music.currentTime = 0;
+                    }
+                    //gui.displayDebug();
+                    music.play();
+                    battleMusic.pause();
+                    battleMusic.currentTime = 0;
+                    //var end = new EndScreen();
+                    //end.showEndScreen();
+                }else{
+                    battle.showGUI();
+                    battle.refreshActiveBtn();
+                    battle.tickTimer();
+                    battle.tickEnemyTimer();
+                    enemy.enemyLoop();
                 }
-                //gui.displayDebug();
-                music.play();
-                battleMusic.pause();
-                battleMusic.currentTime = 0;
-                //var end = new EndScreen();
-                //end.showEndScreen();
-            }else{
-                battle.showGUI();
-                battle.refreshActiveBtn();
-                battle.tickTimer();
-                battle.tickEnemyTimer();
-                enemy.enemyLoop();
             }
         }
     }else{
@@ -301,6 +309,7 @@ function checkMove(){
        leftBox.graphics.clear();
        downBox.graphics.clear();
        rightBox.graphics.clear();
+       actionBox.graphics.clear();
        upBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
        upBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
        leftBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
@@ -309,6 +318,8 @@ function checkMove(){
        downBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
        rightBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
        rightBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+       actionBox.graphics.beginFill(boxFillCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+       actionBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
        //animation.stop();
        return;
    }

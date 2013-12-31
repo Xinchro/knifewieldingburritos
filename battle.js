@@ -161,6 +161,25 @@ function Battle(){
         stage.addChild(enemyModel);
         this.refreshHealthBars();
         
+        stage.removeChild(upBox);
+        stage.removeChild(leftBox);
+        stage.removeChild(downBox);
+        stage.removeChild(rightBox);
+        
+        stage.addChild(upBox);
+        stage.addChild(leftBox);
+        stage.addChild(downBox);
+        stage.addChild(rightBox);
+        
+        if(typeof charSheet !== 'undefined'){
+            if(charSheet.isVisible()){
+                console.log("battle started hiding sheet");
+                charSheet.hide();
+                charSheetVis = false;
+                console.log("character sheet not visible");
+            }
+        }
+        
         started = true;
     };
     
@@ -359,6 +378,18 @@ function Battle(){
         runAwayBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         runAwayBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         runAwayBG.setTransform(50, scrH-btnH-(btnH+btnSep)*3);
+        
+        stage.removeChild(upBox);
+        stage.removeChild(leftBox);
+        stage.removeChild(downBox);
+        stage.removeChild(rightBox);
+        stage.removeChild(actionBox);
+        
+        stage.addChild(upBox);
+        stage.addChild(leftBox);
+        stage.addChild(downBox);
+        stage.addChild(rightBox);
+        stage.addChild(actionBox);
     };
     
     Battle.prototype.refreshActiveBtn = function(){
