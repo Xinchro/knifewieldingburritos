@@ -1,5 +1,5 @@
 var cityRarity = 10;
-var worldSize = 20;
+var worldSize = 50;
 var overWorldHidden;
 
 function World(){
@@ -59,8 +59,9 @@ function World(){
                 //var tempCol = decToHex(Math.floor((Math.random()*255)));
                 var tempCol = Math.floor((Math.random()*255)+150);
                 var xPos, yPos;
-                xPos = x*gridScale+((animation.x)%gridScale)-xOff;
-                yPos = y*gridScale+((animation.y)%gridScale)-yOff;
+                //subtract x*gridScale and y*gridScale to offset player's position (10,10) is 4x and 6y
+                xPos = x*gridScale+((animation.x)%gridScale) -(xPosPlayer-6)*gridScale;//-xOff;
+                yPos = y*gridScale+((animation.y)%gridScale) -(yPosPlayer-4)*gridScale;//-yOff;
                 battleStatusText.text = xPos/50 + " " + yPos/50;
                 //tempRect.graphics.beginFill(colorArr[tempCol]).drawRoundRect(x*50,y*50,50,50,0);
                 tempRect.graphics.beginFill("rgba(0," + tempCol + ",0" + ",1)").drawRoundRect(xPos,yPos,gridScale,gridScale,5);
@@ -93,8 +94,9 @@ function World(){
                     //var tempCol = decToHex(Math.floor((Math.random()*255)+250));
                     var tempCol = Math.floor((Math.random()*255)+150);
                     var xPos, yPos;
-                    xPos = x*gridScale+((animation.x)%gridScale)-xOff;
-                    yPos = y*gridScale+((animation.y)%gridScale)-yOff;
+                    //subtract x*gridScale and y*gridScale to offset player's position (10,10) is 4x and 6y
+                    xPos = x*gridScale+((animation.x)%gridScale) -(xPosPlayer-6)*gridScale;//-xOff;
+                    yPos = y*gridScale+((animation.y)%gridScale) -(yPosPlayer-4)*gridScale;//-yOff;
                     //tempRect.graphics.beginFill(colorArr[tempCol]).drawRoundRect(x*50,y*50,50,50,0);
                     tempRect.graphics.beginFill("rgba(0," + "0," + tempCol + ",1)").drawRoundRect(xPos,yPos,gridScale,gridScale,5);
                     stage.removeChild(grid[x][y]);

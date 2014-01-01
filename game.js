@@ -21,7 +21,9 @@ stage.addEventListener("mousedown", function(){mouseDown = true;});
 stage.addEventListener("pressup", function(){mouseDown = false;});
 
 //enable mouse controls
-stage.enableMouseOver(20);
+stage.enableMouseOver(20, true, false);
+
+createjs.Touch.enable(stage, true, false);
 
 ////create shape
 //charizard = new createjs.Shape();
@@ -120,11 +122,13 @@ function genFoughtGrid(){
 
 genFoughtGrid();
 
-var xOff = xPosPlayer = 4*gridScale;
-var yOff = yPosPlayer = 6*gridScale;
+//var xOff = xPosPlayer = 4*gridScale;
+//var yOff = yPosPlayer = 6*gridScale;
 
-xPosPlayer = xPosPlayer/20;
-yPosPlayer = yPosPlayer/30;
+//xPosPlayer = xPosPlayer/20;
+//yPosPlayer = yPosPlayer/30;
+xPosPlayer = Math.floor(worldSize/2);
+yPosPlayer = Math.floor(worldSize/2);
 
 world.genGrid();
 

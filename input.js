@@ -24,21 +24,25 @@ function Input(){
             case 38:
                 //Up
                 e.preventDefault();
+                upEntered = true;
                 gui.writeText("Up arrow pressed");
                 break;
             case 37:
                 //Left
                 e.preventDefault();
+                leftEntered = true;
                 gui.writeText("Left arrow pressed");
                 break;
             case 40:
                 //Down
                 e.preventDefault();
+                downEntered = true;
                 gui.writeText("Down arrow pressed");
                 break;
             case 39:
                 //Right
                 e.preventDefault();
+                rightEntered = true;
                 gui.writeText("Right arrow pressed");
                 break;
             case 69:
@@ -97,6 +101,7 @@ function Input(){
             case 70:
                 //F
                 gui.writeText("F pressed");
+                actionEntered = true;
                 break;
             case 72:
                 //H
@@ -133,6 +138,10 @@ function Input(){
             case 39:
                 gui.writeText("Right arrow unpressed");
                 rightEntered = false;
+                break;
+            case 70:
+                gui.writeText("Action unpressed");
+                actionEntered = false;
                 break;
         }
     }

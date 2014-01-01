@@ -27,15 +27,25 @@ function GUI(){
     //stage.addChild(rightBox);
 
     upBox.addEventListener("mouseover", function(){upEntered = true;});
+    upBox.addEventListener("mousedown", function(){upEntered = true;});
     upBox.addEventListener("mouseout", function(){upEntered = false;});
+    upBox.addEventListener("click", function(){upEntered = false;});
     leftBox.addEventListener("mouseover", function(){leftEntered = true;});
+    leftBox.addEventListener("mousedown", function(){leftEntered = true;});
     leftBox.addEventListener("mouseout", function(){leftEntered = false;});
+    leftBox.addEventListener("click", function(){leftEntered = false;});
     downBox.addEventListener("mouseover", function(){downEntered = true;});
+    downBox.addEventListener("mousedown", function(){downEntered = true;});
     downBox.addEventListener("mouseout", function(){downEntered = false;});
+    downBox.addEventListener("click", function(){downEntered = false;});
     rightBox.addEventListener("mouseover", function(){rightEntered = true;});
+    rightBox.addEventListener("mousedown", function(){rightEntered = true;});
     rightBox.addEventListener("mouseout", function(){rightEntered = false;});
+    rightBox.addEventListener("click", function(){rightEntered = false;});
     actionBox.addEventListener("mouseover", function(){actionEntered = true;});
+    actionBox.addEventListener("mousedown", function(){actionEntered = true;});
     actionBox.addEventListener("mouseout", function(){actionEntered = false;});
+    actionBox.addEventListener("click", function(){actionEntered = false;});
     
     debugText = new createjs.Text("newText", "20px Arial", "#000");
     GUI.prototype.writeText = function(text){
@@ -72,33 +82,27 @@ function GUI(){
     };
     
     GUI.prototype.displayDebug = function(){
-//        stage.addChild(debugText);
-//        stage.addChild(playerLocText);
-//        stage.addChild(playerPosText);
-//        stage.addChild(walkTickText);
-//        stage.addChild(battleStatusText);
-        debugText.visible = true;
-        playerLocText.visible = true;
-        playerPosText.visible = true;
-        walkTickText.visible = true;
-        battleStatusText.visible = true;
         for(var i=0;i<posGridText.length;i++)
         {
-            posGridText[i].visible = true;
+            stage.addChild(posGridText[i]);
         }
+        stage.addChild(debugText);
+        stage.addChild(playerLocText);
+        stage.addChild(playerPosText);
+        stage.addChild(walkTickText);
+        stage.addChild(battleStatusText);
     };
     
     GUI.prototype.hideDebug = function(){
-        debugText.visible = false;
-        playerLocText.visible = false;
-        playerPosText.visible = false;
-        walkTickText.visible = false;
-        battleStatusText.visible = false;
         for(var i=0;i<posGridText.length;i++)
         {
-            posGridText[i].visible = false;
+            stage.removeChild(posGridText[i]);
         }
-        //console.log("bai debug");
+        stage.removeChild(debugText);
+        stage.removeChild(playerLocText);
+        stage.removeChild(playerPosText);
+        stage.removeChild(walkTickText);
+        stage.removeChild(battleStatusText);
     };
     
 }
