@@ -11,7 +11,7 @@ function EndScreen(){
     endTextTop = new createjs.Text("Game over.", "20px Arial", "#000");
     endTextTop.x = 225;
     endTextTop.y = 20;
-    GUI.prototype.writeendTextTop = function(text){
+    EndScreen.prototype.writeendTextTop = function(text){
         endTextTop.text = text;
     };
     
@@ -23,14 +23,14 @@ function EndScreen(){
     , "20px Arial", "#000");
     endTextMid.x = 225;
     endTextMid.y = 40;
-    GUI.prototype.writeendTextMid = function(text){
+    EndScreen.prototype.writeendTextMid = function(text){
         endTextMid.text = text;
     };
     
     endTextBot = new createjs.Text("The burritos always win.", "20px Arial", "#000");
     endTextBot.x = 225;
     endTextBot.y = endTextMid.getMeasuredHeight() + 20;
-    GUI.prototype.writeendTextBot = function(text){
+    EndScreen.prototype.writeendTextBot = function(text){
         endTextBot.text = text;
     };
     

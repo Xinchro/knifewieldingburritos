@@ -1,8 +1,8 @@
+var mute = true;
 function Input(){
     document.onkeydown = keyDown;
     document.onkeyup = keyUp;
     
-    var mute = true;
     
     var charSheet;
     

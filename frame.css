@@ -4,6 +4,11 @@ overflow-y: scroll;
 background-color: #000;
 }
 
+@font-face {
+    font-family: 'ModernEdge_0';
+    src: url('Assets/ModernEdge_0.ttf');
+}
+
 #title{
 border: 0px solid #0F0;
 color: #FFF;

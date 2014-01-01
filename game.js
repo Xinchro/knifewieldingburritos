@@ -173,10 +173,19 @@ var inCity = false;
 var battle = new Battle();
 
 var music = document.getElementById('music');
-music.volume=0;
+music.volume = 0;
 var battleMusic = document.getElementById('battleMusic');
 battleMusic.pause();
-battleMusic.volume=0;
+battleMusic.volume = 0;
+
+function resetMusic(){
+    console.log("music reset");
+    mute = false;
+    music.volume = 1;
+    battleMusic.volume = 1;
+    music.currentTime = 0;
+    battleMusic.currentTime = 0;
+}
 
 var tempPoint = [];
 
@@ -353,4 +362,6 @@ stage.addChild(playerPosText);
 gui.hideDebug();
 debugTime = false;
 //update the graphics
+var start = new StartScreen();
+start.show();
 stage.update();
