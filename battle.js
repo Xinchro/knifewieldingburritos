@@ -193,6 +193,8 @@ function Battle(){
         enemy.setDead();
         inCity = false;
         console.log("battle game over");
+        music.volume = 0;
+        battleMusic.volume = 0;
     };
     
     Battle.prototype.setEnded = function(){

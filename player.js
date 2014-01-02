@@ -1,9 +1,9 @@
 function Player(){
     
-    var health = 500;
+    var health = 10;
     var maxHealth = health;
     var name = "Not Burrito";
-    var pow = 500;
+    var pow = 5;
     var dex = 3;
     var wis = 4;
     var items = [];
@@ -16,6 +16,7 @@ function Player(){
     var level = 1;
     var experience = 0;
     var levelCap = 2;
+    var statPoints = 10;
     
     Player.prototype.start = function(playerName){
         name = playerName;        
@@ -30,7 +31,55 @@ function Player(){
         ulPotion.setName("Ultra Potion");
         this.addItem(ulPotion);
         fillAvailSpec();
+        this.ranStats();
         //this.activeSpecial = dAtk;
+    };
+    
+    var ticker = 5;
+    Player.prototype.ranStats = function(){
+        if(ticker === 0){
+            maxHealth += statPoints * 10;
+            statPoints = 0;
+            console.log("Ticker at 0");
+        }
+        var tempNo;
+        tempNo = Math.floor(Math.random()*statPoints);
+        maxHealth += Math.floor(tempNo*10);
+        health = maxHealth;
+        statPoints = statPoints - tempNo;
+        
+        tempNo = Math.floor(Math.random()*statPoints);
+        pow += Math.floor(tempNo);
+        statPoints = statPoints - tempNo;
+//        tempNo = Math.floor(Math.random()*statPoints);
+//        dex += Math.floor(tempNo);
+//        statPoints = statPoints - tempNo;
+//        tempNo = Math.floor(Math.random()*statPoints);
+//        wis += Math.floor(tempNo);
+//        statPoints = statPoints - tempNo;
+//        maxHealth = Math.floor(Math.random()*75+1);
+//        health = maxHealth;
+//        pwr = Math.floor(Math.random()*10+1);
+//        console.log("------Enemy stats------");
+//        console.log("Level: " + enemyLevel);
+//        console.log("Max Health: " + maxHealth);
+//        console.log("Power: " + pwr);
+//        console.log("Remaining points: " + statPoints);
+//        console.log("------End enemy stats------");
+        if(statPoints > 0 && ticker>0){
+            ticker--;
+            this.ranStats();
+        }else{
+            console.log("------Player Final Stats------");
+            console.log("Level: " + level);
+            console.log("Max Health: " + maxHealth);
+            console.log("Power: " + pow);
+            console.log("Dexterity: " + dex);
+            console.log("Wisdom: " + wis);
+            console.log("Max points: " + level*10);
+            console.log("Remaining points: " + statPoints);
+            console.log("------End Player Stats------");
+        }
     };
     
     Player.prototype.getModel = function(){
@@ -269,7 +318,7 @@ function Player(){
         spec.setName("Mince Meat Special");
         availableSpecials.push(spec);
         
-        console.log("Available skills: " + availableSpecials.length);
+        //console.log("Available skills: " + availableSpecials.length);
     };
     
     Player.prototype.getActiveSpecial = function(){

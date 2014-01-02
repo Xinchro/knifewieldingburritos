@@ -1,11 +1,11 @@
 function Enemy(){
     
-    var health = 50;
+    var health = 10;
     var maxHealth = health;
     var name = "Not Taco";
     var dead;
-    var noOfPotions = 3;
-    var pwr = 50;
+    var noOfPotions = 2;
+    var pwr = 1;
     var statPoints = enemyLevel*10;
     //console.log(health);
     var model;
@@ -22,9 +22,11 @@ function Enemy(){
             statPoints = 0;
             console.log("Ticker at 0");
         }
+        noOfPotions = Math.floor(Math.random()*enemyLevel)+1;
+        
         var tempNo;
         tempNo = Math.floor(Math.random()*statPoints);
-        maxHealth += Math.floor(tempNo*10);
+        maxHealth += Math.floor(tempNo*2);
         health = maxHealth;
         statPoints = statPoints - tempNo;
         
@@ -169,7 +171,7 @@ function Enemy(){
             if(health < Math.floor(maxHealth/100*25))
             {
                 if(this.hasPotion()){
-                    health += maxHealth/100*5;
+                    this.incrementHealth(50);
                     //console.log("healing");
                 }else{
                     if(!chanceIncreased){
