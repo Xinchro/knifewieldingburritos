@@ -98,6 +98,20 @@ function CharacterSheet(){
             sheetCanvas.getBounds().width/2-(1.5*horiSep),
             dexBlock.getBounds().height,
             0);
+    var healthBlock = new createjs.Shape();
+//    wisBlock.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
+    healthBlock.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
+            wisBlock.getBounds().x, 
+            wisBlock.getBounds().y + wisBlock.getBounds().height + vertSep*1,
+            sheetCanvas.getBounds().width/2-(1.5*horiSep),
+            wisBlock.getBounds().height,
+            0);
+    healthBlock.setBounds(
+            wisBlock.getBounds().x, 
+            wisBlock.getBounds().y + wisBlock.getBounds().height + vertSep*1,
+            sheetCanvas.getBounds().width/2-(1.5*horiSep),
+            wisBlock.getBounds().height,
+            0);
     var nextSkillBlock = new createjs.Shape();
 //    nextSkillBlock.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     nextSkillBlock.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
@@ -184,9 +198,9 @@ function CharacterSheet(){
             0);
     
     
-    var charImage = new createjs.Bitmap("Assets/Models/Taco1Overworld.svg");
+    var charImage = new createjs.Bitmap("Assets/Models/Taco1.svg");
     charImage.setBounds(charImage.x, charImage.y, charImage.x-gridScale, charImage.y-gridScale);
-    charImage.setTransform(charSquare.getBounds().x,charSquare.getBounds().y, 2, 2);
+    charImage.setTransform(charSquare.getBounds().x,charSquare.getBounds().y, .4, .4);
     var levelText = new createjs.Text("", "20px Arial", "#000");
     levelText.text = "Level: " + player.getLevel();
     levelText.x = levelBlock.getBounds().x - levelText.getMeasuredWidth()/2 + levelBlock.getBounds().width/2;
@@ -211,6 +225,10 @@ function CharacterSheet(){
     wisText.text = "Wisdom: " + player.getWis();
     wisText.x = wisBlock.getBounds().x - wisText.getMeasuredWidth()/2 + wisBlock.getBounds().width/2;
     wisText.y = wisBlock.getBounds().y - wisText.getMeasuredHeight()/2 + wisBlock.getBounds().height/2;
+    var healthText = new createjs.Text("", "20px Arial", "#000");
+    healthText.text = "Health: " + player.getHealth();
+    healthText.x = healthBlock.getBounds().x - healthText.getMeasuredWidth()/2 + healthBlock.getBounds().width/2;
+    healthText.y = healthBlock.getBounds().y - healthText.getMeasuredHeight()/2 + healthBlock.getBounds().height/2;
     var nextSkillText = new createjs.Text("", "20px Arial", "#000");
     nextSkillText.text = "Next skill: " + player.getNextSpecialName();
     nextSkillText.x = nextSkillBlock.getBounds().x - nextSkillText.getMeasuredWidth()/2 + nextSkillBlock.getBounds().width/2;
@@ -264,6 +282,10 @@ function CharacterSheet(){
         wisText.x = wisBlock.getBounds().x - wisText.getMeasuredWidth()/2 + wisBlock.getBounds().width/2;
         wisText.y = wisBlock.getBounds().y - wisText.getMeasuredHeight()/2 + wisBlock.getBounds().height/2;
         
+        healthText.text = "Health: " + player.getHealth();
+        healthText.x = healthBlock.getBounds().x - healthText.getMeasuredWidth()/2 + healthBlock.getBounds().width/2;
+        healthText.y = healthBlock.getBounds().y - healthText.getMeasuredHeight()/2 + healthBlock.getBounds().height/2;
+        
         nextSkillText.text = "Next skill: " + player.getNextSpecialName();
         nextSkillText.x = nextSkillBlock.getBounds().x - nextSkillText.getMeasuredWidth()/2 + nextSkillBlock.getBounds().width/2;
         nextSkillText.y = nextSkillBlock.getBounds().y - nextSkillText.getMeasuredHeight()/2 + nextSkillBlock.getBounds().height/2;
@@ -312,6 +334,7 @@ function CharacterSheet(){
         stage.addChild(powBlock);
         stage.addChild(dexBlock);
         stage.addChild(wisBlock);
+        stage.addChild(healthBlock);
         stage.addChild(nextSkillBlock);
         stage.addChild(skillsBlock);
         stage.addChild(skill1Block);
@@ -326,6 +349,7 @@ function CharacterSheet(){
         stage.addChild(powText);
         stage.addChild(dexText);
         stage.addChild(wisText);
+        stage.addChild(healthText);
         stage.addChild(nextSkillText);
         stage.addChild(skillsText);
         stage.addChild(skill1Text);
@@ -345,6 +369,7 @@ function CharacterSheet(){
         stage.removeChild(powBlock);
         stage.removeChild(dexBlock);
         stage.removeChild(wisBlock);
+        stage.removeChild(healthBlock);
         stage.removeChild(nextSkillBlock);
         stage.removeChild(skillsBlock);
         stage.removeChild(skill1Block);
@@ -359,12 +384,15 @@ function CharacterSheet(){
         stage.removeChild(powText);
         stage.removeChild(dexText);
         stage.removeChild(wisText);
+        stage.removeChild(healthText);
         stage.removeChild(nextSkillText);
         stage.removeChild(skillsText);
         stage.removeChild(skill1Text);
         stage.removeChild(skill2Text);
         stage.removeChild(skill3Text);
         stage.removeChild(skill4Text);
+        
+        console.log("char sheet char sheet hidden");
         
         visible = false;
     };

@@ -1,10 +1,8 @@
 var mute = true;
+var charSheet;
 function Input(){
     document.onkeydown = keyDown;
     document.onkeyup = keyUp;
-    
-    
-    var charSheet;
     
     var inBattle;
     
@@ -52,18 +50,22 @@ function Input(){
                 break;
             case 67:
                 //C
-                if(!charSheet){
-                    charSheet = new CharacterSheet();
-                }else{
-                    if(charSheetVis){
-                        charSheet.hide();
-                        charSheetVis = false;
-                        console.log("character sheet not visible");
-                    }else{
-                        charSheet.display();
-                        charSheetVis = true;
-                        console.log("character sheet visible");
-                    }
+//                if(!charSheet){
+//                    charSheet = new CharacterSheet();
+//                }else{
+//                    if(charSheetVis){
+//                        charSheet.hide();
+//                        charSheetVis = false;
+//                        console.log("character sheet not visible");
+//                    }else{
+//                        charSheet.display();
+//                        charSheetVis = true;
+//                        console.log("character sheet visible");
+//                    }
+//                }
+                player.giveRandomItem();
+                for(var a=0;a<player.getItems().length;a++){
+                    console.log("Player item " + a + " " + player.getItems()[a].getName() + " ID " + player.getItems()[a].getID());
                 }
                 break;
             case 77:
@@ -148,7 +150,7 @@ function Input(){
     
     Input.prototype.doKeyActions = function(){
         
-        if(upEntered){
+        if(upEntered && gameStarted){
             if(walk && !inBattle){
                 if(yPosPlayer < 1){
                     yPosPlayer = grid.length - 1;
@@ -199,7 +201,7 @@ function Input(){
         }else{
             //animation.stop();
         }
-        if(leftEntered){
+        if(leftEntered && gameStarted){
             if(walk && !inBattle){
                 if(xPosPlayer < 1){
                     xPosPlayer = grid.length - 1;
@@ -263,7 +265,7 @@ function Input(){
         }else{
             //animation.stop();
         }
-        if(downEntered){
+        if(downEntered && gameStarted){
             if(walk && !inBattle){
                 if(yPosPlayer > grid.length-2){
                     yPosPlayer = 0;
@@ -314,7 +316,7 @@ function Input(){
         }else{
             //animation.stop();
         }
-        if(rightEntered){
+        if(rightEntered && gameStarted){
             if(walk && !inBattle)
             {
                 if(xPosPlayer > grid.length-2){
@@ -382,40 +384,43 @@ function Input(){
             //animation.stop();
         }
         if(actionEntered){
-            if(walk && !inBattle)
-            {
-                if(!charSheet){
-                    charSheet = new CharacterSheet();
-                    charSheet.display();
-                    console.log("character sheet visible");
-                }else{
-                    if(charSheet.isVisible()){
-                        charSheet.hide();
-                        console.log("character sheet not visible");
-                    }else{
+            if(gameStarted){
+                if(walk && !inBattle)
+                {
+                    if(!charSheet){
+                        charSheet = new CharacterSheet();
                         charSheet.display();
                         console.log("character sheet visible");
-                    }
-                }
-                //animation.play();
-                canWalkTick = 0;
-                actionBox.graphics.clear();
-                actionBox.graphics.beginFill("rgba(255,255,255,0.5)").drawRoundRect(0,0,boxW,boxH,boxRound);
-                actionBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
-            }else{
-                if(inBattle && touchTicker > 5){
-                    touchTicker = 0;
-                    if(battle.hasStarted()){
-                        //enemy.decrementHealth();
-                        if(battle.canAct()){
-                            battle.useActiveAction();
+                    }else{
+                        if(charSheet.isVisible()){
+                            charSheet.hide();
+                            console.log("character sheet not visible");
+                        }else{
+                            charSheet.display();
+                            console.log("character sheet visible");
                         }
-                        battle.refreshHealthBars();
+                    }
+                    //animation.play();
+                    canWalkTick = 0;
+                    actionBox.graphics.clear();
+                    actionBox.graphics.beginFill("rgba(255,255,255,0.5)").drawRoundRect(0,0,boxW,boxH,boxRound);
+                    actionBox.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(boxStrokeCol).drawRoundRect(0,0,boxW,boxH,boxRound);
+                }else{
+                    if(inBattle && touchTicker > 5){
+                        touchTicker = 0;
+                        if(battle.hasStarted()){
+                            //enemy.decrementHealth();
+                            if(battle.canAct()){
+                                battle.useActiveAction();
+                            }
+                            battle.refreshHealthBars();
+                        }
                     }
                 }
+                gui.writeText("Do Action");
+            }else{
+                start.hide();
             }
-            gui.writeText("Do Action");
-        
         }else{
             //animation.stop();
         }

@@ -1,7 +1,12 @@
+var itemID = 0;
+
 function Item(){
     var name;
     var potency = 1;
     var type;
+    var id;
+    this.id = itemID;
+    itemID++;
     
     Item.prototype.effect = function(target){
         target instanceof Player;   
@@ -31,5 +36,9 @@ function Item(){
     
     Item.prototype.getName = function(){
         return this.name;
+    };
+    
+    Item.prototype.getID = function(){
+        return this.id;
     };
 }

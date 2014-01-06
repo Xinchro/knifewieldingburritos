@@ -86,6 +86,23 @@ function create2DArr(rows){
     return array;
 }
 
+function clone(object){
+    if(
+            //object !== "object" || 
+    object === null){
+        console.log("returning input");
+        return object;
+    }else{
+        var tempObj = new object.constructor();
+        for(var objStuff in object){
+            tempObj[objStuff] = clone(object[objStuff]);
+            console.log("stuff: " + object[objStuff]);
+        }
+        console.log("returning cloned obj");
+        return tempObj;
+    }
+}
+
 function decToHex(num){
     var finalNum;
     

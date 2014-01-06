@@ -1,3 +1,4 @@
+var gameStarted = false;
 function StartScreen(){
         
     StartScreen.prototype.start = function(){
@@ -47,6 +48,7 @@ function StartScreen(){
         stage.removeChild(burrito);
         stage.removeChild(startBox);
         stage.removeChild(startText);
+        gameStarted = true;
     };
     
 }

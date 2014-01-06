@@ -20,16 +20,16 @@ function Player(){
     
     Player.prototype.start = function(playerName){
         name = playerName;        
-        var potion = new Item();
-        potion.setName("Potion");
-        this.addItem(potion);
-        //this.activeItem = potion;
-        var betPotion = new Item();
-        betPotion.setName("Better Potion");
-        this.addItem(betPotion);
-        var ulPotion = new Item();
-        ulPotion.setName("Ultra Potion");
-        this.addItem(ulPotion);
+//        var potion = new Item();
+//        potion.setName("Potion");
+//        this.addItem(potion);
+//        //this.activeItem = potion;
+//        var betPotion = new Item();
+//        betPotion.setName("Better Potion");
+//        this.addItem(betPotion);
+//        var ulPotion = new Item();
+//        ulPotion.setName("Ultra Potion");
+//        this.addItem(ulPotion);
         fillAvailSpec();
         this.ranStats();
         //this.activeSpecial = dAtk;
@@ -148,11 +148,11 @@ function Player(){
     };
     
     function levelUpStats(){
-        maxHealth += level*50;
+        maxHealth += Math.floor(maxHealth*0.1);
         health = maxHealth;
-        pow += level*2;
-        dex += level*2;
-        wis += level*2;
+        pow += Math.floor(pow*0.2);
+        dex += Math.floor(dex*0.2);
+        wis += Math.floor(wis*0.2);
     };
     
     Player.prototype.getLevel = function(){
@@ -161,6 +161,36 @@ function Player(){
     
     Player.prototype.addItem = function(item){
         items.push(item);
+    };
+    
+    Player.prototype.giveRandomItem = function(){
+        console.log("giving random item");
+        var rand = Math.floor(Math.random()*3);
+        console.log("Rand: " + rand);
+        var randItem;
+        
+        switch(rand){
+            case 0:
+                randItem = new Item();
+                randItem.setName("Potion");
+                
+                console.log("Adding potion");
+                break;
+            case 1:
+                randItem = new Item();
+                randItem.setName("Better Potion");
+                
+                console.log("Adding better potion");
+                break;
+            case 2:
+                randItem = new Item();
+                randItem.setName("Ultra Potion");
+                
+                console.log("Adding ultra potion");
+                break;
+        }
+        this.addItem(randItem);
+        //items.push(randItem);
     };
     
     Player.prototype.removeItem = function(item){
@@ -189,7 +219,7 @@ function Player(){
         }else{
             var currentIndex;
             for(var i=0;i<items.length;i++){
-                if(this.activeItem.getName() === items[i].getName()){
+                if(this.activeItem.getID() === items[i].getID()){
                     currentIndex = i;
                 }
             }
@@ -199,6 +229,7 @@ function Player(){
             }else{
                 currentIndex;
             }
+            console.log("Current index: "  + currentIndex);
             this.activeItem = items[currentIndex];
         }
     };
@@ -209,7 +240,7 @@ function Player(){
         }else{
             var currentIndex;
             for(var i=0;i<items.length;i++){
-                if(this.activeItem.getName() === items[i].getName()){
+                if(this.activeItem.getID() === items[i].getID()){
                     currentIndex = i;
                 }
             }
@@ -219,6 +250,7 @@ function Player(){
             }else{
                 currentIndex;
             }
+            console.log("Current index: "  + currentIndex);
             this.activeItem = items[currentIndex];
         }
     };

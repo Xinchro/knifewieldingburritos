@@ -103,6 +103,11 @@ function Enemy(){
             if(health-1<=0){
                 health = 0;
                 dead = true;
+                enemiesKilled++;
+                player.giveExp(1);
+                //console.log("enemy killed");
+                player.printStats();
+                player.giveRandomItem();
             }else{
                 health--;
             }
@@ -114,6 +119,7 @@ function Enemy(){
                 player.giveExp(1);
                 //console.log("enemy killed");
                 player.printStats();
+                player.giveRandomItem();
             }else{
                 health = health - decrement;
             }

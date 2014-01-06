@@ -171,11 +171,10 @@ function Battle(){
         stage.addChild(downBox);
         stage.addChild(rightBox);
         
-        if(typeof charSheet !== 'undefined'){
+        if(typeof charSheet === CharacterSheet){
             if(charSheet.isVisible()){
                 console.log("battle started hiding sheet");
                 charSheet.hide();
-                charSheetVis = false;
                 console.log("character sheet not visible");
             }
         }
