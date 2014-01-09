@@ -1,3 +1,9 @@
+/*
+ * This is the charactersheet class
+ * 
+ * It sets up and controls the character sheet
+ * This is to show the player their stats, such as level, power and unlocked skills
+ */
 function CharacterSheet(){
     
     var borderCol = "rgba(255,0,0,1)";
@@ -6,16 +12,16 @@ function CharacterSheet(){
     var horiSep = 5;
     var visible = false;
     
+    //the following metric ton of code simply starts all of the elements of the character sheet
+    //this includes things like the outlines, the positions and the padding
     var sheetCanvas = new createjs.Shape();
     sheetCanvas.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     sheetCanvas.setBounds(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     sheetCanvas.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     var charSquare = new createjs.Shape();
-//    charSquare.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10+10,scrH*1/10+10,50,50);
     charSquare.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(scrW*1/10+horiSep,scrH*1/10+vertSep,100,100,0);
     charSquare.setBounds(scrW*1/10+horiSep,scrH*1/10+vertSep,100,100);
     var levelBlock = new createjs.Shape();
-//    levelBlock.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     levelBlock.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
             charSquare.getBounds().x + charSquare.getBounds().width + horiSep, 
             charSquare.getBounds().y + vertSep*0,
@@ -29,7 +35,6 @@ function CharacterSheet(){
             (charSquare.getBounds().height-2*vertSep)/3,
             0);
     var expBlock = new createjs.Shape();
-//    expBlock.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     expBlock.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
             levelBlock.getBounds().x, 
             levelBlock.getBounds().y + levelBlock.getBounds().height + vertSep*1,
@@ -43,7 +48,6 @@ function CharacterSheet(){
             (charSquare.getBounds().height-2*vertSep)/3,
             0);
     var nextLevelBlock = new createjs.Shape();
-//    nextLevBlock.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     nextLevelBlock.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
             expBlock.getBounds().x, 
             expBlock.getBounds().y + expBlock.getBounds().height + vertSep*1,
@@ -57,7 +61,6 @@ function CharacterSheet(){
             (charSquare.getBounds().height-2*vertSep)/3,
             0);
     var powBlock = new createjs.Shape();
-//    powBlock.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     powBlock.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
             charSquare.getBounds().x, 
             charSquare.getBounds().y + charSquare.getBounds().height + vertSep*1,
@@ -71,7 +74,6 @@ function CharacterSheet(){
             (charSquare.getBounds().height-2*vertSep)/3,
             0);
     var dexBlock = new createjs.Shape();
-//    dexBlock.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     dexBlock.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
             powBlock.getBounds().x, 
             powBlock.getBounds().y + powBlock.getBounds().height + vertSep*1,
@@ -85,7 +87,6 @@ function CharacterSheet(){
             powBlock.getBounds().height,
             0);
     var wisBlock = new createjs.Shape();
-//    wisBlock.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     wisBlock.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
             dexBlock.getBounds().x, 
             dexBlock.getBounds().y + dexBlock.getBounds().height + vertSep*1,
@@ -99,7 +100,6 @@ function CharacterSheet(){
             dexBlock.getBounds().height,
             0);
     var healthBlock = new createjs.Shape();
-//    wisBlock.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     healthBlock.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
             wisBlock.getBounds().x, 
             wisBlock.getBounds().y + wisBlock.getBounds().height + vertSep*1,
@@ -113,7 +113,6 @@ function CharacterSheet(){
             wisBlock.getBounds().height,
             0);
     var nextSkillBlock = new createjs.Shape();
-//    nextSkillBlock.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     nextSkillBlock.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
             charSquare.getBounds().x + sheetCanvas.getBounds().width/2-(0.5*horiSep), 
             charSquare.getBounds().y + charSquare.getBounds().height + vertSep*1,
@@ -127,7 +126,6 @@ function CharacterSheet(){
             wisBlock.getBounds().height,
             0);
     var skillsBlock = new createjs.Shape();
-//    skillsBlock.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     skillsBlock.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
             nextSkillBlock.getBounds().x, 
             nextSkillBlock.getBounds().y + nextSkillBlock.getBounds().height + vertSep*1,
@@ -141,7 +139,6 @@ function CharacterSheet(){
             nextSkillBlock.getBounds().height,
             0);
     var skill1Block = new createjs.Shape();
-//    skill1Block.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     skill1Block.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
             skillsBlock.getBounds().x + skillsBlock.getBounds().width/10, 
             skillsBlock.getBounds().y + skillsBlock.getBounds().height + vertSep*1,
@@ -155,7 +152,6 @@ function CharacterSheet(){
             skillsBlock.getBounds().height,
             0);
     var skill2Block = new createjs.Shape();
-//    skill2Block.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     skill2Block.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
             skill1Block.getBounds().x, 
             skill1Block.getBounds().y + skill1Block.getBounds().height + vertSep*1,
@@ -169,7 +165,6 @@ function CharacterSheet(){
             skill1Block.getBounds().height,
             0);
     var skill3Block = new createjs.Shape();
-//    skill3Block.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     skill3Block.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
             skill2Block.getBounds().x, 
             skill2Block.getBounds().y + skill2Block.getBounds().height + vertSep*1,
@@ -183,7 +178,6 @@ function CharacterSheet(){
             skill2Block.getBounds().height,
             0);
     var skill4Block = new createjs.Shape();
-//    skill4Block.graphics.beginFill("rgba(255,255,255,1)").drawRoundRect(scrW*1/10,scrH*1/10,scrW*8/10,scrH*8/10,0);
     skill4Block.graphics.setStrokeStyle(borderTh, "round").beginStroke(borderCol).drawRoundRect(
             skill3Block.getBounds().x, 
             skill3Block.getBounds().y + skill3Block.getBounds().height + vertSep*1,
@@ -197,7 +191,8 @@ function CharacterSheet(){
             skill3Block.getBounds().height,
             0);
     
-    
+    //the following is to fill in the above with text
+    //things like the player's health, experience and picture
     var charImage = new createjs.Bitmap("Assets/Models/Taco1.svg");
     charImage.setBounds(charImage.x, charImage.y, charImage.x-gridScale, charImage.y-gridScale);
     charImage.setTransform(charSquare.getBounds().x,charSquare.getBounds().y, .4, .4);
@@ -253,10 +248,11 @@ function CharacterSheet(){
     skill4Text.text = "Nothing";
     skill4Text.x = skill4Block.getBounds().x - skill4Text.getMeasuredWidth()/2 + skill4Block.getBounds().width/2;
     skill4Text.y = skill4Block.getBounds().y - skill4Text.getMeasuredHeight()/2 + skill4Block.getBounds().height/2;
-
-    CharacterSheet.prototype.start = function(){
-    };
     
+    /*
+     * Method to refresh the stats shown on the chracter sheet
+     * Basically: gets the stats from the player and sets the text fields to the new values, also re-centers the text
+     */
     function refreshSheet(){
         levelText.text = "Level: " + player.getLevel();
         levelText.x = levelBlock.getBounds().x - levelText.getMeasuredWidth()/2 + levelBlock.getBounds().width/2;
@@ -299,6 +295,9 @@ function CharacterSheet(){
         skill2Text.text = "Nothing";
         skill3Text.text = "Nothing";
         skill4Text.text = "Nothing";
+        //this is special because it has to get the player's unlocked skills
+        //and it would crash if I called on element 4 of an array with 2 things in it
+        //hence the switch
         switch(player.getSpecials().length){
             case 4:
                 skill4Text.text = player.getSpecials()[3].getName();
@@ -324,8 +323,13 @@ function CharacterSheet(){
         skill4Text.y = skill4Block.getBounds().y - skill4Text.getMeasuredHeight()/2 + skill4Block.getBounds().height/2;
     };
     
+    /*
+     * Method to display the character sheet, simply refreshes and adds everything to the stage
+     */
     CharacterSheet.prototype.display = function(){
+        //refresh everything
         refreshSheet();
+        //add everything to the stage
         stage.addChild(sheetCanvas);
         stage.addChild(charSquare);
         stage.addChild(levelBlock);
@@ -356,11 +360,15 @@ function CharacterSheet(){
         stage.addChild(skill2Text);
         stage.addChild(skill3Text);
         stage.addChild(skill4Text);
-        
+        //set it as visible
         visible = true;
     };
-    
+  
+    /*
+     * Method to hide the character sheet
+     */
     CharacterSheet.prototype.hide = function(){
+        //removes everything from the stage
         stage.removeChild(sheetCanvas);
         stage.removeChild(charSquare);
         stage.removeChild(levelBlock);
@@ -392,39 +400,17 @@ function CharacterSheet(){
         stage.removeChild(skill3Text);
         stage.removeChild(skill4Text);
         
-        console.log("char sheet char sheet hidden");
-        
+        //console.log("char sheet char sheet hidden");
+        //sets visible to false
         visible = false;
     };
     
+    /*
+     * Method to see if the character sheet is visible
+     * 
+     * @return visible
+     */
     CharacterSheet.prototype.isVisible = function(){
         return visible;
     };
-    
-    endTextTop = new createjs.Text("Game over.", "20px Arial", "#000");
-    endTextTop.x = 225;
-    endTextTop.y = 20;
-    GUI.prototype.writeendTextTop = function(text){
-        endTextTop.text = text;
-    };
-    
-    endTextMid = new createjs.Text
-    ("Enemies killed: " + enemiesKilled + "." + "\n" 
-    //+ "Final level: " + player.getLevel() + "." + "\n" 
-    + "Potions used: " + potionsUsed + "." + "\n" 
-    + "Times run away: " + timesRunAway + "." + "\n"
-    , "20px Arial", "#000");
-    endTextMid.x = 225;
-    endTextMid.y = 40;
-    GUI.prototype.writeendTextMid = function(text){
-        endTextMid.text = text;
-    };
-    
-    endTextBot = new createjs.Text("The burritos always win.", "20px Arial", "#000");
-    endTextBot.x = 225;
-    endTextBot.y = endTextMid.getMeasuredHeight() + 20;
-    GUI.prototype.writeendTextBot = function(text){
-        endTextBot.text = text;
-    };
-    
 };

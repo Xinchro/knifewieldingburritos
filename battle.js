@@ -1,3 +1,9 @@
+/*
+ * This is the battle class
+ * 
+ * It starts battles, makes the overworld disappear and a battle screen appear
+ * It also controls the battle timers for both the player and the enemy
+ */
 function Battle(){
     
     var attack, special, item, runAway;
@@ -27,29 +33,29 @@ function Battle(){
     var playerModel;
     var enemyModel;
     
-    
+    /*
+     * Method to set up all the variables properly
+     */
     Battle.prototype.start = function(){
+        //set up the text for the different buttons
         attack = "attack";
         special = "special";
         item = "item";
         runAway = "run away";
         
+        //set a variable to act as the index of the first button to be the active one
         activeBtnIndex = 0;
         
+        //set the active button to be attack
         activeBtn = attack;
         
+        //set the action timer variables
         actionTime = 0;
         maxActionTime = 20;
         enemyActionTime = 0;
         maxEnemyActionTime = 20;
         
-//        var btnStrokeCol = "rgba(0,0,0,255)";
-//        var btnStrokeTh = 2;
-//        var btnW = 200;
-//        var btnH = 20;
-//        var btnRound = 2;
-//        var btnSep = btnStrokeTh + 2;
-        
+        //set up the background for the battle action buttons, in their inactive position/color
         attackBG = new createjs.Shape();
         attackBG.graphics.beginFill(inactiveBtnCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         attackBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
@@ -67,6 +73,8 @@ function Battle(){
         runAwayBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         runAwayBG.setTransform(50, scrH-btnH-(btnH+btnSep)*3);
         
+        //set up the text for the battle action buttons, in their inactive position
+        //the text is centered
         attackText.x = attackBG.x - Math.floor(attackText.getMeasuredWidth()/2) + btnW/2 + btnStrokeTh/2;
         attackText.y = attackBG.y - Math.floor(attackText.getMeasuredHeight()/2) + btnH/2 + btnStrokeTh/2;
         specialText.x = specialBG.x - Math.floor(specialText.getMeasuredWidth()/2) + btnW/2 + btnStrokeTh/2;
@@ -76,18 +84,17 @@ function Battle(){
         runAwayText.x = runAwayBG.x - Math.floor(runAwayText.getMeasuredWidth()/2) + btnW/2 + btnStrokeTh/2;
         runAwayText.y = runAwayBG.y - Math.floor(runAwayText.getMeasuredHeight()/2) + btnH/2 + btnStrokeTh/2;
         
-        
-        playerName = "Not Burrito";
-        enemyName = "Not Taco";
-        
+        //get the player and enemy healths
         playerHealth = player.getHealth();
         enemyHealth = enemy.getHealth();
         
+        //set up the parameters for the health bars
         var boxStrokeTh = 2;
         var boxW = 200;
         var boxH = 10;
         var boxRound = 1;
         
+        //set up the health bars
         var playerHealthCol = "rgba(255,0,0,255)";
         var playerHealthStrCol = "rgba(0,0,0,255)";
         playerHealthBar = new createjs.Shape();
@@ -113,6 +120,7 @@ function Battle(){
         enemyHealthBarBG.graphics.setStrokeStyle(boxStrokeTh, "round").beginStroke(enemyHealthBGStrCol).drawRoundRect(0,0,boxW,boxH,boxRound);
         enemyHealthBarBG.setTransform(50, boxH*3);
         
+        //get the names and set them up
         playerName = player.getName();
         playerNameText = new createjs.Text(playerName, "20px Arial", "#000");
         playerNameText.x = playerHealthBar.x ;//- Math.floor(attackText.getMeasuredWidth()) + btnW/2 + btnStrokeTh/2;
@@ -122,6 +130,7 @@ function Battle(){
         enemyNameText.x = enemyHealthBar.x ;//- Math.floor(attackText.getMeasuredWidth()) + btnW/2 + btnStrokeTh/2;
         enemyNameText.y = enemyHealthBar.y - Math.floor(attackText.getMeasuredHeight());// + btnH/2 + btnStrokeTh/2;
         
+        //set up the parameters for the player's timer bar
         var actionTmrCol = "rgba(255,255,255,255)";
         var actionTmrBGCol = "rgba(255,0,0,255)";
         var actionTmrStrCol = "rgba(0,0,0,255)";
@@ -129,48 +138,43 @@ function Battle(){
         var actionTmrRound = 1;
         var actionTmrW = 150;
         var actionTmrH = 10;
-        
+
+        //set up the player's timer bar
         actionTimer = new createjs.Shape();
-        actionTimer.graphics.beginFill(actionTmrCol);//.drawRoundRect(0,0,actionTmrW,actionTmrH,0);
-        //actionTimer.graphics.setStrokeStyle(0, "round").beginStroke(actionTmrStrCol).drawRoundRect(0,0,btnW,btnH,0);
+        actionTimer.graphics.beginFill(actionTmrCol);
         actionTimer.graphics.setStrokeStyle(0, "round").beginStroke(actionTmrStrCol).drawRoundRect(0,0,actionTmrW,actionTmrH,0);
-        //actionTimer.setTransform(50, 50);
         actionTimerBG = new createjs.Shape();
         actionTimerBG.graphics.beginFill(actionTmrBGCol).drawRoundRect(0,0,actionTmrW,actionTmrH,actionTmrRound);
         actionTimerBG.graphics.setStrokeStyle(actionTmrStrTh, "round").beginStroke(actionTmrStrCol).drawRoundRect(0,0,actionTmrW,actionTmrH,0);
-        //actionTimerBG.setTransform(50, 50);
         actionTimer.setTransform(runAwayBG.x+btnW+btnW/8, runAwayBG.y+btnH*1.5);
         actionTimerBG.setTransform(runAwayBG.x+btnW+btnW/8, runAwayBG.y+btnH*1.5);
         
+        //set the bar to its initial state
         var actWidth = (actionTime/maxActionTime);
-        
-        //actionTimer.graphics.setStrokeStyle(0, "round").beginStroke(actionTmrStrCol).drawRoundRect(0,0,actWidth,actionTmrH,0);
         actionTimer.setTransform(actionTimer.x,actionTimer.y,actWidth,1);
-        //attackText.text = actionTmrW;
-        //specialText.text = actWidth;
         
-        //var playerModel = new createjs.Shape();
+        //get the player's model/image and set it up
         playerModel = player.getModel();
-        //playerModel.graphics.beginBitmapFill(player.getModel());
         playerModel.setTransform(playerNameText.x, playerNameText.y-225);
         stage.addChild(playerModel);
         
+        //get the enemy's model/image and set it up
         enemyModel = enemy.getModel();
-        
         enemyModel.setTransform(enemyNameText.x, enemyNameText.y + enemyNameText.getMeasuredHeight() + boxH);
         stage.addChild(enemyModel);
         this.refreshHealthBars();
         
+        //remove and re-add the direction boxes to put them above everything
         stage.removeChild(upBox);
         stage.removeChild(leftBox);
         stage.removeChild(downBox);
         stage.removeChild(rightBox);
-        
         stage.addChild(upBox);
         stage.addChild(leftBox);
         stage.addChild(downBox);
         stage.addChild(rightBox);
         
+        //hide the character sheet if it is visible
         if(typeof charSheet === CharacterSheet){
             if(charSheet.isVisible()){
                 console.log("battle started hiding sheet");
@@ -179,60 +183,95 @@ function Battle(){
             }
         }
         
+        //set the battle as started
         started = true;
     };
     
+    /*
+     * Method to get the started variable
+     */    
     Battle.prototype.hasStarted = function(){
         return started;
     };
     
+    /*
+     * Method to end the game
+     */
     Battle.prototype.gameOver = function(){
+        //stop the all the game's timers
         createjs.Ticker.removeAllEventListeners();
+        //remove all the battle GUI elements
         removePreviousBattle();
+        //set the enemy as dead
         enemy.setDead();
+        //make the player not in a city
         inCity = false;
-        console.log("battle game over");
+        //console.log("battle game over");
+        //mute all music
         music.volume = 0;
         battleMusic.volume = 0;
     };
     
+    /*
+     * Method to set the battle as ended
+     */
     Battle.prototype.setEnded = function(){
-        //activeBtn = attack;
+        //refresh the active button's position/color
         this.refreshActiveBtn();
+        //remove the GUI elements of the battle screen
         removePreviousBattle();
+        //set the input's status to out of battle, so that the player can move
         input.outOfBattle();
-        //enemy.decrementHealth(10000);
+        //set the enemy as dead (this is temporary, makes life easier // player does not get rewarded in this method)
         enemy.setDead();
+        //resets the player's special attacks, to be prepared for the next battle
         player.resetSpecials();
+        //sets the battle as ended
         started = false;
+        //disregards the current tile as a city
         inCity = false;
-        //world.displayOverworld();
+        //displays the overworld
         world.displayOverworld();
         //console.log("battle ended");
     };
     
+    /*
+     * Method to specify what happens at each button
+     */
     Battle.prototype.useActiveAction = function(){
+        //switch statement to check what button is active
         switch(activeBtn){
             case attack:
+                //uses the player's stats to attack the enemy
                 player.attack(enemy);
                 break;
             case special:
+                //uses the player's active special attack on the enemy
                 player.useSpecial(enemy);
                 break;
             case item:
-                //use active item
+                //uses the player's active item
                 player.useActiveItem();
                 break;
             case runAway:
+                //set the action timer to 0
                 this.setActionTime(0);
+                //set the battle as ended
                 this.setEnded();
+                //increment the run away "score"
                 timesRunAway++;
+                //sets this tile as fought/won so that it is disregarded when walking around
+                //this is temporary, makes life easier, the player does not get rewarded
                 fought[xPosPlayer][yPosPlayer] = true;
                 break;
         }
     };
     
+    /*
+     * Method to remove the GUI elements of the battle screen
+     */
     removePreviousBattle = function(){
+        //remove all the elements from the stage
         stage.removeChild(attackBG);
         stage.removeChild(specialBG);
         stage.removeChild(itemBG);
@@ -254,6 +293,11 @@ function Battle(){
         stage.removeChild(enemyModel);
     };
     
+    /*
+     * Method to check to see if the battle can be started
+     * 
+     * @return canStart
+     */
     Battle.prototype.canStart = function(can){
         if(typeof can === 'boolean'){
             canStart = can;
@@ -262,53 +306,99 @@ function Battle(){
         }
     };
     
+    /*
+     * Method for forcing canStart to a certain state
+     */
     Battle.prototype.setCanStart = function(can){
         canStart = can;
     };
     
+    /*
+     * Method for forcing the player's action time to a certain value
+     */
     Battle.prototype.setActionTime = function(time){
         actionTime = time;  
         return actionTime;
     };
     
+    /*
+     * Method for incrementing the player's action time
+     * 
+     * @return actionTime
+     */
     Battle.prototype.incrActionTime = function(){
         return actionTime++;  
     };
     
+    /*
+     * Method for getting the player's current action time
+     * 
+     * @return actionTime
+     */
     Battle.prototype.getActionTime = function(){
         return actionTime;
     };
     
+    /*
+     * Method for getting the player's maximum action time
+     * 
+     * @return maxActionTime
+     */
     Battle.prototype.getMaxActionTime = function(){
         return maxActionTime;
     };
     
+    /*
+     * Method to force the enemy's action time to a certain value
+     */
     Battle.prototype.setEnemyActionTime = function(time){
         actionTime = time;  
-        return actionTime;
     };
     
+    /*
+     * Method to increment the enemy's action time
+     */
     Battle.prototype.incrEnemyActionTime = function(){
-        return enemyActionTime++;  
+        enemyActionTime++;  
     };
     
+    /*
+     * Method to get the enemy's current action time
+     * 
+     * @return enemyActionTime
+     */
     Battle.prototype.getEnemyActionTime = function(){
         return enemyActionTime;
     };
     
+    /*
+     * Method to get the enemy's maximum action time
+     * 
+     * @return maxEnemyActionTime
+     */
     Battle.prototype.getEnemyMaxActionTime = function(){
         return maxEnemyActionTime;
     };
     
+    /*
+     * Method to refresh the health bars
+     */
     Battle.prototype.refreshHealthBars = function(){
+        //checks the ratio of the player's health vs max health
         var pHPWidth = (player.getHealth()/player.getMaxHealth());
+        //scales the player's health bar to the ratio calculated above
         playerHealthBar.setTransform(playerHealthBar.x,playerHealthBar.y,pHPWidth,1);
         
+        //same as above for the enemy's health bar
         var eHPWidth = (enemy.getHealth()/enemy.getMaxHealth());
         enemyHealthBar.setTransform(enemyHealthBar.x,enemyHealthBar.y,eHPWidth,1);
     };
     
+    /*
+     * Method to pick the next action button
+     */
     Battle.prototype.nextActiveBtn = function(){
+        //checks which button is currently active and makes the next button active along with the index
         switch(activeBtn){
             case attack:
                 activeBtn = special;
@@ -329,7 +419,11 @@ function Battle(){
         }
     };
     
+    /*
+     * Method to pick the previous action button
+     */
     Battle.prototype.prevActiveBtn = function(){
+        //checks which button is currently active and makes the previous button active along with the index
         switch(activeBtn){
             case attack:
                 activeBtn = runAway;
@@ -350,10 +444,18 @@ function Battle(){
         }
     };
     
+    /*
+     * Method to get the current active button's index
+     * 
+     * @return activeBtnIndex
+     */
     Battle.prototype.getActiveBtnIndex = function(){
         return activeBtnIndex;
     };
     
+    /*
+     * Method to reset all the buttons to their inactive stat/indent
+     */
     resetButtons = function(){
         attackText.x = attackBG.x - Math.floor(attackText.getMeasuredWidth()/2) + btnW/2 + btnStrokeTh/2;
         attackText.y = attackBG.y - Math.floor(attackText.getMeasuredHeight()/2) + btnH/2 + btnStrokeTh/2;
@@ -380,12 +482,12 @@ function Battle(){
         runAwayBG.graphics.setStrokeStyle(btnStrokeTh, "round").beginStroke(btnStrokeCol).drawRoundRect(0,0,btnW,btnH,btnRound);
         runAwayBG.setTransform(50, scrH-btnH-(btnH+btnSep)*3);
         
+        //remove and re-add the direction buttons to put them above everything on the stage
         stage.removeChild(upBox);
         stage.removeChild(leftBox);
         stage.removeChild(downBox);
         stage.removeChild(rightBox);
         stage.removeChild(actionBox);
-        
         stage.addChild(upBox);
         stage.addChild(leftBox);
         stage.addChild(downBox);
@@ -393,8 +495,14 @@ function Battle(){
         stage.addChild(actionBox);
     };
     
+    /*
+     * Method to refresh the active button, setting its indent and resetting the others
+     */
     Battle.prototype.refreshActiveBtn = function(){
+        //the amount to indent by
         var activeIncr = 10;
+        //checks which button is currently active
+        //resets all the buttons, then indents the active one
         switch(activeBtn){
             case attack:
                 resetButtons();
@@ -429,57 +537,84 @@ function Battle(){
         //console.log("battle started"); 
     };
     
+    //variable to allow the player to do things(or not, depending)
     var allowAction = false;
     
+    /*
+     * Method to get the state of whether the player can act or not
+     * 
+     * @return allowAction
+     */
     Battle.prototype.canAct = function(){
         return allowAction;
     };
     
+    /*
+     * Method to tick the player's action time and adjust their bar accordingly
+     */
     Battle.prototype.tickTimer = function(){
+        //checks to see if the current time is smaller than the maximum time
+        //allows action if it is
         if(actionTime < maxActionTime){
             allowAction = false;
         }else{
             allowAction = true;
             this.setActionTime(maxActionTime);
         }
+        //this refreshes the player's timer bar depending on the current time vs maximum time
+        //also increments the player's action time
         this.refreshTimer(this.incrActionTime(), maxActionTime);
     };
     
+    //variable to allow the enemy to do things(or not, depending)
     var allowEnemyAction = false;
     
+    /*
+     * Method to get the state of whether the enemy can act or not
+     * 
+     * @return allowEnemyAction
+     */
     Battle.prototype.canEnemyAct = function(){
         return allowEnemyAction;
     };
     
+    /*
+     * Method to tick the enemy's action time
+     */
     Battle.prototype.tickEnemyTimer = function(){
+        //checks to see if the current time is smaller than the maximum time
+        //allows action if it is
         if(enemyActionTime < maxEnemyActionTime){
             allowEnemyAction = false;
-            //console.log(enemyActionTime + " " + maxEnemyActionTime);
         }else{
             allowEnemyAction = true;
-            //this.setEnemyActionTime(maxEnemyActionTime);
-            //console.log("enemy ticked");
+            //sets the enemy's action time to 0 immedietly, since they do not need time to decide on what to do
             enemyActionTime = 0;
         }
+        //ticks the enemy's action time
         this.incrEnemyActionTime();
     };
     
+    /*
+     * Method to refresh the player's action timer bar
+     */
     Battle.prototype.refreshTimer = function(currentTime, maxTime){
+        //gets the ratio between the player's current time vs the maximum time
         var actWidth = (currentTime/maxTime);
-        //attackText.text = actWidth;
-        //specialText.text = actionTime;
-        //itemText.text = maxActionTime;
-        //var actWidth = (actionTime/maxActionTime);
+        //scales the player's action bar according to the ratio calculated from above
         actionTimer.setTransform(actionTimer.x,actionTimer.y,actWidth,1);
     };
     
-    Battle.prototype.options = function(){
-        
-    };
-    
+    //variable to check if the gui was added
     var guiAdded = false;
+    
+    /*
+     * Method to show the battle GUI
+     */
     Battle.prototype.showGUI = function(){
+        //check to see if it has already been added
         if(!guiAdded){
+            //add all the elements
             stage.addChild(playerHealthBarBG);        
             stage.addChild(enemyHealthBarBG);        
             stage.addChild(playerHealthBar);        
@@ -500,6 +635,7 @@ function Battle(){
             stage.addChild(specialText);
             stage.addChild(itemText);
             stage.addChild(runAwayText);
+            //set the GUI as added
             guiAdded = true;
             //console.log("battle gui added");
         }else{
@@ -507,6 +643,10 @@ function Battle(){
         }
     };
     
+    /*
+     * The following sets all the initial text for the different buttons
+     * as well as centering said text within the button
+     */
     attackText = new createjs.Text("Attack", "20px Arial", "#000");
     attackText.x = 20;
     attackText.y = 20;
