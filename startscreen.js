@@ -37,7 +37,7 @@ function StartScreen(){
     startBox.addEventListener("click", function(){console.log("Game start hidden"); start.hide(); resetMusic();});
     
     /*
-     * Methoed to display the start screen
+     * Method to display the start screen
      */
     StartScreen.prototype.show = function(){
         //adds everything to the stage

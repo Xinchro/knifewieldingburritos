@@ -24,7 +24,7 @@ scrH = canvas.height;
 
 //add listeners for the mouse
 stage.addEventListener("mousedown", function(){mouseDown = true;});
-stage.addEventListener("mouseup", function(){mouseDown = false;});
+stage.addEventListener("click", function(){mouseDown = false;});
 
 //enable mouse controls
 stage.enableMouseOver(20, true, false);
