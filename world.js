@@ -36,10 +36,10 @@ function World(){
             }
         }
         //debugging stuff
-        for(var i=0;i<posGridText.length;i++)
-        {
-            stage.addChild(posGridText[i]);
-        }
+//        for(var i=0;i<posGridText.length;i++)
+//        {
+//            stage.addChild(posGridText[i]);
+//        }
         //add everythng needed in the overworld to the stage
         stage.addChild(playerOverworldModel);
         stage.addChild(charizard);
@@ -64,10 +64,10 @@ function World(){
             }
         }
         //debugging stuff
-        for(var i=0;i<posGridText.length;i++)
-        {
-            stage.removeChild(posGridText[i]);
-        }
+//        for(var i=0;i<posGridText.length;i++)
+//        {
+//            stage.removeChild(posGridText[i]);
+//        }
         //remove all the overworld elements from the stage
         stage.removeChild(playerOverworldModel);
         stage.removeChild(charizard);
@@ -100,7 +100,7 @@ function World(){
                 yPos = y*gridScale+((playerOverworldModel.y)%gridScale) -(yPosPlayer-4)*gridScale;
                 battleStatusText.text = xPos/50 + " " + yPos/50;
                 //fill in the createjs shape with the color we want and make it a square
-                tempRect.graphics.beginFill("rgba(0," + tempCol + ",0" + ",1)").drawRoundRect(xPos,yPos,gridScale,gridScale,5);
+                tempRect.graphics.beginFill("rgba(0," + tempCol + ",0" + ",1)").drawRoundRect(xPos,yPos,gridScale,gridScale,0);
                 //set the current 2 indices(x,y) to the shape
                 grid[x][y] = tempRect;
 
@@ -142,7 +142,7 @@ function World(){
                     xPos = x*gridScale+((playerOverworldModel.x)%gridScale) -(xPosPlayer-6)*gridScale;//-xOff;
                     yPos = y*gridScale+((playerOverworldModel.y)%gridScale) -(yPosPlayer-4)*gridScale;//-yOff;
 
-                    tempRect.graphics.beginFill("rgba(0," + "0," + tempCol + ",1)").drawRoundRect(xPos,yPos,gridScale,gridScale,5);
+                    tempRect.graphics.beginFill("rgba(0," + "0," + tempCol + ",1)").drawRoundRect(xPos,yPos,gridScale,gridScale,0);
                     //remove the current tile at this co-ordinate
                     stage.removeChild(grid[x][y]);
                     //set the co-ordinate to be the new tile
